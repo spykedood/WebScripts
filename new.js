@@ -11,9 +11,9 @@
 // ==/UserScript==
 
 //Avg between highest buy & Lowest sell
-highestbuy = $("a", "tr:nth-child(3) td.coinformat:nth-child(2)").text();
+var highestbuy = $("a", "tr:nth-child(3) td.coinformat:nth-child(2)").text();
 highestbuy = highestbuy.replace(",", "");
 
-lowestsell = $("a", "tr:nth-child(3) td.coinformat:nth-child(6)").text();
+var lowestsell = $("a", "tr:nth-child(3) td.coinformat:nth-child(6)").text();
 lowestsell = lowestsell.replace(",", "");
 avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
