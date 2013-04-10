@@ -1,4 +1,0 @@
-WebScripts
-==========
-
-Personal web scripts.
