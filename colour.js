@@ -31,6 +31,15 @@ function myFunction(a,b,c)
     }
 }
 
+function myFunction2(a,b)
+{
+//Converting lines 59-64 to a function
+        var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
+        cellvalue = cellvalue.replace(",", "");
+        cellvalue = (parseFloat(cellvalue)).toFixed(6);
+		return cellvalue;
+}
+
 $(document).ready(function () {
 //misc variables
 var avg = 0;
