@@ -43,7 +43,7 @@ function colorizePending(value, qtyColour, bgColour[]) {
         case (pctDiff >= 40.00 & pctDiff < 75.00):
             $(qtyColour).css({ "background-color": bgColour[3] });
             break;
-        case (pctDiff >= 75):
+        case (pctDiff >= 75.00):
             $(qtyColour).css({ "background-color": bgColour[4] });
             break;
     }
