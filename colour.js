@@ -10,19 +10,6 @@
 // @grant none
 // ==/UserScript==
 
-//misc variables
-var avg = 0;
-var highestbuy = 0;
-var lowestsell = 0;
-
-//Avg between highest buy & Lowest sell
-highestbuy = $("a", "tr:nth-child(3) td.coinformat:nth-child(2)").text();
-highestbuy = highestbuy.replace(",", "");
-
-lowestsell = $("a", "tr:nth-child(3) td.coinformat:nth-child(6)").text();
-lowestsell = lowestsell.replace(",", "");
-avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
-
 // Colorizes background depending on percentage difference
 function myFunction(a,b,c)
 {
@@ -44,8 +31,20 @@ function myFunction(a,b,c)
     }
 }
 
-
 $(document).ready(function () {
+//misc variables
+var avg = 0;
+var highestbuy = 0;
+var lowestsell = 0;
+
+//Avg between highest buy & Lowest sell
+highestbuy = $("a", "tr:nth-child(3) td.coinformat:nth-child(2)").text();
+highestbuy = highestbuy.replace(",", "");
+
+lowestsell = $("a", "tr:nth-child(3) td.coinformat:nth-child(6)").text();
+lowestsell = lowestsell.replace(",", "");
+avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
+
     for (var a = 3; a < 23; a++) {
         //buy
         var buy = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)').text();
