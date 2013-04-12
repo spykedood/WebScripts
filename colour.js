@@ -27,8 +27,11 @@ lowestsell = lowestsell.replace(",", "");
 avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
 
 // Colorizes background depending on percentage difference
-function colorizePending(value, qtyColour, bgColour[]) {
-    var pctDiff = (Math.abs(((value / avg) * 100) - 100)).toFixed(2);
+function colorizePending(buysellvalue, qtyColour, bgColour) {
+    var pctDiff = (Math.abs(((buysellvalue / avg) * 100) - 100)).toFixed(2);
+    //Alert shows that  pctDiff works, it's the switch that's not working!
+	//Perhaps it's the bgcolour thats not working, or the qtycolour?
+	//alert(pctDiff);
     
     switch (pctDiff) {
         case (pctDiff >= 0.00 & pctDiff < 10.00):
@@ -43,7 +46,7 @@ function colorizePending(value, qtyColour, bgColour[]) {
         case (pctDiff >= 40.00 & pctDiff < 75.00):
             $(qtyColour).css({ "background-color": bgColour[3] });
             break;
-        case (pctDiff >= 75.00):
+        case (pctDiff >= 75):
             $(qtyColour).css({ "background-color": bgColour[4] });
             break;
     }
@@ -66,9 +69,13 @@ $(document).ready(function () {
         var sellcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)')[0];
 
         //Partially finished buy colour ranking system
-        colorizePending(buy, buycolour,["#00FF33","#00CC33","#009933","#006633","#003333","#000033"]);
+		var BuyGradient=["#00FF33","#00CC33","#009933","#006633","#003333","#000033"];
+		var SellGradient=["#CCFF00","#CCCC00","#CC9900","#CC6600","#CC3300","#CC0000"];
+
+		
+        colorizePending(buy, buycolour, BuyGradient);
 
         //Partially finished sell colour ranking system
-        colorizePending(sell, sellcolour,["#CCFF00","#CCCC00","#CC9900","#CC6600","#CC3300","#CC0000"]);
+        colorizePending(sell, sellcolour, SellGradient);
     }
 });
