@@ -41,6 +41,9 @@ function myFunction2(a,b)
 }
 
 $(document).ready(function () {
+//Refresh page every 
+setTimeout("location.reload();",90000);
+
 //misc variables
 var avg = 0;
 var highestbuy = 0;
