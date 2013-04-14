@@ -27,7 +27,7 @@ function myFunction(a,b,c)
     } else if (c >= 75.00) {
 			$(a).css({ "background-color": b[5] });
     } else {
-			alert('derp');
+			//alert('derp');
     }
 }
 
