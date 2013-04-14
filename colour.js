@@ -33,7 +33,6 @@ function myFunction(a,b,c)
 
 function myFunction2(a,b)
 {
-//Converting lines 59-64 to a function
         var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
         cellvalue = cellvalue.replace(",", "");
         cellvalue = (parseFloat(cellvalue)).toFixed(6);
@@ -59,14 +58,17 @@ avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
 
     for (var a = 3; a < 23; a++) {
         //buy
-        var buy = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)').text();
-        buy = buy.replace(",", "");
-        buy = (parseFloat(buy)).toFixed(6);
+        //var buy = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)').text();
+        //buy = buy.replace(",", "");
+        //buy = (parseFloat(buy)).toFixed(6);
         //sell
-        var sell = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)').text();
-        sell = sell.replace(",", "");
-        sell = (parseFloat(sell)).toFixed(6);
+        //var sell = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)').text();
+        //sell = sell.replace(",", "");
+        //sell = (parseFloat(sell)).toFixed(6);
 
+	var buy = myFunction2(a,2);
+	var sell = myFunction2(a,6);
+      
         //var colours
         var buycolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)')[0];
         var sellcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)')[0];
