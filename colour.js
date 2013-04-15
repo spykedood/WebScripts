@@ -10,69 +10,41 @@
 // @grant none
 // ==/UserScript==
 
-
-//Not working yet - pass through the quantities when base/alt coin is detected in url!
-function colorize(qty, qtycolor, x) {
-    //colour coding the quantities of recent orders
-    if (qty > x[0] && qty < x[1]) {
-        $(qtycolor).css({ "background-color": "#F0F0F0" });
-    } else if (qty >= x[1] && qty < x[2]) {
-        $(qtycolor).css({ "background-color": "#D8D8D8" });
-    } else if (qty >= x[2] && qty < x[3]) {
-        $(qtycolor).css({ "background-color": "#B8B8B8" });
-    } else if (qty >= x[3] && qty < x[4]) {
-        $(qtycolor).css({ "background-color": "#787878" });
-    } else if (qty >= x[4] && qty < x[5]) {
-        $(qtycolor).css({ "background-color": "#585858" });
+//a=cell location , b=cell value, c=qty/value rng, d=gradient!
+function Multifunction(a, b, c, d) {
+    if (b >= c[0] && b < c[1]) {
+        $(a).css({ "background-color": d[0] });
+    } else if (b >= c[1] && b < c[2]) {
+        $(a).css({ "background-color": d[1] });
+    } else if (b >= c[2] && b < c[3]) {
+        $(a).css({ "background-color": d[2] });
+    } else if (b >= c[3] && b < c[4]) {
+        $(a).css({ "background-color": d[3] });
+    } else if (b >= c[4] && b < c[5]) {
+        $(a).css({ "background-color": d[4] });
+    } else if (b >= c[5]) {
+        $(a).css({ "background-color": d[5] });
     } else {
-        $(qtycolor).css({ "background-color": "#404040" });
-    }
+	//alert('derp');
+	}
 }
 
-// Colorizes background depending on percentage difference
-function myFunction(a,b,c)
-{
-//Escuse the terrible variable naming plox
-	f (c >= 0.00 && c < 10.00) {
-		$(a).css({ "background-color": b[0] });
-	} else if (c >= 10.00 && c < 20.00) {
-		$(a).css({ "background-color": b[1] });
-    	} else if (c >= 20.00 && c < 30.00) {
-		$(a).css({ "background-color": b[2] });
-    	} else if (c >= 30.00 && c < 50.00) {
-		$(a).css({ "background-color": b[3] });
-   	} else if (c >= 50.00 && c < 75.00) {
-		$(a).css({ "background-color": b[4] });
-    	 else if (c >= 75.00) {
-		$(a).css({ "background-color": b[5] });
-    	 else {
-		//alert('derp');
-    }
-}
-
-function valueAndCell(a,b,c,d)
-{
-if (c === 1){
+function value(a, b, c) {
         var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
         cellvalue = cellvalue.replace(",", "");
-        cellvalue = (parseFloat(cellvalue)).toFixed(' + d + ');
+        cellvalue = (parseFloat(cellvalue)).toFixed(' + c + ');
 		return cellvalue;
-		}
-else {
-         var cell = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')')[0];
-		return cell;
-}
 }
 
-function myFunction3(a,b,c,d)
+function myFunction3(a, b, c, d)
 {
 //Escuse the terrible variable naming plox
-	 if (a > b) {
-			$(c).css({ "background-color": d[0] });
+	if (a > b) {
+		$(c).css({ "background-color": d[0] });
     } else if (a < b) {
-			$(c).css({ "background-color": d[1] });
+		$(c).css({ "background-color": d[1] });
     } else {
-			$(c).css({ "background-color": d[2] });
+		$(c).css({ "background-color": d[2] });
     } 
 }
 
@@ -89,11 +61,11 @@ $(document).ready(function () {
 setTimeout("location.reload();",90000);
 
 //misc variables
-var avg = 0;
-var highestbuy = 0;
-var lowestsell = 0;
 var recentHigh = 0;
 var recentLow = 0;
+var highestbuy = 0;
+var lowestsell = 0;
+var avg = 0;
 
 //Avg between highest buy & Lowest sell
 highestbuy = $("a", "tr:nth-child(3) td.coinformat:nth-child(2)").text();
@@ -105,47 +77,61 @@ avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
 
     for (var a = 3; a < 23; a++) {
 		//Grabbing buy/sell/recent values
-		var buy = valueAndCell(a,2,1, 6);
-		var sell = valueAndCell(a,6,1, 6);
-		var recent = valueAndCell(a,11,1, 6);
+		var buy = value(a, 2, 6);
+		var sell = value(a, 6, 6);
+		var recent = value(a, 11, 6);
+
+		//Quantities; same as above!
+		var buyquantities = value(a, 1, 4);
+		var sellquantities = value(a, 5, 4);
+		var recentquantities = value(a, 10, 4);
 		
 		//Grabbing the cell locations of buy/sell/recent to colour.
-		var buycolour = valueAndCell(a,2,0,0);
-		var sellcolour = valueAndCell(a,6,0,0);
-		var recentcolour = valueAndCell(a,11,0,0);
+        var buycolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)')[0];
+        var sellcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)')[0];
+        var recentcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(11)')[0];
 		
-		//(a,b,c) a=row b=td column c=(1=grab value.  0=grab cell) d=to fixed 4/6.
+		//(a,b,c) a=row b=td column c=to fixed 4/6.
 		//Could replace c with True/False or Value/Cell to make it more readable!
 		//Grabbing the cell location of buy/sell/recent top
-		var buytop = valueAndCell(1,2,0, 0);
-		var selltop = valueAndCell(1,6,0, 0);
-		var recenttop = valueAndCell(1,11,0, 0);
-		
-		//Quantities; same as above!
-		var sellquantities = valueAndCell(a,5,1, 4);
-		var buyquantities = valueAndCell(a,1,1, 4);
-		var recentquantities = valueAndCell(a,10,1, 4);
+		//Top row colours
+		var buytop = $('.mainwindow .mylists tr:nth-child(1) th:nth-child(1)')[0];
+		var selltop = $('.mainwindow .mylists tr:nth-child(1) th:nth-child(3)')[0];
+		var recenttop = $('.mainwindow .mylists tr:nth-child(1) th:nth-child(5)')[0];
+
+        var buyqty = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(1)')[0];
+        var sellqty = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(5)')[0];
+        var recentqty = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(10)')[0];
 		
 		//Grab the alt/base from the url to determine the quantities in the page
-		var alt = getUrlVars()["alt"];
-		var base = getUrlVars()["base"];
+		//var alt = getUrlVars()["alt"];
+		//var base = getUrlVars()["base"];
 		//alert(alt);
 		//alert(base);
+		//If alt = ppc then QtyArr=ppcQtyArr
 		//Example of buyQtyArr - make more for each type of coin.
-		var buyPPCQtyArr = ['0.0000','250.0000','500.00','1000.0000','3500.0000','8000.0000']
-
+		
+		var ppcQtyArr = ['0.0000','250.0000','500.0000','1000.0000','3500.0000','8000.0000'];
+		var pctDiffArr = ['0.00','10.00','20.00','30.00','50.00','75.00'];
+		//var btcQtyArr = [];
+		//var trcQtyArr = [];
+		
         //Partially finished buy colour ranking system
 		var BuyGradient = ['#00FF33','#00CC33','#009933','#006633','#003333','#000033'];
 		var SellGradient = ['#CCFF00','#CCCC00','#CC9900','#CC6600','#CC3300','#CC0000'];
-		var RecentGradient = ['#006600','#B80000 ','#FF9900'];
+		var RecentGradient = ['#006600','#B80000','#FF9900'];
 
 		var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
 		var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
+		
+		//Calling function to colour the buy/sell/recent prices
+		//a=cell location , b=cell value, c=qty/value rng, d=gradient!
+        Multifunction(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
+		Multifunction(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
 
-        myFunction(buycolour, BuyGradient, pctDiffbuy);
-		myFunction(sellcolour, SellGradient, pctDiffsell);
-		myFunction3(recent, avg, recentcolour, RecentGradient);
-
+		//myFunction3(recent, avg, recentcolour, RecentGradient);
+		
+		//QtyColour(qty, qtycolor, ppcQtyArr);
 		//myFunction4(recentHigh,recentLow,recentcolour);
     }
 });
