@@ -33,20 +33,20 @@ function colorize(qty, qtycolor, x) {
 function myFunction(a,b,c)
 {
 //Escuse the terrible variable naming plox
-	 if (c >= 0.00 && c < 10.00) {
-			$(a).css({ "background-color": b[0] });
-    } else if (c >= 10.00 && c < 20.00) {
-			$(a).css({ "background-color": b[1] });
-    } else if (c >= 20.00 && c < 30.00) {
-			$(a).css({ "background-color": b[2] });
-    } else if (c >= 30.00 && c < 50.00) {
-			$(a).css({ "background-color": b[3] });
-    } else if (c >= 50.00 && c < 75.00) {
-			$(a).css({ "background-color": b[4] });
-    } else if (c >= 75.00) {
-			$(a).css({ "background-color": b[5] });
-    } else {
-			//alert('derp');
+	f (c >= 0.00 && c < 10.00) {
+		$(a).css({ "background-color": b[0] });
+	} else if (c >= 10.00 && c < 20.00) {
+		$(a).css({ "background-color": b[1] });
+    	} else if (c >= 20.00 && c < 30.00) {
+		$(a).css({ "background-color": b[2] });
+    	} else if (c >= 30.00 && c < 50.00) {
+		$(a).css({ "background-color": b[3] });
+   	} else if (c >= 50.00 && c < 75.00) {
+		$(a).css({ "background-color": b[4] });
+    	 else if (c >= 75.00) {
+		$(a).css({ "background-color": b[5] });
+    	 else {
+		//alert('derp');
     }
 }
 
