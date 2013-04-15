@@ -32,7 +32,7 @@ function Multifunction(a, b, c, d) {
 function value(a, b, c) {
         var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
         cellvalue = cellvalue.replace(",", "");
-        cellvalue = (parseFloat(cellvalue)).toFixed(' + c + ');
+        cellvalue = (parseFloat(cellvalue)).toFixed(c);
 		return cellvalue;
 }
 
@@ -117,8 +117,8 @@ avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
 		//var trcQtyArr = [];
 		
         //Partially finished buy colour ranking system
-		var BuyGradient = ['#00FF33','#00CC33','#009933','#006633','#003333','#000033'];
-		var SellGradient = ['#CCFF00','#CCCC00','#CC9900','#CC6600','#CC3300','#CC0000'];
+		var BuyGradient = ['#00FF66','#00CC66','#009966','#006666','#003366','#000066'];
+		var SellGradient = ['#FFFF00','#FFCC00','#FF9900','#FF6600','#FF3300','#FF0000'];
 		var RecentGradient = ['#006600','#B80000','#FF9900'];
 
 		var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
