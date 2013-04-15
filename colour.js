@@ -132,7 +132,7 @@ avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
 		//alert(alt);
 		//alert(base);
 		//Example of buyQtyArr - make more for each type of coin.
-		var buyQtyArr = ['0','100','200','300','400','500']
+		var buyPPCQtyArr = ['0.0000','250.0000','500.00','1000.0000','3500.0000','8000.0000']
 
         //Partially finished buy colour ranking system
 		var BuyGradient = ['#00FF33','#00CC33','#009933','#006633','#003333','#000033'];
