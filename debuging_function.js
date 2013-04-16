@@ -60,11 +60,11 @@ function ColorOrderPriceCells() {
 		//Grabbing buy/sell/recent quantity values
 		var buyqty = getHyperCellValue(a, 1);
         var sellqty = getHyperCellValue(a, 5);
-        var recentqty = getHyperCellValue(a, 9);
+        var recentqty = getCellValue(a, 10);
 		//Grabbing the buy/sell/recent quantity cells
 		var buyqtycell = getCell(a, 1);
         var sellqtycell = getCell(a, 5);
-        var recentqtycell = getCell(a, 9);
+        var recentqtycell = getCell(a, 10);
         //Grabbing the cell locations of buy/sell/recent to colour.
         var buycolour = getCell(a, 2);
         var sellcolour = getCell(a, 6);
