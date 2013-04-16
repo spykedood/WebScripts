@@ -69,14 +69,20 @@ function ColorOrderPriceCells() {
         var buycolour = getCell(a, 2);
         var sellcolour = getCell(a, 6);
         var recentcolour = getCell(a, 11);
+		//BROKEN IT WHOOPS
+		var recentOrdVal = getCellValue(a, 12);
+		var recentOrdCell = getCell(a,12);
 
         var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
+		//How about instead of manually stating the range of each coin, we calculate it?
+		//Say 1btc = 0.0025ppc  then 1/0.0025 = a number we  could use..
         var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
+		//var btcQtyArr = [0.0000, 0.2500,0.500,1.0000,2.5000,5.0000]
 
         //Partially finished buy colour ranking system
         var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
         var SellGradient = ['#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033'];
-        var RecentGradient = ['#006600', '#B80000', '#FF9900'];
+        var RecentGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
         var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
 
         //Working
@@ -90,6 +96,9 @@ function ColorOrderPriceCells() {
 		Multifunction(buyqtycell, buyqty, ppcQtyArr, QtyGradient);
 		Multifunction(sellqtycell, sellqty, ppcQtyArr, QtyGradient);
 		Multifunction(recentqtycell, recentqty, ppcQtyArr, QtyGradient);
+		
+		//Colouring in recent buy/sell columns
+		recBuySell(a);
     }
 }
 
@@ -122,6 +131,18 @@ function Multifunction(a, b, c, d) {
     }
 }
 
+recBuySell(a) {
+var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(12)').text();
+var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(12)')[0];
+
+If (recentOrdVal === "Buy"){
+        $(recentOrdCell).css({ "background-color": "green" });
+} else {
+        $(recentOrdCell).css({ "background-color": "red" });
+}
+}
+
+//Hyper = grabbing value of cell, when the value is contained within a hyperlink!
 function getHyperCellValue(a, b) {
     var cellvalue = $('a', 'tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
     cellvalue = cellvalue.replace(",", "");
