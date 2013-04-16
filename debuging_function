@@ -1,0 +1,93 @@
+// ==UserScript==
+// @name        Isolated buy & sell price function
+// @namespace   Ricky
+// @match       https://vircurex.com/orders*
+// @match       https://vircurex.com/welcome/index?alt=*
+// @include     https://vircurex.com/welcome/index?alt=*
+// @include     https://vircurex.com/orders?alt=*
+// @version     0.15
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @grant none
+// ==/UserScript==
+
+//a=cell location , b=cell value, c=qty/value rng, d=gradient!
+function Multifunction(a, b, c, d) {
+    if ((b >= c[0]) && (b < c[1])) {
+        $(a).css({ "background-color": d[0] });
+  	alert(b);
+    } else if ((b >= c[1]) && (b < c[2])) {
+        $(a).css({ "background-color": d[1] });
+		alert(b);
+    } else if ((b >= c[2]) && (b < c[3])) {
+        $(a).css({ "background-color": d[2] });
+		alert(b);
+    } else if ((b >= c[3]) && (b < c[4])) {
+        $(a).css({ "background-color": d[3] });
+		alert(b);
+    } else if ((b >= c[4]) && (b < c[5])) {
+        $(a).css({ "background-color": d[4] });
+		alert(b);
+    } else if (b >= c[5]) {
+        $(a).css({ "background-color": d[5] });
+		alert(b);
+    } else {
+	//alert('derp');
+	}
+}
+
+function value(a, b) {
+        var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
+        cellvalue = cellvalue.replace(",", "");
+        cellvalue = (parseFloat(cellvalue)).toFixed(6);
+		return cellvalue;
+}
+
+$(document).ready(function () {
+//Refresh page every 
+setTimeout("location.reload();",90000);
+
+//misc variables
+var highestbuy = 0;
+var lowestsell = 0;
+var avg = 0;
+
+//Avg between highest buy & Lowest sell
+highestbuy = $("a", "tr:nth-child(3) td.coinformat:nth-child(2)").text();
+highestbuy = highestbuy.replace(",", "");
+
+lowestsell = $("a", "tr:nth-child(3) td.coinformat:nth-child(6)").text();
+lowestsell = lowestsell.replace(",", "");
+avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
+
+    for (var a = 3; a < 23; a++) {
+		//Grabbing buy/sell/recent values
+		var buy = value(a, 2);
+		//alert(buy);
+		var sell = value(a, 6);
+		//alert(sell);
+		var recent = value(a, 11);
+	
+		//Grabbing the cell locations of buy/sell/recent to colour.
+        var buycolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)')[0];
+        var sellcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)')[0];
+        var recentcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(11)')[0];
+	
+		var pctDiffArr = ['0.00','5.00','10.00','25.00','50.00','75.00'];
+		
+        //Partially finished buy colour ranking system
+		//NOT WORKING AAAHRHGHGKBM
+		var BuyGradient = ['#00FF33','#00CC33','#009933','#006633','#003333','#000033'];
+		var SellGradient = ['#FFFF33','#FFCC33','#FF9933','#FF6633','#FF3333','#FF0033'];
+
+		//Working
+		var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
+		//alert(pctDiffbuy);
+		var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
+		//alert(pctDiffsell);
+		
+		//Calling function to colour the buy/sell/recent prices
+		//a=cell location , b=cell value, c=qty/value rng, d=gradient!
+        Multifunction(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
+		Multifunction(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
+    }
+});
