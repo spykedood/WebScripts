@@ -61,8 +61,10 @@ function CreateOptions() {
     $('body').append('<div class="btnOptions"></div>');
 
     // Create dialogue (this is where your options should go)
-    $('body').append('<div id="dialog" title="Basic dialog">'
-        + '<p>Options</p>'
+    $('body').append('<div id="dialog" title="Options">'
+        + '<p style="margin-bottom:10px;">Select options below:</p>'
+        + '<p><input class="myCheckbox" id="colorOrderPriceCells" type="checkbox" value="true"/>'
+        + '<label class="myCheckboxLabel" for="colorOrderPriceCells">Color the prices for order cells?</label> </p>'
         + ' </div>');
 
     // Initialise and set up on click listener for dialoge box
@@ -75,7 +77,16 @@ function CreateOptions() {
         hide: {
             effect: "explode",
             duration: 1000
-        }
+        },
+        buttons: [
+            {
+                text: "Save",
+                click: function () {
+                    SaveOptions();
+                    $( this ).dialog( "close" );
+                }
+            }
+        ]
     });
 
     $(".btnOptions").click(function () {
@@ -83,15 +94,34 @@ function CreateOptions() {
     });
 }
 
+// Saves options
+function SaveOptions() {
+    // TODO: Save code goes here.
+}
+
+// Injects styles to DOM
 function InjectStyles() {
     $('body').prepend(
         '<style>'
+        // Options button
         + '.btnOptions {'
+        + 'cursor: pointer;'
         + 'background-image: url("https://www.google.com/images/nav_logo123.png");'
         + 'background-position: -42px -259px;'
         + 'height: 17px; width: 17px;'
         + 'position: fixed; top: 5px; right: 5px;'
         + '}'
+        // Dialog checkboxes
+        + '.myCheckbox {'
+        + 'width: 25px; height: 25px;'
+        + 'display: inline-block;'
+        + 'padding: 0; margin: 0;'
+        + 'vertical-align: middle;'
+        + '}'
+        // Dialoge checkbox labels
+        + '.myCheckboxLabel {'
+        + 'display: inline-block;'
+        +'}'
         + '</style>'
     );
 }
