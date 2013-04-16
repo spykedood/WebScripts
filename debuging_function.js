@@ -57,7 +57,7 @@ function ColorOrderPriceCells() {
         var buy = getHyperCellValue(a, 2);
         var sell = getHyperCellValue(a, 6);
         var recent = getCellValue(a, 11);
-    	//Grabbing buy/sell/recent quantity values
+		//Grabbing buy/sell/recent quantity values
 		var buyqty = getHyperCellValue(a, 1);
         var sellqty = getHyperCellValue(a, 5);
         var recentqty = getHyperCellValue(a, 10);
@@ -122,14 +122,14 @@ function Multifunction(a, b, c, d) {
     }
 }
 
-function getCellValue(a, b) {
+function getHyperCellValue(a, b) {
     var cellvalue = $('a', 'tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
     cellvalue = cellvalue.replace(",", "");
     cellvalue = (parseFloat(cellvalue)).toFixed(6);
     return cellvalue;
 }
 
-function getHyperCellValue(a, b) {
+function getCellValue(a, b) {
     var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
     cellvalue = cellvalue.replace(",", "");
     cellvalue = (parseFloat(cellvalue)).toFixed(6);
