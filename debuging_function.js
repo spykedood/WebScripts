@@ -152,7 +152,7 @@ function ColorOrderPriceCells() {
         var recentcolour = getCell(a, 11);
         //BROKEN IT WHOOPS
         var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)').text();
-        var recentOrdCell = getCell(a, 13);
+        var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)')[0];
 
         var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
         //How about instead of manually stating the range of each coin, we calculate it?
@@ -214,9 +214,9 @@ function Multifunction(a, b, c, d) {
 
 function recBuySell(text, cell) {
     if (text === "Buy") {
-        $(cell).css({ "background-color": "green" });
+        $(cell).css({ "background-color": "#006600" });
     } else {
-        $(cell).css({ "background-color": "red" });
+        $(cell).css({ "background-color": "#B80000" });
     }
 }
 
