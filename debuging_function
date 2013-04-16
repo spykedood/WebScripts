@@ -17,19 +17,19 @@ function Multifunction(a, b, c, d) {
   	alert(b);
     } else if ((b >= c[1]) && (b < c[2])) {
         $(a).css({ "background-color": d[1] });
-		alert(b);
+		//alert(b);
     } else if ((b >= c[2]) && (b < c[3])) {
         $(a).css({ "background-color": d[2] });
-		alert(b);
+		//alert(b);
     } else if ((b >= c[3]) && (b < c[4])) {
         $(a).css({ "background-color": d[3] });
-		alert(b);
+		//alert(b);
     } else if ((b >= c[4]) && (b < c[5])) {
         $(a).css({ "background-color": d[4] });
-		alert(b);
+		//alert(b);
     } else if (b >= c[5]) {
         $(a).css({ "background-color": d[5] });
-		alert(b);
+		//alert(b);
     } else {
 	//alert('derp');
 	}
