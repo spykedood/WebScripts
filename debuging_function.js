@@ -54,18 +54,21 @@ function ResizeGraph() {
 function ColorOrderPriceCells() {
     for (var a = 3; a < 23; a++) {
         //Grabbing buy/sell/recent values
-        var buy = getCellValue(a, 2);
-        var sell = getCellValue(a, 6);
+        var buy = getHyperCellValue(a, 2);
+        var sell = getHyperCellValue(a, 6);
         var recent = getCellValue(a, 11);
-
+    	//Grabbing buy/sell/recent quantity values
+		var buyqty = getHyperCellValue(a, 1);
+        var sellqty = getHyperCellValue(a, 5);
+        var recentqty = getHyperCellValue(a, 10);
+		//Grabbing the buy/sell/recent quantity cells
+		var buyqtycell = getCell(a, 1);
+        var sellqtycell = getCell(a, 5);
+        var recentqtycell = getCell(a, 10);
         //Grabbing the cell locations of buy/sell/recent to colour.
         var buycolour = getCell(a, 2);
         var sellcolour = getCell(a, 6);
         var recentcolour = getCell(a, 11);
-
-        //var buycolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(2)')[0];
-        //var sellcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(6)')[0];
-        //var recentcolour = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(11)')[0];
 
         var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
         var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
@@ -81,9 +84,12 @@ function ColorOrderPriceCells() {
         var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
 
         //Calling function to colour the buy/sell/recent prices
-        //a=cell location , b=cell value, c=qty/value rng, d=gradient!
+        //a=cell location , b=cell value, c=qty/value rng/what to compare b to! , d=gradient!
         Multifunction(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
         Multifunction(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
+		Multifunction(buyqtycell, buyqty, ppcQtyArr, QtyGradient);
+		Multifunction(sellqtycell, sellqty, ppcQtyArr, QtyGradient);
+		Multifunction(recentqtycell, recentqty, ppcQtyArr, QtyGradient);
     }
 }
 
@@ -117,6 +123,13 @@ function Multifunction(a, b, c, d) {
 }
 
 function getCellValue(a, b) {
+    var cellvalue = $('a', 'tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
+    cellvalue = cellvalue.replace(",", "");
+    cellvalue = (parseFloat(cellvalue)).toFixed(6);
+    return cellvalue;
+}
+
+function getHyperCellValue(a, b) {
     var cellvalue = $('.mainwindow .mylists tr:nth-child(' + a + ') td.coinformat:nth-child(' + b + ')').text();
     cellvalue = cellvalue.replace(",", "");
     cellvalue = (parseFloat(cellvalue)).toFixed(6);
