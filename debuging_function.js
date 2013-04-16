@@ -7,6 +7,7 @@
 // @include     https://vircurex.com/orders?alt=*
 // @version     0.15
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
 // @grant none
 // ==/UserScript==
 
@@ -22,6 +23,9 @@ function init() {
     lowestsell = $("a", "tr:nth-child(3) td.coinformat:nth-child(6)").text();
     lowestsell = lowestsell.replace(",", "");
     avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
+
+    // Add JQUI css
+    $('head').append('<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/redmond/jquery-ui.css" type="text/css" />');
 }
 
 // When document is ready run thru our code.
@@ -38,11 +42,58 @@ $(document).ready(function () {
 
 // Updates all UI elements
 function UpdateUI() {
+    // Inject custom style
+    InjectStyles();
+
+    // Create options
+    CreateOptions();
+
     // Color cells
     ColorOrderPriceCells();
 
     // Resize Graph
     ResizeGraph();
+}
+
+// Creates an options interface
+function CreateOptions() {
+    // Create button
+    $('body').append('<div class="btnOptions"></div>');
+
+    // Create dialogue (this is where your options should go)
+    $('body').append('<div id="dialog" title="Basic dialog">'
+        + '<p>Options</p>'
+        + ' </div>');
+
+    // Initialise and set up on click listener for dialoge box
+    $("#dialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "blind",
+            duration: 1000
+        },
+        hide: {
+            effect: "explode",
+            duration: 1000
+        }
+    });
+
+    $(".btnOptions").click(function () {
+        $("#dialog").dialog("open");
+    });
+}
+
+function InjectStyles() {
+    $('body').prepend(
+        '<style>'
+        + '.btnOptions {'
+        + 'background-image: url("https://www.google.com/images/nav_logo123.png");'
+        + 'background-position: -42px -259px;'
+        + 'height: 17px; width: 17px;'
+        + 'position: fixed; top: 5px; right: 5px;'
+        + '}'
+        + '</style>'
+    );
 }
 
 // Resizes the graph so that it takes advantage of all available screen space
@@ -70,8 +121,8 @@ function ColorOrderPriceCells() {
         var sellcolour = getCell(a, 6);
         var recentcolour = getCell(a, 11);
         //BROKEN IT WHOOPS
-	var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)').text();
-        var recentOrdCell = getCell(a,13);
+        var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)').text();
+        var recentOrdCell = getCell(a, 13);
 
         var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
         //How about instead of manually stating the range of each coin, we calculate it?
@@ -131,12 +182,12 @@ function Multifunction(a, b, c, d) {
     }
 }
 
-recBuySell(text, cell) {
-If (text === "Buy"){
+function recBuySell(text, cell) {
+    if (text === "Buy") {
         $(cell).css({ "background-color": "green" });
-} else {
+    } else {
         $(cell).css({ "background-color": "red" });
-}
+    }
 }
 
 //Hyper = grabbing value of cell, when the value is contained within a hyperlink!
