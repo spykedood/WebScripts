@@ -162,15 +162,26 @@ function ColorOrderPriceCells() {
         var buyqty = getHyperCellValue(a, 1);
         var sellqty = getHyperCellValue(a, 5);
         var recentqty = getCellValue(a, 10);
+        
+        //Grabbing btc values
+        //var btcrecqty = getCellValue2(a, 12);
+        //var btcbuyqty = getCellValue(a, 3);
+        //var btcsellqty = getCellValue(a, 5);
+        //Grabbing btc cells
+        //var btcBuyQtyCell = getCell(a, 3);
+        //var btcSellQtyCell = getCell(a, 7);
+        //var btcRecQtyCell = getCell(a, 12);
+
         //Grabbing the buy/sell/recent quantity cells
         var buyqtycell = getCell(a, 1);
         var sellqtycell = getCell(a, 5);
         var recentqtycell = getCell(a, 10);
-        //Grabbing the cell locations of buy/sell/recent to colour.
+
+        //Grabbing the cell locations of buy/sell/recent to colour
         var buycolour = getCell(a, 2);
         var sellcolour = getCell(a, 6);
         var recentcolour = getCell(a, 11);
-        //BROKEN IT WHOOPS
+        //Recent value ("buy/sell") & recent cell
         var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)').text();
         var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)')[0];
 
@@ -178,7 +189,7 @@ function ColorOrderPriceCells() {
         //How about instead of manually stating the range of each coin, we calculate it?
         //Say 1btc = 0.0025ppc  then 1/0.0025 = a number we  could use..
         var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
-        //var btcQtyArr = [0.0000, 0.2500,0.500,1.0000,2.5000,5.0000]
+        var btcQtyArr = [0.0000, 0.00100, 0.0100, 0.1000, 1.0000, 5.0000]
 
         //Partially finished buy colour ranking system
         var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
@@ -197,6 +208,10 @@ function ColorOrderPriceCells() {
         Multifunction(buyqtycell, buyqty, ppcQtyArr, QtyGradient);
         Multifunction(sellqtycell, sellqty, ppcQtyArr, QtyGradient);
         Multifunction(recentqtycell, recentqty, ppcQtyArr, QtyGradient);
+        //
+        //Multifunction(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
+        //Multifunction(btcBuyQtyCell, btcBuyqty, btcQtyArr, QtyGradient);
+        //Multifunction(btcRecQtyCell, btcRecqty, btcQtyArr, QtyGradient);
 
         //Colouring in recent buy/sell columns
         recBuySell(recentOrdVal, recentOrdCell);
@@ -256,6 +271,7 @@ function supports_html5_storage() {
 };
 
 //a=cell location , b=cell value, c=qty/value rng, d=gradient!
+//Will eventually rename the variables within multifunction.. but not today!
 function Multifunction(a, b, c, d) {
     if ((b >= c[0]) && (b < c[1])) {
         $(a).css({ "background-color": d[0] });
@@ -301,6 +317,14 @@ function getCellValue(a, b) {
     cellvalue = cellvalue.replace(",", "");
     cellvalue = (parseFloat(cellvalue)).toFixed(6);
     return cellvalue;
+}
+
+//Same as cell value except without .coinformat
+function getCellValue2(a, b) {
+    var cellvalue2 = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(' + b + ')').text();
+    cellvalue2 = cellvalue.replace(",", "");
+    cellvalue2 = (parseFloat(cellvalue)).toFixed(4);
+    return cellvalue2;
 }
 
 function getCell(a, b) {
