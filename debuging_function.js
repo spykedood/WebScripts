@@ -15,6 +15,9 @@
 // GLOBAL VARS
 var highestbuy = 0, lowestsell = 0, avg = 0;
 
+// Options vars
+var op_colorOrderPriceCells;
+
 // Initialize
 function init() {
     // All initialization goes here.
@@ -26,6 +29,12 @@ function init() {
 
     // Add JQUI css
     $('head').append('<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/redmond/jquery-ui.css" type="text/css" />');
+
+    // Inject custom styles
+    InjectStyles();
+
+    // Create options
+    CreateOptions();
 }
 
 // When document is ready run thru our code.
@@ -42,14 +51,11 @@ $(document).ready(function () {
 
 // Updates all UI elements
 function UpdateUI() {
-    // Inject custom style
-    InjectStyles();
+    // (re)load options before setting UI elements
+    LoadOptions();
 
-    // Create options
-    CreateOptions();
-
-    // Color cells
-    ColorOrderPriceCells();
+    // Color cells [ RICKY: This line says if (op_colorOrderPriceCells == true) then call function ColorOrderPriceCells(); ]
+    if(op_colorOrderPriceCells) ColorOrderPriceCells();
 
     // Resize Graph
     ResizeGraph();
@@ -82,7 +88,11 @@ function CreateOptions() {
             {
                 text: "Save",
                 click: function () {
+                    // Save our options
                     SaveOptions();
+                    // Update UI
+                    UpdateUI();
+                    // Close the dialog box
                     $( this ).dialog( "close" );
                 }
             }
@@ -92,11 +102,21 @@ function CreateOptions() {
     $(".btnOptions").click(function () {
         $("#dialog").dialog("open");
     });
+
+
+    // Set option values here
+    $('#colorOrderPriceCells').attr('checked', GetBoolSetting('op_colorOrderPriceCells'));
 }
 
 // Saves options
 function SaveOptions() {
-    // TODO: Save code goes here.
+    // colorOrderPriceCells
+    SetSetting("op_colorOrderPriceCells", $('#colorOrderPriceCells').is(':checked'));
+}
+
+// Load options
+function LoadOptions() {
+    op_colorOrderPriceCells = GetBoolSetting("op_colorOrderPriceCells");
 }
 
 // Injects styles to DOM
@@ -187,6 +207,54 @@ function ColorOrderPriceCells() {
 /******************
  HELPER FUNCTIONS
  ******************/
+
+// Saves setting to local storage
+function SetSetting(key, value) {
+    // Check if local storage is supported
+    if (supports_html5_storage()) {
+        // Try to save to local storage
+        try {
+            localStorage.setItem(key, value); // saves to the database, "key", "value"
+        } catch (e) {
+            if (e == QUOTA_EXCEEDED_ERR) {
+                alert('Quota exceeded!'); //data wasn't successfully saved due to quota exceed so throw an error
+            }
+        }
+    } else {
+        alert("Browser does not support local storage!")
+    }
+};
+
+// Gets settings from local storage (ASSUME ALWAYS RETURNS A STRING or NUMBER)
+function GetSetting(key) {
+    // Check if local storage is supported
+    if (supports_html5_storage()) {
+        // If it does then return the value.
+        return localStorage.getItem(key);
+    } else {
+        alert("Browser does not support local storage!")
+    }
+}
+
+// Gets a boolean from local storage
+function GetBoolSetting(key) {
+    if (GetSetting(key) == "true")
+        return true;
+    else if (GetSetting(key) == "false")
+        return false;
+    else
+        return false;
+}
+
+// Check for HTML5 support for local storage?
+function supports_html5_storage() {
+    try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+    } catch (e) {
+        return false;
+    }
+};
+
 //a=cell location , b=cell value, c=qty/value rng, d=gradient!
 function Multifunction(a, b, c, d) {
     if ((b >= c[0]) && (b < c[1])) {
