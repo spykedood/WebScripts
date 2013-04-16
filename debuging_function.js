@@ -38,7 +38,16 @@ $(document).ready(function () {
 
 // Updates all UI elements
 function UpdateUI() {
+    // Color cells
     ColorOrderPriceCells();
+
+    // Resize Graph
+    ResizeGraph();
+}
+
+// Resizes the graph so that it takes advantage of all available screen space
+function ResizeGraph() {
+
 }
 
 // Colors buy/sell PRICE cells
