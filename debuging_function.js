@@ -154,23 +154,23 @@ function ResizeGraph() {
 // Colors buy/sell PRICE cells
 function ColorOrderPriceCells() {
     for (var a = 3; a < 23; a++) {
+        //Grabbing buy/sell/recent quantity values
+        //var buyqty = getHyperCellValue(a, 1);
+        //var sellqty = getHyperCellValue(a, 5);
+        //var recentqty = getCellValue(a, 10);
+        
         //Grabbing buy/sell/recent values
         var buy = getHyperCellValue(a, 2);
         var sell = getHyperCellValue(a, 6);
-        var recent = getCellValue(a, 11);
-        //Grabbing buy/sell/recent quantity values
-        var buyqty = getHyperCellValue(a, 1);
-        var sellqty = getHyperCellValue(a, 5);
-        var recentqty = getCellValue(a, 10);
-        
+        var recent = getCellValue(a, 11);        
         //Grabbing btc values
-        //var btcrecqty = getCellValue2(a, 12);
-        //var btcbuyqty = getCellValue(a, 3);
-        //var btcsellqty = getCellValue(a, 5);
+        var btcbuyqty = getCellValue(a, 3);
+        var btcsellqty = getCellValue(a, 7);
+        var btcrecqty = getCellValue(a, 12);
         //Grabbing btc cells
-        //var btcBuyQtyCell = getCell(a, 3);
-        //var btcSellQtyCell = getCell(a, 7);
-        //var btcRecQtyCell = getCell(a, 12);
+        var btcBuyQtyCell = getCell(a, 3);
+        var btcSellQtyCell = getCell(a, 7);
+        var btcRecQtyCell = getCell(a, 12);
 
         //Grabbing the buy/sell/recent quantity cells
         var buyqtycell = getCell(a, 1);
@@ -189,7 +189,7 @@ function ColorOrderPriceCells() {
         //How about instead of manually stating the range of each coin, we calculate it?
         //Say 1btc = 0.0025ppc  then 1/0.0025 = a number we  could use..
         var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
-        var btcQtyArr = [0.0000, 0.00100, 0.0100, 0.1000, 1.0000, 5.0000]
+        var btcQtyArr = [0.000000, 0.0010000, 0.010000, 0.100000, 1.000000, 5.000000];
 
         //Partially finished buy colour ranking system
         var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
@@ -205,13 +205,14 @@ function ColorOrderPriceCells() {
         //a=cell location , b=cell value, c=qty/value rng/what to compare b to! , d=gradient!
         Multifunction(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
         Multifunction(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
-        Multifunction(buyqtycell, buyqty, ppcQtyArr, QtyGradient);
-        Multifunction(sellqtycell, sellqty, ppcQtyArr, QtyGradient);
-        Multifunction(recentqtycell, recentqty, ppcQtyArr, QtyGradient);
         //
-        //Multifunction(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
-        //Multifunction(btcBuyQtyCell, btcBuyqty, btcQtyArr, QtyGradient);
-        //Multifunction(btcRecQtyCell, btcRecqty, btcQtyArr, QtyGradient);
+        Multifunction(buyqtycell, btcsellqty, btcQtyArr, QtyGradient);
+        Multifunction(sellqtycell, btcbuyqty, btcQtyArr, QtyGradient);
+        Multifunction(recentqtycell, btcrecqty, btcQtyArr, QtyGradient);
+        //
+        Multifunction(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
+        Multifunction(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
+        Multifunction(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
         //Colouring in recent buy/sell columns
         recBuySell(recentOrdVal, recentOrdCell);
@@ -317,14 +318,6 @@ function getCellValue(a, b) {
     cellvalue = cellvalue.replace(",", "");
     cellvalue = (parseFloat(cellvalue)).toFixed(6);
     return cellvalue;
-}
-
-//Same as cell value except without .coinformat
-function getCellValue2(a, b) {
-    var cellvalue2 = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(' + b + ')').text();
-    cellvalue2 = cellvalue.replace(",", "");
-    cellvalue2 = (parseFloat(cellvalue)).toFixed(4);
-    return cellvalue2;
 }
 
 function getCell(a, b) {
