@@ -16,7 +16,7 @@
 var highestbuy = 0, lowestsell = 0, avg = 0;
 
 // Options vars
-var op_colorOrderPriceCells;
+var op_colorOrderPriceCells, op_refreshRate;
 
 // Initialize
 function init() {
@@ -55,7 +55,7 @@ function UpdateUI() {
     LoadOptions();
 
     // Color cells [ RICKY: This line says if (op_colorOrderPriceCells == true) then call function ColorOrderPriceCells(); ]
-    if(op_colorOrderPriceCells) ColorOrderPriceCells();
+    if (op_colorOrderPriceCells) ColorOrderPriceCells();
 
     // Resize Graph
     ResizeGraph();
@@ -64,18 +64,23 @@ function UpdateUI() {
 // Creates an options interface
 function CreateOptions() {
     // Create button
-    $('body').append('<div class="btnOptions"></div>');
+    $('body').append('<div class="btnOptions"><span></span></div>');
 
     // Create dialogue (this is where your options should go)
     $('body').append('<div id="dialog" title="Options">'
         + '<p style="margin-bottom:10px;">Select options below:</p>'
+        // colorOrderPriceCells
         + '<p><input class="myCheckbox" id="colorOrderPriceCells" type="checkbox" value="true"/>'
         + '<label class="myCheckboxLabel" for="colorOrderPriceCells">Color the prices for order cells?</label> </p>'
-        + ' </div>');
+        // refreshRate
+        + '<p><label class="myCheckboxLabel" for="refreshRate">Refresh rate in ms. (Default: 90000)</label>'
+        + '<input class="myInputBox" id="refreshRate" type="text" value="90000"/> </p>'
+        + '</div>');
 
     // Initialise and set up on click listener for dialoge box
     $("#dialog").dialog({
         autoOpen: false,
+        minWidth: 400,
         show: {
             effect: "blind",
             duration: 1000
@@ -93,7 +98,7 @@ function CreateOptions() {
                     // Update UI
                     UpdateUI();
                     // Close the dialog box
-                    $( this ).dialog( "close" );
+                    $(this).dialog("close");
                 }
             }
         ]
@@ -121,15 +126,28 @@ function LoadOptions() {
 
 // Injects styles to DOM
 function InjectStyles() {
-    $('body').prepend(
+    $('head').append(
         '<style>'
         // Options button
         + '.btnOptions {'
         + 'cursor: pointer;'
+        + 'background: #ccc;'
+        + 'border-radius: 10px;'
+        + 'border: 1px solid #ddd;'
+        + 'height: 25px; width: 25px;'
+        + 'position: fixed; top: 5px; right: 5px;'
+        + 'text-align: center;'
+        + '}'
+        // hover
+        + '.btnOptions:hover {'
+        + 'background: #bbb;'
+        + '}'
+        // Options button icon
+        + '.btnOptions span {'
         + 'background-image: url("https://www.google.com/images/nav_logo123.png");'
         + 'background-position: -42px -259px;'
-        + 'height: 17px; width: 17px;'
-        + 'position: fixed; top: 5px; right: 5px;'
+        + 'height: 17px; width: 17px; margin-top: 3px;'
+        + 'display: inline-block; vertical-align: middle;'
         + '}'
         // Dialog checkboxes
         + '.myCheckbox {'
@@ -141,7 +159,12 @@ function InjectStyles() {
         // Dialoge checkbox labels
         + '.myCheckboxLabel {'
         + 'display: inline-block;'
-        +'}'
+        + 'margin: 5px;'
+        + '}'
+        // Text input box
+        + '.myInputBox {'
+        + 'width: 100px;'
+        + '}'
         + '</style>'
     );
 }
@@ -162,7 +185,13 @@ function ColorOrderPriceCells() {
         //Grabbing buy/sell/recent values
         var buy = getHyperCellValue(a, 2);
         var sell = getHyperCellValue(a, 6);
-        var recent = getCellValue(a, 11);        
+
+        var recent = getCellValue(a, 11);
+        //Grabbing buy/sell/recent quantity values
+        var buyqty = getHyperCellValue(a, 1);
+        var sellqty = getHyperCellValue(a, 5);
+        var recentqty = getCellValue(a, 10);
+
         //Grabbing btc values
         var btcbuyqty = getCellValue(a, 3);
         var btcsellqty = getCellValue(a, 7);
