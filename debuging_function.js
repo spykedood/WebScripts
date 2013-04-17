@@ -185,8 +185,8 @@ function ColorOrderPriceCells() {
         //Grabbing buy/sell/recent values
         var buy = getHyperCellValue(a, 2);
         var sell = getHyperCellValue(a, 6);
-
         var recent = getCellValue(a, 11);
+
         //Grabbing buy/sell/recent quantity values
         var buyqty = getHyperCellValue(a, 1);
         var sellqty = getHyperCellValue(a, 5);
@@ -235,8 +235,8 @@ function ColorOrderPriceCells() {
         Multifunction(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
         Multifunction(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
         //
-        Multifunction(buyqtycell, btcsellqty, btcQtyArr, QtyGradient);
-        Multifunction(sellqtycell, btcbuyqty, btcQtyArr, QtyGradient);
+        Multifunction(buyqtycell, btcbuyqty, btcQtyArr, QtyGradient);
+        Multifunction(sellqtycell, btcsellqty, btcQtyArr, QtyGradient);
         Multifunction(recentqtycell, btcrecqty, btcQtyArr, QtyGradient);
         //
         Multifunction(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
