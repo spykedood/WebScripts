@@ -22,3 +22,6 @@ getCell: function getCell(a, b, c, d) {
 }
 
 }
+
+Cell.Cellvalue(a, b, c, d, e);
+Cell.getCell(a, b, c, d);
