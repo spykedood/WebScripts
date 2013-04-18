@@ -1,9 +1,11 @@
+var Cell = {
+
 //a=Location ie (.mainwindow .mylists) or ('a').
 //b=Row number (just pass through variable "a" from loop!).
 //c=Either ".coinformat" or "".
 //d=td nth child number.
 //e=to fixed number (4/6)
-function getCellValue(a, b, c, d, e) {
+Cellvalue: function getCellValue(a, b, c, d, e) {
     var cellvalue = $(a, 'tr:nth-child(' + b + ')', ' td' + c + ':nth-child(' + d + ')').text();
     cellvalue = cellvalue.replace(",", "");
     cellvalue = (parseFloat(cellvalue)).toFixed(e);
@@ -14,7 +16,9 @@ function getCellValue(a, b, c, d, e) {
 //b=Row number (just pass through variable "a" from loop!).
 //c=Either ".coinformat" or "".
 //d=td nth child number.
-function getCell(a, b, c, d) {
+getCell: function getCell(a, b, c, d) {
     var cell = $(a, 'tr:nth-child(' + b + ')', ' td' + c + ':nth-child(' + d + ')')[0];
     return cell;
+}
+
 }
