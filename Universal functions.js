@@ -177,14 +177,7 @@ function ResizeGraph() {
 // Colors buy/sell PRICE cells
 function ColorOrderPriceCells() {
     for (var a = 3; a < 23; a++) {
-        //Grabbing buy/sell/recent quantity values
-        //Temporarily keep for future purposes
-        //var buyqty = getHyperCellValue(a, 1);
-        //var sellqty = getHyperCellValue(a, 5);
-        //var recentqty = getCellValue(a, 10);
-        
         //Grabbing buy/sell/recent values
-
         //a=Location ie (.mainwindow .mylists) or ('a').
         //b=Row number (just pass through variable "a" from loop!).
         //c=Either ".coinformat" or "".
