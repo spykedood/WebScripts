@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        Isolated buy & sell price function
-// @namespace   Ricky
+// @name        Merged scripts
+// @namespace   Ricky & Mark
 // @match       https://vircurex.com/orders*
 // @match       https://vircurex.com/welcome/index?alt=*
 // @include     https://vircurex.com/welcome/index?alt=*
 // @include     https://vircurex.com/orders?alt=*
-// @version     0.15
+// @version     0.151
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
 // @grant none
@@ -55,8 +55,11 @@ function UpdateUI() {
     LoadOptions();
 
     // Color cells [ RICKY: This line says if (op_colorOrderPriceCells == true) then call function ColorOrderPriceCells(); ]
-    if (op_colorOrderPriceCells) ColorOrderPriceCells();
-
+    if (op_colorOrderPriceCells){
+     ColorOrderPriceCells();
+    } else {
+    alert("derp");
+    }
     // Resize Graph
     ResizeGraph();
 }
@@ -190,71 +193,71 @@ function ColorOrderPriceCells() {
         //c=Either ".coinformat" or "".
         //d=td nth child number.
         //e=to fixed number (4/6)
-        var buy = Cell.CellValue('a', a, '.coinformat', 2, 6);
-        var sell = Cell.CellValue('a', a, '.coinformat', 6, 6);
-        var recent = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 11, 6);
+        var buy = Cell.CellValue( 'a', a, '.coinformat', 2, 6 );
+        var sell = Cell.CellValue( 'a', a, '.coinformat', 6, 6 );
+        var recent = Cell.CellValue( '.mainwindow .mylists', a, '.coinformat', 11, 6 );
 
         //Grabbing buy/sell/recent quantity values
-        var buyqty = Cell.CellValue('a', a, '.coinformat', 1, 4);
-        var sellqty = Cell.CellValue('a', a, '.coinformat', 5, 4);
-        var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 10, 4);
+        var buyqty = Cell.CellValue( 'a', a, '.coinformat', 1, 4 );
+        var sellqty = Cell.CellValue( 'a', a, '.coinformat', 5, 4 );
+        var recentqty = Cell.CellValue( '.mainwindow .mylists', a, '.coinformat', 10, 4 );
 
         //Grabbing btc values
-        var btcbuyqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 3, 4);
-        var btcsellqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 7, 4);
-        var btcrecqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 12, 4);
+        var btcbuyqty = Cell.CellValue( '.mainwindow .mylists', a, '.coinformat', 3, 4 );
+        var btcsellqty = Cell.CellValue( '.mainwindow .mylists', a, '.coinformat', 7, 4 );
+        var btcrecqty = Cell.CellValue( '.mainwindow .mylists', a, '.coinformat', 12, 4 );
         
         //Grabbing btc cells
         //a=Location ie (.mainwindow .mylists) or (.infobox) (Where you want)
         //b=Row number (just pass through variable 'a' from loop!).
         //c=Either '.coinformat' or ''.
         //d=td nth child number.
-        var btcBuyQtyCell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 3);
-        var btcSellQtyCell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 7);
-        var btcRecQtyCell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 12);
+        var btcBuyQtyCell = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 3) ;
+        var btcSellQtyCell = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 7 );
+        var btcRecQtyCell = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 12 );
 
         //Grabbing the buy/sell/recent quantity cells
-        var buyqtycell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 1);
-        var sellqtycell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 5);
-        var recentqtycell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 10);
+        var buyqtycell = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 1 );
+        var sellqtycell = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 5 );
+        var recentqtycell = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 10 );
 
         //Grabbing the cell locations of buy/sell/recent to colour
-        var buycolour = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 2);
-        var sellcolour = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 6);
-        var recentcolour = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 11);
+        var buycolour = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 2 );
+        var sellcolour = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 6 );
+        var recentcolour = Cell.getCell( '.mainwindow .mylists', a, '.coinformat', 11 );
         //Recent value ("buy/sell") & recent cell
-        var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)').text();
-        var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)')[0];
+        var recentOrdVal = $( '.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)' ).text();
+        var recentOrdCell = $( '.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)' )[0];
 
-        var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
+        var pctDiffArr = [ 0.00, 5.00, 10.00, 25.00, 50.00, 75.00 ];
         //How about instead of manually stating the range of each coin, we calculate it?
         //Say 1btc = 0.0025ppc  then 1/0.0025 = a number we  could use..
-        var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
-        var btcQtyArr = [0.0000, 0.00100, 0.0100, 0.1000, 1.0000, 5.0000];
+        var ppcQtyArr = [ 0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000 ];
+        var btcQtyArr = [ 0.0000, 0.00100, 0.0100, 0.1000, 1.0000, 5.0000 ];
 
         //Partially finished buy colour ranking system
-        var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
-        var SellGradient = ['#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033'];
-        var RecentGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
-        var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
+        var BuyGradient = [ '#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033' ];
+        var SellGradient = [ '#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033' ];
+        var RecentGradient = [ '#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
+        var QtyGradient = [ '#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050' ];
 
         //Working
         var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
         var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
 
         //Calling function to colour the buy/sell/recent prices
-        Cell.Colours(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
-        Cell.Colours(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
+        Cell.Colours( buycolour, pctDiffbuy, pctDiffArr, BuyGradient );
+        Cell.Colours( sellcolour, pctDiffsell, pctDiffArr, SellGradient );
         //
-        Cell.Colours(buyqtycell, btcbuyqty, btcQtyArr, QtyGradient);
-        Cell.Colours(sellqtycell, btcsellqty, btcQtyArr, QtyGradient);
-        Cell.Colours(recentqtycell, btcrecqty, btcQtyArr, QtyGradient);
+        Cell.Colours( buyqtycell, btcbuyqty, btcQtyArr, QtyGradient );
+        Cell.Colours( sellqtycell, btcsellqty, btcQtyArr, QtyGradient );
+        Cell.Colours( recentqtycell, btcrecqty, btcQtyArr, QtyGradient );
         //
-        Cell.Colours(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
-        Cell.Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
-        Cell.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
+        Cell.Colours( btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient );
+        Cell.Colours( btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient );
+        Cell.Colours( btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient );
 
-        Cell.recBuySell(recentOrdVal, recentOrdCell);
+        Cell.recBuySell( recentOrdVal, recentOrdCell );
     }
 }
 
@@ -278,7 +281,7 @@ function SetSetting(key, value) {
     } else {
         alert("Browser does not support local storage!");
     }
-};
+}
 
 // Gets settings from local storage (ASSUME ALWAYS RETURNS A STRING or NUMBER)
 function GetSetting(key) {
@@ -289,7 +292,7 @@ function GetSetting(key) {
     } else {
         alert("Browser does not support local storage!");
     }
-};
+}
 
 // Gets a boolean from local storage
 function GetBoolSetting(key) {
@@ -299,7 +302,7 @@ function GetBoolSetting(key) {
         return false;
     } else {
         return false;
-    };
+    }
 
 // Check for HTML5 support for local storage?
 function supports_html5_storage() {
@@ -308,7 +311,7 @@ function supports_html5_storage() {
     } catch (e) {
         return false;
     }
-};
+}
 
 var Cell = {
 
@@ -317,8 +320,8 @@ var Cell = {
     //c=Either ".coinformat" or "".
     //d=td nth child number.
     //e=to fixed number (4/6)
-    Cellvalue: function(a, b, c, d, e) {
-        var cellvalue = $(a, 'tr:nth-child(' + b + ')', ' td' + c + ':nth-child(' + d + ')').text();
+    Cellvalue: function( a, b, c, d, e ) {
+        var cellvalue = $(a, 'tr:nth-child(' + b + ')', 'td' + c + ':nth-child(' + d + ')').text();
         cellvalue = cellvalue.replace(",", "");
         cellvalue = (parseFloat(cellvalue)).toFixed(e);
         alert(cellValue);
@@ -329,12 +332,12 @@ var Cell = {
     //b=Row number (just pass through variable "a" from loop!).
     //c=Either ".coinformat" or "".
     //d=td nth child number.
-    getCell: function(a, b, c, d) {
-        var cell = $(a, 'tr:nth-child(' + b + ')', ' td' + c + ':nth-child(' + d + ')')[0];
+    getCell: function( a, b, c, d ) {
+        var cell = $(a, 'tr:nth-child(' + b + ')', 'td' + c + ':nth-child(' + d + ')')[0];
         return cell;
     },
 
-    Colours: function(a, b, c, d) {
+    Colours: function( a, b, c, d ) {
         if ((b >= c[0]) && (b < c[1])) {
             $(a).css({ "background-color": d[0] });
             //alert(b + ' '+ c[0] + ' '+ c[1]);
@@ -358,7 +361,7 @@ var Cell = {
         }
     },
 
-    recBuySell: function(text, cell) {
+    recBuySell: function( text, cell ) {
         if (text === "Buy") {
             $(cell).css({ "background-color": "#006600" });
         } else {
@@ -366,3 +369,4 @@ var Cell = {
         }
     }
 };
+}
