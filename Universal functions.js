@@ -190,38 +190,38 @@ function ColorOrderPriceCells() {
         //c=Either ".coinformat" or "".
         //d=td nth child number.
         //e=to fixed number (4/6)
-        var buy = Cell.CellValue("a", a, ".coinformat", 2, 6);
-        var sell = Cell.CellValue("a", a, ".coinformat", 6, 6);
-        var recent = Cell.CellValue(".mainwindow .mylists", a, ".coinformat", 11, 6);
+        var buy = Cell.CellValue('a', a, '.coinformat', 2, 6);
+        var sell = Cell.CellValue('a', a, '.coinformat', 6, 6);
+        var recent = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 11, 6);
 
         //Grabbing buy/sell/recent quantity values
-        var buyqty = Cell.CellValue("a", a, ".coinformat", 1, 4);
-        var sellqty = Cell.CellValue("a", a, ".coinformat", 5, 4);
-        var recentqty = Cell.CellValue(".mainwindow .mylists", a, ".coinformat", 10, 4);
+        var buyqty = Cell.CellValue('a', a, '.coinformat', 1, 4);
+        var sellqty = Cell.CellValue('a', a, '.coinformat', 5, 4);
+        var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 10, 4);
 
         //Grabbing btc values
-        var recent = Cell.CellValue(".mainwindow .mylists", a, ".coinformat", 3, 4);
-        var recentqty = Cell.CellValue(".mainwindow .mylists", a, ".coinformat", 7, 4);
-        var recentqty = Cell.CellValue(".mainwindow .mylists", a, ".coinformat", 12, 4);
+        var recent = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 3, 4);
+        var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 7, 4);
+        var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 12, 4);
         
         //Grabbing btc cells
         //a=Location ie (.mainwindow .mylists) or (.infobox) (Where you want)
-        //b=Row number (just pass through variable "a" from loop!).
-        //c=Either ".coinformat" or "".
+        //b=Row number (just pass through variable 'a' from loop!).
+        //c=Either '.coinformat' or ''.
         //d=td nth child number.
-        var btcBuyQtyCell = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 3);
-        var btcSellQtyCell = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 7);
-        var btcRecQtyCell = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 12);
+        var btcBuyQtyCell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 3);
+        var btcSellQtyCell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 7);
+        var btcRecQtyCell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 12);
 
         //Grabbing the buy/sell/recent quantity cells
-        var buyqtycell = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 1);
-        var sellqtycell = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 5);
-        var recentqtycell = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 10);
+        var buyqtycell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 1);
+        var sellqtycell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 5);
+        var recentqtycell = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 10);
 
         //Grabbing the cell locations of buy/sell/recent to colour
-        var buycolour = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 2);
-        var sellcolour = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 6);
-        var recentcolour = Cell.getCell(".mainwindow .mylists", a, ".coinformat", 11);
+        var buycolour = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 2);
+        var sellcolour = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 6);
+        var recentcolour = Cell.getCell('.mainwindow .mylists', a, '.coinformat', 11);
         //Recent value ("buy/sell") & recent cell
         var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)').text();
         var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + a + ') td:nth-child(13)')[0];
@@ -230,7 +230,7 @@ function ColorOrderPriceCells() {
         //How about instead of manually stating the range of each coin, we calculate it?
         //Say 1btc = 0.0025ppc  then 1/0.0025 = a number we  could use..
         var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
-        var btcQtyArr = [0.000000, 0.0010000, 0.010000, 0.100000, 1.000000, 5.000000];
+        var btcQtyArr = [0.0000, 0.00100, 0.0100, 0.1000, 1.0000, 5.0000];
 
         //Partially finished buy colour ranking system
         var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
@@ -365,5 +365,4 @@ var Cell = {
             $(cell).css({ "background-color": "#B80000" });
         }
     }
-
-}
+};
