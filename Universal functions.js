@@ -200,9 +200,9 @@ function ColorOrderPriceCells() {
         var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 10, 4);
 
         //Grabbing btc values
-        var recent = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 3, 4);
-        var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 7, 4);
-        var recentqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 12, 4);
+        var btcbuyqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 3, 4);
+        var btcsellqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 7, 4);
+        var btcrecqty = Cell.CellValue('.mainwindow .mylists', a, '.coinformat', 12, 4);
         
         //Grabbing btc cells
         //a=Location ie (.mainwindow .mylists) or (.infobox) (Where you want)
@@ -276,7 +276,7 @@ function SetSetting(key, value) {
             }
         }
     } else {
-        alert("Browser does not support local storage!")
+        alert("Browser does not support local storage!");
     }
 };
 
@@ -287,19 +287,19 @@ function GetSetting(key) {
         // If it does then return the value.
         return localStorage.getItem(key);
     } else {
-        alert("Browser does not support local storage!")
+        alert("Browser does not support local storage!");
     }
-}
+};
 
 // Gets a boolean from local storage
 function GetBoolSetting(key) {
-    if (GetSetting(key) == "true")
+    if (GetSetting(key) == "true") {
         return true;
-    else if (GetSetting(key) == "false")
+    } else if (GetSetting(key) == "false") {
         return false;
-    else
+    } else {
         return false;
-}
+    };
 
 // Check for HTML5 support for local storage?
 function supports_html5_storage() {
@@ -354,7 +354,7 @@ var Cell = {
             $(a).css({ "background-color": d[5] });
             //alert(b + ' '+ c[5]);
         } else {
-            //alert('derp');
+            alert('derp');
         }
     },
 
