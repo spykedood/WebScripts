@@ -45,6 +45,14 @@ Colours: function(a, b, c, d) {
     }
 }
 
+recBuySell: function(text, cell) {
+    if (text === "Buy") {
+        $(cell).css({ "background-color": "#006600" });
+    } else {
+        $(cell).css({ "background-color": "#B80000" });
+    }
+}
+
 }
 
 Cell.Cellvalue(a, b, c, d, e);
@@ -60,3 +68,5 @@ Cell.Colours(recentqtycell, btcrecqty, btcQtyArr, QtyGradient);
 Cell.Colours(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
 Cell.Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
 Cell.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
+
+Cell.recBuySell(recentOrdVal, recentOrdCell);
