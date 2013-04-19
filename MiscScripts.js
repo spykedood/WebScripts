@@ -30,3 +30,12 @@ IF (RecentBTC < 0.01) {
 function Strike(a) {
 	$(a).css({text-decoration:line-through});
 }
+
+//Website status Script
+//Instead of an alert, we could have red/green lights if it doesnt load/ doesloads.
+function reportError(xObj){  
+	locationName = xObj.alt;  
+	alert("Links on this page may not work since the server at " + locationName + " appears to be down!");  
+}  
+
+<img src="URL" alt="URL" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
