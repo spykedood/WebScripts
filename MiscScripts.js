@@ -1,3 +1,4 @@
+//Script for profit
 var balance = //Grab input from user
 var PreProfit = (LowestSell-HighestBuy) * Balance;
 var Cost = 0;
@@ -15,4 +16,17 @@ If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
 	Alert("Worth spending" Cost "btc to raise price to" lowPostPrice "You'll earn" PostProfit);
 } else {
 	alert("Not worth it.")
+}
+
+
+//Strike through Script
+IF (RecentBTC < 0.01) {
+	//Strikes through the recent orders that are too small
+	Strike (RecentQTYCell);
+	Strike (RecentPriceCell);
+	Strike (RecentBtcCell);
+}
+
+function Strike(a) {
+	$(a).css({text-decoration:line-through});
 }
