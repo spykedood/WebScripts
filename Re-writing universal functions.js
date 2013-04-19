@@ -39,17 +39,11 @@ $(document).ready(function ()
 
     for (var i = 3; i < 23; i++) 
     {
+            //Alert for debugging, checking that the loop's actually working!
             alert('Loop start');
-            //Grabbing buy/sell/recent quantity values
-            //Temporarily keep for future purposes
-            //var buyqty = getHyperCellValue(a, 1);
-            //var sellqty = getHyperCellValue(a, 5);
-            //var recentqty = getCellValue(a, 10);
             
-            //Grabbing buy/sell/recent values
-
-            //a=Location ie (.mainwindow .mylists) or ('a').
-            //b=Row number (just pass through variable 'a' from loop!).
+            //a=Location mainwindow or right (hand side of page).
+            //b=Value text type (hyperlink or plaintext).
             //c=Either '.coinformat' or ''.
             //d=td nth child number.
             //e=to fixed number (4/6)
@@ -104,6 +98,7 @@ $(document).ready(function ()
             //Working
             var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
             var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
+            alert("Loop end!");
     }
 
                 //Calling function to colour the buy/sell/recent prices
