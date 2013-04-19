@@ -2,7 +2,7 @@ var balance = //Grab input from user
 var PreProfit = (LowestSell-HighestBuy) * Balance;
 var Cost = 0;
     for (var i = 3; i < 23; i++) {
-      If (SellQuantity < 0.x) { //sellquantity being the quantity of btc being exchanged
+    	If (SellQuantity < 0.x) { //sellquantity being the quantity of btc being exchanged
     		Cost += Sellquantity
     	} else {
     		var lowPostPrice = //This row's price
@@ -11,7 +11,7 @@ var Cost = 0;
 
   	} //end of loop
 var PostProfit = (((LowestSell-HighestBuy)*Balance) - PreProfit)-Cost;
-If (PostProfit > 0) {
+If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
 	Alert("Worth spending" Cost "btc to raise price to" lowPostPrice "You'll earn" PostProfit);
 } else {
 	alert("Not worth it.")
