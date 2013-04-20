@@ -47,38 +47,38 @@ $(document).ready(function ()
             //c=Either '.coinformat' or ''.
             //d=td nth child number.
             //e=to fixed number (4/6)
-            var buy = CellValue('main', 'text', i, 2, 6);
-            var sell = CellValue('main', 'text', i, 6, 6);
-            var recent = CellValue('main', 'text', i, 11, 6);
+            var buy = CellValue('mainwindow', 'text', i, 2);
+            var sell = CellValue('mainwindow', 'text', i, 6);
+            var recent = CellValue('mainwindow', 'text', i, 11);
 
             //Grabbing buy/sell/recent quantity values
-            var buyqty = CellValue('main', 'text', i, 1, 6);
-            var sellqty = CellValue('main', 'text', i, 5, 6);
-            var recentqty = CellValue('main', 'text', i, 10, 6);
+            var buyqty = CellValue('mainwindow', 'text', i, 1);
+            var sellqty = CellValue('mainwindow', 'text', i, 5);
+            var recentqty = CellValue('mainwindow', 'text', i, 10);
 
             //Grabbing btc values
-            var btcbuyqty = CellValue('main', 'text', i, 3, 6);
-            var btcsellqty = CellValue('main', 'text', i, 7, 6);
-            var btcrecqty = CellValue('main', 'text', i, 12, 6);
+            var btcbuyqty = CellValue('mainwindow', 'text', i, 3);
+            var btcsellqty = CellValue('mainwindow', 'text', i, 7);
+            var btcrecqty = CellValue('mainwindow', 'text', i, 12);
             
             //Grabbing btc cells
             //a=Location ie (.mainwindow .mylists) or (.infobox) (Where you want)
             //b=Row number (just pass through variable 'a' from loop!).
             //c=Either '.coinformat' or ''.
             //d=td nth child number.
-            var btcBuyQtyCell = getCell('main', 'text', i, 3);
-            var btcSellQtyCell = getCell('main', 'text', i, 7);
-            var btcRecQtyCell = getCell('main', 'text', i, 12);
+            var btcBuyQtyCell = getCell('mainwindow', 'text', i, 3);
+            var btcSellQtyCell = getCell('mainwindow', 'text', i, 7);
+            var btcRecQtyCell = getCell('mainwindow', 'text', i, 12);
 
             //Grabbing the buy/sell/recent quantity cells
-            var buyqtycell = getCell('main', 'text', i, 1);
-            var sellqtycell = getCell('main', 'text', i, 5);
-            var recentqtycell = getCell('main', 'text', i, 10);
+            var buyqtycell = getCell('mainwindow', 'text', i, 1);
+            var sellqtycell = getCell('mainwindow', 'text', i, 5);
+            var recentqtycell = getCell('mainwindow', 'text', i, 10);
 
             //Grabbing the cell locations of buy/sell/recent to colour
-            var buycolour = getCell('main', 'text', i, 2);
-            var sellcolour = getCell('main', 'text', i, 6);
-            var recentcolour = getCell('main', 'text', i, 11);
+            var buycolour = getCell('mainwindow', 'text', i, 2);
+            var sellcolour = getCell('mainwindow', 'text', i, 6);
+            var recentcolour = getCell('mainwindow', 'text', i, 11);
             //Recent value ('buy/sell') & recent cell
             var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
             var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)')[0];
@@ -122,17 +122,17 @@ $(document).ready(function ()
 //c=Either '.coinformat' or ''.
 //d=td nth child number.
 //e=to fixed number (4/6)
-function CellValue(a, b, c, d, e) {
+function CellValue(a, b, c, d) {
     var cellvalue;
     if (a === 'mainwindow') {
-        function derp(b, c, d, e);
+        derp(b, c, d);
     } else if (a === 'right') {
-        function derp(b, c, d, e);
+        derp(b, c, d);
     } else {
         alert("Value location derp!");
     }
 
-    function derp(b, c, d, e){
+    function derp(b, c, d){
         if (b === 'link') {
             cellvalue = $('a', 'tr:nth-child(' + c + ') td.coinformat:nth-child(' + d + ')').text();
         } else if (b === 'text') {
@@ -143,7 +143,7 @@ function CellValue(a, b, c, d, e) {
     }
 
     cellvalue = cellvalue.replace(',', '');
-    cellvalue = (parseFloat(cellvalue)).toFixed(e);
+    cellvalue = (parseFloat(cellvalue)).toFixed(6);
     //alert(cellvalue);
     return cellvalue;
 }
@@ -153,11 +153,11 @@ function CellValue(a, b, c, d, e) {
 //c=Either '.coinformat' or ''.
 //d=td nth child number.
 function getCell(a, b, c, d) {
-    var cellvalue;
+    var cellvalue = 0;
     if (a === 'mainwindow') {
-        function derp(b, c, d);
+        derp(b, c, d);
     } else if (a === 'right') {
-        function derp(b, c, d);
+        derp(b, c, d);
     } else {
         alert("Value location derp!");
     }
