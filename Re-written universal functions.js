@@ -85,6 +85,8 @@ $(document).ready(function ()
             var buycolour = getCell('mainwindow', i, 2);
             var sellcolour = getCell('mainwindow', i, 6);
             var recentcolour = getCell('mainwindow', i, 11);
+            var recTime = getCell('mainwindow', i, 9);
+
 
             //Recent value ('buy/sell') & recent cell
             var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
@@ -111,7 +113,7 @@ $(document).ready(function ()
             //alert("Loop end!");
     
 
-                    //Calling function to colour the buy/sell/recent prices
+            //Calling function to colour the buy/sell/recent prices
             Colours(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
             Colours(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
             //
@@ -122,8 +124,18 @@ $(document).ready(function ()
             Colours(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
             Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
             Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
-
+            //
             recBuySell(recentOrdVal, recentOrdCell);
+
+            //Strike through Script
+            if (btcrecqty < 0.010000) {
+                //Strikes through the recent orders that are too small
+                Strike (recentqtycell);
+                Strike (btcRecQtyCell);
+                Strike (recentcolour);
+                Strike (recentOrdCell);
+                //Strike (recTime);
+            }
     }
 });
 
@@ -157,6 +169,10 @@ function CellValue(a, b, c, d) {
     cellvalue = (parseFloat(cellvalue)).toFixed(6);
     //alert(cellvalue);
     return cellvalue;
+}
+
+function Strike(a) {
+    $(a).css('textDecoration', 'line-through'); 
 }
 
 //a=Location ie (.mainwindow .mylists) or ('a').
