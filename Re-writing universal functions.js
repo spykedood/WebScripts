@@ -156,7 +156,6 @@ function CellValue(a, b, c, d) {
 //c=Either '.coinformat' or ''.
 //d=td nth child number.
 function getCell(a, b, c, d) {
-    var cellvalue = 0;
     if (a === 'mainwindow') {
         derp(b, c, d);
     } else if (a === 'right') {
@@ -165,16 +164,15 @@ function getCell(a, b, c, d) {
         alert("Value location derp!");
     }
 
-
-    //AM I DECLARING CELL PROPERLY?!?!?!?! WAT IS THIS?! AAHH!
-     var cell = 0;
-    //SEE THAT THERE ABOVE THIS AND BELOW THAT?! WUT!
-
     function derp(b, c, d){    
         if (b === 'link') {
+            var cell;    
             cell = $('.mainwindow .mylists tr:nth-child(' + c + ')', 'td:nth-child(' + d + ')')[0];
+            alert(cell);
         } else if (b === 'text') {
+            var cell;
             cell = $('.mainwindow .mylists tr:nth-child(' + c + ')', 'td.coinformat:nth-child(' + d + ')')[0];
+            alert(cell);
         }
     }
     return cell;
