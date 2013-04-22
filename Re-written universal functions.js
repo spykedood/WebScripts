@@ -17,7 +17,7 @@ In no respect shall DerpCORP incur any liability for any damages, including, but
 */
 
 // GLOBAL VARS
-var highestbuy = 0, lowestsell = 0, avg = 0;
+var highestbuy = 0, lowestsell = 0, avg = 0, buysell = 0;
 
 function init() {
     // All initialization goes here.
@@ -49,12 +49,8 @@ $(document).ready(function ()
             //b=Value text type (hyperlink or plaintext).
             //c=Either '.coinformat' or ''.
             //d=td nth child number.
-            //e=to fixed number (4/6)
             var buy = CellValue('mainwindow', 'link', i, 2);
-            //alert(buy);
             var sell = CellValue('mainwindow', 'link', i, 6);
-            //alert(sell);
-            //alert(avg);
             var recent = CellValue('mainwindow', 'text', i, 11);
 
             //Grabbing buy/sell/recent quantity values
@@ -87,21 +83,22 @@ $(document).ready(function ()
             var recentcolour = getCell('mainwindow', i, 11);
             var recTime = getCell('mainwindow', i, 9);
 
+            //Grabbing the 3 top cells
+            var buytop = getCell('maintop', 1, 1);
+            var selltop = getCell('maintop', 1, 2);
+            var rectop = getCell('maintop', 1, 3);
 
             //Recent value ('buy/sell') & recent cell
             var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
             var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)')[0];
 
             var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
-            //How about instead of manually stating the range of each coin, we calculate it?
-            //Say 1btc = 0.0025ppc  then 1/0.0025 = a number we  could use..
-            //var ppcQtyArr = [0.0000, 250.0000, 500.0000, 1000.0000, 3500.0000, 8000.0000];
             var btcQtyArr = [0.000000, 0.0010000, 0.010000, 0.100000, 1.000000, 5.000000];
 
             //Partially finished buy colour ranking system
             var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
             var SellGradient = ['#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033'];
-            //var RecentGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
+            var GorGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
             var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
 
             //Working PERCENT difference!
@@ -116,26 +113,22 @@ $(document).ready(function ()
             //Calling function to colour the buy/sell/recent prices
             Colours(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
             Colours(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
-            //
+            //---//
             Colours(buyqtycell, btcbuyqty, btcQtyArr, QtyGradient);
             Colours(sellqtycell, btcsellqty, btcQtyArr, QtyGradient);
             Colours(recentqtycell, btcrecqty, btcQtyArr, QtyGradient);
-            //
+            //---//
             Colours(btcSellQtyCell, btcsellqty, btcQtyArr, QtyGradient);
             Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
             Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
-            //
-            recBuySell(recentOrdVal, recentOrdCell);
 
-            //Strike through Script
-            if (btcrecqty < 0.010000) {
-                //Strikes through the recent orders that are too small
-                Strike (recentqtycell);
-                Strike (btcRecQtyCell);
-                Strike (recentcolour);
-                Strike (recentOrdCell);
-                //Strike (recTime);
-            }
+            //Colouring in recent "buy/sell"
+            recBuySell(recentOrdVal, recentOrdCell, i, rectop);
+
+            //Muh-Fuggan strike throughs!
+            Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
+            Strike(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour);
+            Strike(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour);
     }
 });
 
@@ -171,8 +164,14 @@ function CellValue(a, b, c, d) {
     return cellvalue;
 }
 
-function Strike(a) {
-    $(a).css('textDecoration', 'line-through'); 
+function Strike(a, b, c, d) {
+            //Strike through Script
+            if (a < 0.020000) {
+                //Strikes through the recent orders that are too small
+                $(b).css('textDecoration', 'line-through');
+                $(c).css('textDecoration', 'line-through'); 
+                $(d).css('textDecoration', 'line-through'); 
+            }
 }
 
 //a=Location ie (.mainwindow .mylists) or ('a').
@@ -188,6 +187,9 @@ function getCell(a, b, c) {
             //alert(cell);
     } else if (a === 'right') {
             cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
+            //alert(cell);
+    } else if (a === 'maintop') {
+            cell = $('.mainwindow .mylists tr:nth-child(' + b + ') th:nth-child(' + c + ')')[0];
             //alert(cell);
     } else {
         alert("Value location derp!");
@@ -219,10 +221,28 @@ function Colours(a, b, c, d) {
     }
 }
 
-function recBuySell(text, cell) {
-    if (text === 'Buy') {
-        $(cell).css({ 'background-color': '#006600' });
-    } else {
-        $(cell).css({ 'background-color': '#B80000' });
-    }
+function recBuySell(a, b, c, d) 
+    {
+        if (a === 'Buy') {
+            $(b).css({ 'background-color': '#006600' });
+            buysell += 1;
+        } else if (a === 'Sell') {
+            $(b).css({ 'background-color': '#B80000' });
+            buysell -= 1;
+        } 
+
+        if (c === 23) {
+            if (buysell > 10){
+                $(d).css({ 'background-color': '#006600' });
+                alert("green");
+            } else if (buysell === 10) {
+                $(d).css({ 'background-color': '#FF9900' });
+                alert("orange");
+            } else {
+                $(d).css({ 'background-color': '#B80000' });
+                alert("red");
+            } 
+        } else if (c < 23) {
+            //what is this?!
+        }
 }
