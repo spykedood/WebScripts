@@ -139,7 +139,7 @@ function CellValue(a, b, c, d) {
         if (b === 'link') {
             cellvalue = $('a', 'tr:nth-child(' + c + ') td.coinformat:nth-child(' + d + ')').text();
         } else if (b === 'text') {
-            cellvalue = $('.mainwindow .mylists tr:nth-child(' + c+ ') td.coinformat:nth-child(' + d + ')').text();
+            cellvalue = $('.mainwindow .mylists tr:nth-child(' + c + ') td.coinformat:nth-child(' + d + ')').text();
         } else {
             alert("Value text type derp! text or hyperlink!");
         }
@@ -174,8 +174,8 @@ function getCell(a, b, c, d) {
             cell = $('.mainwindow .mylists tr:nth-child(' + c + ')', 'td.coinformat:nth-child(' + d + ')')[0];
             alert(cell);
         }
-    }
     return cell;
+    }
 }
 
 function Colours(a, b, c, d) {
