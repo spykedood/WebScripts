@@ -66,19 +66,19 @@ $(document).ready(function ()
             //b=Row number (just pass through variable 'a' from loop!).
             //c=Either '.coinformat' or ''.
             //d=td nth child number.
-            var btcBuyQtyCell = getCell('mainwindow', 'text', i, 3);
-            var btcSellQtyCell = getCell('mainwindow', 'text', i, 7);
-            var btcRecQtyCell = getCell('mainwindow', 'text', i, 12);
+            var btcBuyQtyCell = getCell('mainwindow', i, 3);
+            var btcSellQtyCell = getCell('mainwindow', i, 7);
+            var btcRecQtyCell = getCell('mainwindow', i, 12);
 
             //Grabbing the buy/sell/recent quantity cells
-            var buyqtycell = getCell('mainwindow', 'text', i, 1);
-            var sellqtycell = getCell('mainwindow', 'text', i, 5);
-            var recentqtycell = getCell('mainwindow', 'text', i, 10);
+            var buyqtycell = getCell('mainwindow', i, 1);
+            var sellqtycell = getCell('mainwindow', i, 5);
+            var recentqtycell = getCell('mainwindow', i, 10);
 
             //Grabbing the cell locations of buy/sell/recent to colour
-            var buycolour = getCell('mainwindow', 'text', i, 2);
-            var sellcolour = getCell('mainwindow', 'text', i, 6);
-            var recentcolour = getCell('mainwindow', 'text', i, 11);
+            var buycolour = getCell('mainwindow', i, 2);
+            var sellcolour = getCell('mainwindow', i, 6);
+            var recentcolour = getCell('mainwindow', i, 11);
 
             //Recent value ('buy/sell') & recent cell
             var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
@@ -93,7 +93,7 @@ $(document).ready(function ()
             //Partially finished buy colour ranking system
             var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
             var SellGradient = ['#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033'];
-            var RecentGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
+            //var RecentGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
             var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
 
             //Working
@@ -155,47 +155,37 @@ function CellValue(a, b, c, d) {
 //b=Row number (just pass through variable 'a' from loop!).
 //c=Either '.coinformat' or ''.
 //d=td nth child number.
-function getCell(a, b, c, d) {
+function getCell(a, b, c) {
     if (a === 'mainwindow') {
-        derp(b, c, d);
+            var cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
+            //alert(cell);
     } else if (a === 'right') {
-        derp(b, c, d);
+            var cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
+            //alert(cell);
     } else {
         alert("Value location derp!");
     }
-
-    function derp(b, c, d){    
-        if (b === 'link') {
-            var cell;    
-            cell = $('.mainwindow .mylists tr:nth-child(' + c + ')', 'td:nth-child(' + d + ')')[0];
-            alert(cell);
-        } else if (b === 'text') {
-            var cell;
-            cell = $('.mainwindow .mylists tr:nth-child(' + c + ')', 'td.coinformat:nth-child(' + d + ')')[0];
-            alert(cell);
-        }
     return cell;
-    }
 }
 
 function Colours(a, b, c, d) {
     if ((b >= c[0]) && (b < c[1])) {
-        $(a).css({ 'background-color': d[0] });
+        $(a).css( 'background-color': d[0] );
             alert(b + ' '+ c[0] + ' '+ c[1]);
     } else if ((b >= c[1]) && (b < c[2])) {
-        $(a).css({ 'background-color': d[1] });
+        $(a).css( 'background-color': d[1] );
             alert(b + ' '+ c[1] + ' '+ c[2]);
     } else if ((b >= c[2]) && (b < c[3])) {
-        $(a).css({ 'background-color': d[2] });
+        $(a).css( 'background-color': d[2] );
             alert(b + ' '+ c[2] + ' '+ c[3]);
     } else if ((b >= c[3]) && (b < c[4])) {
-        $(a).css({ 'background-color': d[3] });
+        $(a).css( 'background-color': d[3] );
             alert(b + ' '+ c[3] + ' '+ c[4]);
     } else if ((b >= c[4]) && (b < c[5])) {
-        $(a).css({ 'background-color': d[4] });
+        $(a).css( 'background-color': d[4] );
             alert(b + ' '+ c[4] + ' '+ c[5]);
     } else if (b >= c[5]) {
-        $(a).css({ 'background-color': d[5] });
+        $(a).css( 'background-color': d[5] );
             alert(b + ' '+ c[5]);
     } else {
         alert('derp');
