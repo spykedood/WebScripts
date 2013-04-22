@@ -1,30 +1,33 @@
 // ==UserScript==
-// @name        Isolated buy & sell price function
+// @name        Isolated buy & sell price function (Working)
 // @namespace   Ricky
 // @match       https://vircurex.com/orders*
 // @match       https://vircurex.com/welcome/index?alt=*
 // @include     https://vircurex.com/welcome/index?alt=*
 // @include     https://vircurex.com/orders?alt=*
-// @version     0.15
+// @version     0.16
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
 // @grant none
 // ==/UserScript==
 
 /*
-NASA is furnishing this item "as is". NASA does not provide any warranty of the item whatsoever, whether express, implied, or statutory, including, but not limited to, any warranty of merchantability or fitness for a particular purpose or any warranty that the contents of the item will be error-free.
-In no respect shall NASA incur any liability for any damages, including, but limited to, direct, indirect, special, or consequential damages arising out of, resulting from, or any way connected to the use of the item, whether or not based upon warranty, contract, tort, or otherwise; whether or not injury was sustained by persons or property or otherwise; and whether or not loss was sustained from, or arose out of, the results of, the item, or any services that may be provided by NASA.
+DerpCORP is furnishing this item "as is". DerpCORP does not provide any warranty of the item whatsoever, whether express, implied, or statutory, including, but not limited to, any warranty of merchantability or fitness for a particular purpose or any warranty that the contents of the item will be error-free.
+In no respect shall DerpCORP incur any liability for any damages, including, but limited to, direct, indirect, special, or consequential damages arising out of, resulting from, or any way connected to the use of the item, whether or not based upon warranty, contract, tort, or otherwise; whether or not injury was sustained by persons or property or otherwise; and whether or not loss was sustained from, or arose out of, the results of, the item, or any services that may be provided by DerpCORP.
 */
+
+// GLOBAL VARS
+var highestbuy = 0, lowestsell = 0, avg = 0;
 
 function init() {
     // All initialization goes here.
-    var highestbuy = $('a', 'tr:nth-child(3) td.coinformat:nth-child(2)').text();
+    highestbuy = $('a', 'tr:nth-child(3) td.coinformat:nth-child(2)').text();
     highestbuy = highestbuy.replace(',', '');
         //alert(highestbuy);
-    var lowestsell = $('a', 'tr:nth-child(3) td.coinformat:nth-child(6)').text();
+    lowestsell = $('a', 'tr:nth-child(3) td.coinformat:nth-child(6)').text();
     lowestsell = lowestsell.replace(',', '');
         //alert(lowestsell);
-    var avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
+    avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
         //alert(avg);
 }
 
@@ -40,7 +43,7 @@ $(document).ready(function ()
     for (var i = 3; i < 23; i++) 
     {
             //Alert for debugging, checking that the loop's actually working!
-            alert('Loop start');
+            //alert('Loop start');
             
             //a=Location mainwindow or right (hand side of page).
             //b=Value text type (hyperlink or plaintext).
@@ -48,7 +51,10 @@ $(document).ready(function ()
             //d=td nth child number.
             //e=to fixed number (4/6)
             var buy = CellValue('mainwindow', 'link', i, 2);
+            //alert(buy);
             var sell = CellValue('mainwindow', 'link', i, 6);
+            //alert(sell);
+            //alert(avg);
             var recent = CellValue('mainwindow', 'text', i, 11);
 
             //Grabbing buy/sell/recent quantity values
@@ -96,11 +102,13 @@ $(document).ready(function ()
             //var RecentGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
             var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
 
-            //Working
+            //Working PERCENT difference!
             var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
+            //alert(pctDiffbuy);
             var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
+            //alert(pctDiffsell);
 
-            alert("Loop end!");
+            //alert("Loop end!");
     
 
                     //Calling function to colour the buy/sell/recent prices
