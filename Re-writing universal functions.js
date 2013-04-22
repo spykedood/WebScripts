@@ -47,13 +47,13 @@ $(document).ready(function ()
             //c=Either '.coinformat' or ''.
             //d=td nth child number.
             //e=to fixed number (4/6)
-            var buy = CellValue('mainwindow', 'text', i, 2);
-            var sell = CellValue('mainwindow', 'text', i, 6);
+            var buy = CellValue('mainwindow', 'link', i, 2);
+            var sell = CellValue('mainwindow', 'link', i, 6);
             var recent = CellValue('mainwindow', 'text', i, 11);
 
             //Grabbing buy/sell/recent quantity values
-            var buyqty = CellValue('mainwindow', 'text', i, 1);
-            var sellqty = CellValue('mainwindow', 'text', i, 5);
+            var buyqty = CellValue('mainwindow', 'link', i, 1);
+            var sellqty = CellValue('mainwindow', 'link', i, 5);
             var recentqty = CellValue('mainwindow', 'text', i, 10);
 
             //Grabbing btc values
@@ -156,11 +156,14 @@ function CellValue(a, b, c, d) {
 //c=Either '.coinformat' or ''.
 //d=td nth child number.
 function getCell(a, b, c) {
+    var cell = 'test';
+    //var cell = 0;
+    //var cell;
     if (a === 'mainwindow') {
-            var cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
+            cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
             //alert(cell);
     } else if (a === 'right') {
-            var cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
+            cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
             //alert(cell);
     } else {
         alert("Value location derp!");
@@ -170,23 +173,23 @@ function getCell(a, b, c) {
 
 function Colours(a, b, c, d) {
     if ((b >= c[0]) && (b < c[1])) {
-        $(a).css( 'background-color': d[0] );
-            alert(b + ' '+ c[0] + ' '+ c[1]);
+        $(a).css({ 'background-color': d[0] });
+            //alert(b + ' '+ c[0] + ' '+ c[1]);
     } else if ((b >= c[1]) && (b < c[2])) {
-        $(a).css( 'background-color': d[1] );
-            alert(b + ' '+ c[1] + ' '+ c[2]);
+        $(a).css({ 'background-color': d[1] });
+            //alert(b + ' '+ c[1] + ' '+ c[2]);
     } else if ((b >= c[2]) && (b < c[3])) {
-        $(a).css( 'background-color': d[2] );
-            alert(b + ' '+ c[2] + ' '+ c[3]);
+        $(a).css({ 'background-color': d[2] });
+            //alert(b + ' '+ c[2] + ' '+ c[3]);
     } else if ((b >= c[3]) && (b < c[4])) {
-        $(a).css( 'background-color': d[3] );
-            alert(b + ' '+ c[3] + ' '+ c[4]);
+        $(a).css({ 'background-color': d[3] });
+            //alert(b + ' '+ c[3] + ' '+ c[4]);
     } else if ((b >= c[4]) && (b < c[5])) {
-        $(a).css( 'background-color': d[4] );
-            alert(b + ' '+ c[4] + ' '+ c[5]);
+        $(a).css({ 'background-color': d[4] });
+            //alert(b + ' '+ c[4] + ' '+ c[5]);
     } else if (b >= c[5]) {
-        $(a).css( 'background-color': d[5] );
-            alert(b + ' '+ c[5]);
+        $(a).css({ 'background-color': d[5] });
+            //alert(b + ' '+ c[5]);
     } else {
         alert('derp');
     }
