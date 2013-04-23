@@ -84,9 +84,9 @@ $(document).ready(function ()
             var recTime = getCell('mainwindow', i, 9);
 
             //Grabbing the 3 top cells
-            var buytop = getCell('maintop', 1, 1);
-            var selltop = getCell('maintop', 1, 2);
-            var rectop = getCell('maintop', 1, 3);
+            //var buytop = getCell('maintop', 1, 1);
+            //var selltop = getCell('maintop', 1, 2);
+            //var rectop = getCell('maintop', 1, 3);
 
             //Recent value ('buy/sell') & recent cell
             var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
@@ -123,7 +123,7 @@ $(document).ready(function ()
             Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
             //Colouring in recent "buy/sell"
-            recBuySell(recentOrdVal, recentOrdCell, i, rectop);
+            recBuySell(recentOrdVal, recentOrdCell);
 
             //Muh-Fuggan strike throughs!
             Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
@@ -221,7 +221,7 @@ function Colours(a, b, c, d) {
     }
 }
 
-function recBuySell(a, b, c, d) 
+function recBuySell(a, b) 
     {
         if (a === 'Buy') {
             $(b).css({ 'background-color': '#006600' });
@@ -230,19 +230,4 @@ function recBuySell(a, b, c, d)
             $(b).css({ 'background-color': '#B80000' });
             buysell -= 1;
         } 
-
-        if (c === 23) {
-            if (buysell > 10){
-                $(d).css({ 'background-color': '#006600' });
-                alert("green");
-            } else if (buysell === 10) {
-                $(d).css({ 'background-color': '#FF9900' });
-                alert("orange");
-            } else {
-                $(d).css({ 'background-color': '#B80000' });
-                alert("red");
-            } 
-        } else if (c < 23) {
-            //what is this?!
-        }
 }
