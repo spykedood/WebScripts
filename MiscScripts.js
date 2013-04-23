@@ -19,18 +19,6 @@ If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
 }
 
 
-//Strike through Script
-IF (RecentBTC < 0.01) {
-	//Strikes through the recent orders that are too small
-	Strike (RecentQTYCell);
-	Strike (RecentPriceCell);
-	Strike (RecentBtcCell);
-}
-
-function Strike(a) {
-	$(a).css({text-decoration:line-through});
-}
-
 //Website status Script
 //Instead of an alert, we could have red/green lights if it doesnt load/ doesloads.
 function reportError(xObj){  
