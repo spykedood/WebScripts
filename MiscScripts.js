@@ -90,23 +90,9 @@ PPCProfit = ((PPCBalance * AvgPPC)-(PPCBalance * InitPPC)).toFixed(6);
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
 $('#balancebox').append('</br><table class=\"mylists\" style="font-size: 70%"><tr><td colspan=5><strong>Profit</strong></td></tr><tr><th></th><th>Balance</th><th>Currently</th><th>Bought @</th><th>Profit</th></tr><tr><td colspan=\"5\"></td></tr><tr><td>BTC</td><td class=\"BTCBalance\">64.48127185</td><td class=\"Current1\">TEST</td></tr><tr class=\"alt\"><td>PPC</td><td class=\"PPCBalance\">19,900.00000001</td><td class=\"Current2\">' + AvgPPC + '</td><td class=\"BoughtAt\">' + InitPPC + '</td><td class=\"Profit2\">' + PPCProfit + '</td></tr><tr><td>TRC</td><td class=\"TRCBalance\">4,975.00000000</td><td class=\"Current3\">' + AvgTRC + '</td><td class=\"BoughtAt3\">' + InitTRC + '</td><td class=\"Profit3\">' + TRCProfit + '</td></tr></table>');
 
-if(TRCProfit > 0) {
-  $(".Profit3").css({"background-color": "green"});
-  } else if (TRCProfit === 0){
-  $(".Profit3").css({"background-color": "orange"});
-  } else {
-  $(".Profit3").css({"background-color": "red"});
-  }
-  
-if(PPCProfit > 0) {
-  $(".Profit2").css({"background-color": "green"});
-  } else if (PPCProfit === 0){
-  $(".Profit2").css({"background-color": "orange"});
-  } else {
-  $(".Profit2").css({"background-color": "red"});
-  }
-
 //Above made into a function
+//Could even probably merge this with the colouring of recent buy/sell.
+//Both use green/orange/red.
 function balancecolour(a,b) {
 if(a > 0) {
   $(b).css({"background-color": "green"});
