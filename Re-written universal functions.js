@@ -168,7 +168,7 @@ var Vircurex = {
 
     Strike: function(a, b, c, d) {
                 //Strike through Script
-                if (a < 0.020000) {
+                if (a < 0.015000) {
                     //Strikes through the recent orders that are too small
                     $(b).css('textDecoration', 'line-through');
                     $(c).css('textDecoration', 'line-through'); 
