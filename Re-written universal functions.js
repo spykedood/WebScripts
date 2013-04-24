@@ -219,8 +219,6 @@ var Vircurex = {
         } else if (b >= c[5]) {
             $(a).css({ 'background-color': d[5] });
                 //alert(b + ' '+ c[5]);
-        } else {
-            alert('Well something broke..');
         }
     },
 
