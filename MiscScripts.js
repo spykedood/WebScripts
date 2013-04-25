@@ -55,36 +55,41 @@ var InitTRC = 0.00105;
 var TRCProfit = 0;
 var TRCBalance = 0;
 
-//Working code!
-//Alerts for debugging
-PPCHigh = $("#exinfobox .mylists tr:nth-child(9) td.coinformat:nth-child(2)").text();
-PPCHigh = PPCHigh.replace(/,/g, '');
-//alert(PPCHigh);
-PPCLow = $("#exinfobox .mylists tr:nth-child(9) td.coinformat:nth-child(3)").text();
-PPCLow = PPCLow.replace(/,/g, '');
-//alert(PPCLow);
-AvgPPC = ((parseFloat(PPCHigh) + parseFloat(PPCLow)) / 2).toFixed(6);
-//alert(AvgPPC)
+AvgPPC = AvgVal(9);
+AvgTRC = AvgVal(11)
 
-//Working code!
-//Alerts for debugging
-TRCHigh = $("#exinfobox .mylists tr:nth-child(11) td.coinformat:nth-child(2)").text();
-TRCHigh = TRCHigh.replace(/,/g, '');
+TRCBalance = balance(6);
+PPCBalance = balance(9);
+
+function balance(tr) {
+  var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
+  return Balance;
+}
+
+function AvgVal(tr) {
+High = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
+High = Cleanup(High);
 //alert(TRCHigh);
-TRCLow = $("#exinfobox .mylists tr:nth-child(11) td.coinformat:nth-child(3)").text();
-TRCLow = TRCLow.replace(/,/g, '');
+Low = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(3)").text();
+Low = Cleanup(Low);
 //alert(TRCLow);
-AvgTRC = ((parseFloat(TRCHigh) + parseFloat(TRCLow)) / 2).toFixed(6);
-//alert(AvgTRC);
+AvgVal = (((High) + (Low)) / 2).toFixed(6);
+return AvgVal;
+}
 
-TRCBalance = $("#balancebox .mylists tr:nth-child(6) td.coinformat:nth-child(2)").text();
-TRCBalance = TRCBalance.replace(/,/g, '');
-//PPCBalance = $("#balancebox .mylists tr:nth-child(9) td.coinformat:nth-child(2)").text();
-PPCBalance = $("#balancebox .mylists tr:nth-child(5) td.coinformat:nth-child(2)").text();
-PPCBalance = PPCBalance.replace(/,/g, '');
+function CleanUp(Value){
+  Value = Value.replace(/,/g, '');
+  parseFloat(Value);
+  return Value;
+}
 
-TRCProfit = ((TRCBalance * AvgTRC)-(TRCBalance * InitTRC)).toFixed(6);
-PPCProfit = ((PPCBalance * AvgPPC)-(PPCBalance * InitPPC)).toFixed(6);
+function Profit(Balance, AvgCal, InitCoinVal){
+  Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
+}
+
+//The above function will replace the following two lines.
+//TRCProfit = ((TRCBalance * AvgTRC)-(TRCBalance * InitTRC)).toFixed(6);
+//PPCProfit = ((PPCBalance * AvgPPC)-(PPCBalance * InitPPC)).toFixed(6);
 
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
