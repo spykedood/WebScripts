@@ -167,8 +167,7 @@ if(a > 0) {
       //ETC... for all types of currency
     }
 
-    //currencyType [''] is to detect end of balance box & provide a breakout.
-    var CurrencyType = ['', 'PPC', 'TRC', 'LTC', 'DVC', 'BTC', 'NMC', 'IXC', 'USD', 'EUR'];
+    var CurrencyType = ['PPC', 'TRC', 'LTC', 'DVC', 'BTC', 'NMC', 'IXC', 'USD', 'EUR'];
 
     function containsType(Alltypes, CurrencyType, x) {
         if(Alltypes[x] !Contains CurrencyType[x]){
@@ -177,8 +176,16 @@ if(a > 0) {
     }
 
     function BalanceType(CurrencyType, x) {
-        if((BalanceBox.balanceType(x))===CurrencyType[]) {
-          // WHERE CHECK CODE GOES! //
-          Break;
+      for (var z = 0; z < 8; z++) 
+      {
+        if((BalanceBox.balanceType(x))!="") {
+          if ((BalanceBox.balanceType(x))===CurrencyType[z]) {
+            //
+              ((BalanceBox.balanceType(x)+Balance) = Balancebox.balance(x);        
+            //
+          }
+        } else {
+          break;
         }
+      }
     }
