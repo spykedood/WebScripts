@@ -125,31 +125,60 @@ if(a > 0) {
 //There's probably a better way of doing this..meh.
     for (var x = 2; x < 6; x++) 
     {
-      if((BalanceBox.balanceType(x))==="") {
-        Break;
-      } else if ((BalanceBox.balanceType(x))==="PPC") {
-          //AvgPPC = Balancebox.AvgVal(11)
-          PPCBalance = Balancebox.balance(x);        
-      } else if ((BalanceBox.balanceType(x))==="TRC") {
-          //AvgTRC = Balancebox.AvgVal(11)
-          TRCBalance = Balancebox.balance(x);
-      } else if ((BalanceBox.balanceType(x))==="LTC") {
-          //AvgLTC = Balancebox.AvgVal(11)
-          LTCBalance = Balancebox.balance(x);        
-      } else if ((BalanceBox.balanceType(x))==="EUR") {
-          //AvgEUR = Balancebox.AvgVal(11)
-          EURBalance = Balancebox.balance(x);        
-      } else if ((BalanceBox.balanceType(x))==="USD") {
-          //AvgUSD = Balancebox.AvgVal(11)
-          USDBalance = Balancebox.balance(x);        
-      } else if ((BalanceBox.balanceType(x))==="NMC") {
-          //AvgNMC = Balancebox.AvgVal(11)
-          NMCBalance = Balancebox.balance(x);        
-      } else if ((BalanceBox.balanceType(x))==="DVC") {
-          //AvgDVC = Balancebox.AvgVal(11)
-          DVCBalance = Balancebox.balance(x);        
-      } else if ((BalanceBox.balanceType(x))==="IXC") {
-          //AvgIXC = Balancebox.AvgVal(11)
-          IXCBalance = Balancebox.balance(x);        
-      }
+        if((BalanceBox.balanceType(x))==="") {
+          // WHERE CHECK CODE GOES! //
+          Break;
+        } else if ((BalanceBox.balanceType(x))==="PPC") {
+            //AvgPPC = Balancebox.AvgVal(11);
+            PPCBalance = Balancebox.balance(x);        
+        } else if ((BalanceBox.balanceType(x))==="TRC") {
+            //AvgTRC = Balancebox.AvgVal(11);
+            TRCBalance = Balancebox.balance(x);
+        } else if ((BalanceBox.balanceType(x))==="LTC") {
+            //AvgLTC = Balancebox.AvgVal(11);
+            LTCBalance = Balancebox.balance(x);        
+        } else if ((BalanceBox.balanceType(x))==="EUR") {
+            //AvgEUR = Balancebox.AvgVal(11);
+            EURBalance = Balancebox.balance(x);        
+        } else if ((BalanceBox.balanceType(x))==="USD") {
+            //AvgUSD = Balancebox.AvgVal(11);
+            USDBalance = Balancebox.balance(x);        
+        } else if ((BalanceBox.balanceType(x))==="NMC") {
+            //AvgNMC = Balancebox.AvgVal(11);
+            NMCBalance = Balancebox.balance(x);        
+        } else if ((BalanceBox.balanceType(x))==="DVC") {
+            //AvgDVC = Balancebox.AvgVal(11);
+            DVCBalance = Balancebox.balance(x);        
+        } else if ((BalanceBox.balanceType(x))==="IXC") {
+            //AvgIXC = Balancebox.AvgVal(11);
+            IXCBalance = Balancebox.balance(x);        
+        }
+
+      //Read 
+    }
+
+    //NOTE THE FOLLOWING CODE IS PSEUDOCODE!
+    //The following would be put in line 129:
+    if(AllTypes[] !Contains "Type") {
+      //Offer places to get this "Type" of coin for free!
+      //Refferals etc
+      //Subtle links etc.
+    } else if (AllTypes[] !Contains "Type2") {
+      //ETC... for all types of currency
+    }
+
+    //currencyType [''] is to detect end of balance box & provide a breakout.
+    var CurrencyType = ['', 'PPC', 'TRC', 'LTC', 'DVC', 'BTC', 'NMC', 'IXC', 'USD', 'EUR'];
+
+    function containsType(Alltypes, CurrencyType, x) {
+        if(Alltypes[x] !Contains CurrencyType[x]){
+          //offer stuff for CurrencyType[x]
+        }
+    }
+
+    function BalanceType(CurrencyType, x) {
+        if((BalanceBox.balanceType(x))===CurrencyType[]) {
+          // WHERE CHECK CODE GOES! //
+          Break;
+        }
     }
