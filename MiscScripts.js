@@ -157,7 +157,7 @@ if(a > 0) {
       //Read 
     }
 
-    //NOTE THE FOLLOWING CODE IS PSEUDOCODE!
+    //NOTE THE FOLLOWING CODE IS PSEUDOCODE! (Shite-code more like amirite? ( ._.) )
     //The following would be put in line 129:
     if(AllTypes[] !Contains "Type") {
       //Offer places to get this "Type" of coin for free!
@@ -175,15 +175,12 @@ if(a > 0) {
         }
     }
 
-    function BalanceType(CurrencyType, x) {
-      for (var z = 0; z < 8; z++) 
+    function BalanceValDerp() {
+      for (var z = 2; z < 10; z++) 
       {
-        if((BalanceBox.balanceType(x))!="") {
-          if ((BalanceBox.balanceType(x))===CurrencyType[z]) {
-            //
-              ((BalanceBox.balanceType(x)+Balance) = Balancebox.balance(x);        
-            //
-          }
+        if((BalanceBox.balanceType(z))!="") {
+              //Avg = Balancebox.AvgVal(11);
+              ((BalanceBox.balanceType(z)+Balance) = Balancebox.balance(z);        
         } else {
           break;
         }
