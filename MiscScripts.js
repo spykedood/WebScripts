@@ -61,7 +61,22 @@ PPCBalance = Balancebox.balance(9);
 
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
-$('#balancebox').append('</br><table class=\"mylists\" style="font-size: 70%"><tr><td colspan=5><strong>Profit</strong></td></tr><tr><th></th><th>Balance</th><th>Currently</th><th>Bought @</th><th>Profit</th></tr><tr><td colspan=\"5\"></td></tr><tr><td>BTC</td><td class=\"BTCBalance\">64.48127185</td><td class=\"Current1\">TEST</td></tr><tr class=\"alt\"><td>PPC</td><td class=\"PPCBalance\">19,900.00000001</td><td class=\"Current2\">' + AvgPPC + '</td><td class=\"BoughtAt\">' + InitPPC + '</td><td class=\"Profit2\">' + PPCProfit + '</td></tr><tr><td>TRC</td><td class=\"TRCBalance\">4,975.00000000</td><td class=\"Current3\">' + AvgTRC + '</td><td class=\"BoughtAt3\">' + InitTRC + '</td><td class=\"Profit3\">' + TRCProfit + '</td></tr></table>');
+$('.disclaimer').prepend('</br><table class=\"mylists\" style="font-size: 80%">'
+                          + '<tr><td colspan=10></td></tr>'
+                          + '<tr><th></th><th>Balance</th><th>Currently</th><th>Bought @</th><th>Profit</th></tr>'
+                          + '<tr><td colspan=\"5\"></td></tr><tr><td>BTC</td><td class=\"BTCBalance\">64.48127185</td><td class=\"Current1\">TEST</td></tr>'
+                          + '<tr class=\"alt\"><td>PPC</td><td class=\"PPCBalance\">19,900.00000001</td><td class=\"Current2\">' + "blah" + '</td><td class=\"BoughtAt\">'+'<input type="text" id="PPCInit" />'+'</td><td class=\"Submit\">'+'<input type="button" id="a" value="Go" onClick="submit();">'+'</td></tr>'
+                          + '<tr><td>TRC</td><td class=\"TRCBalance\">4,975.00000000</td><td class=\"Current3\">' + "AvgTRC" + '</td><td class=\"BoughtAt3\">'+'<input type="text" id="TRCInit" />'+'</td><td class=\"Submit\">'+'<input type="button" id="b" value="Go" onclick="submit();"/>'+'</td></tr>'
+                          + '</table></br>');
+$(document).ready(function(){
+ $("#a").click(function(){
+    alert("blah1");
+ });
+  $("#b").click(function(){
+    alert("blah2");
+ });
+});
+
 
 //Calling below function
 Balancebox.balancecolour(TRCProfit, ".Profit3"); //trcprofit
