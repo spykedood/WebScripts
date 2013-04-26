@@ -1,3 +1,9 @@
+/*
+NOTE:
+THIS ENTIRE SCRIPT IS A COMBINATION OF NON-WORKING/BETA VERSIONS OF SCRIPTS FOR FUTURE USE.
+THEY MAY NOT WORK RIGHT OFF THE BAT, THIS IS MORE OF A TESTING ZONE.
+*/
+
 //Script for profit
 var balance = //Grab input from user
 var PreProfit = (LowestSell-HighestBuy) * Balance;
@@ -63,20 +69,42 @@ PPCBalance = Balancebox.balance(9);
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
 $('.disclaimer').prepend('</br><table class=\"mylists\" style="font-size: 80%">'
                           + '<tr><td colspan=10></td></tr>'
-                          + '<tr><th></th><th>Balance</th><th>Currently</th><th>Bought @</th><th>Profit</th></tr>'
-                          + '<tr><td colspan=\"5\"></td></tr><tr><td>BTC</td><td class=\"BTCBalance\">64.48127185</td><td class=\"Current1\">TEST</td></tr>'
-                          + '<tr class=\"alt\"><td>PPC</td><td class=\"PPCBalance\">19,900.00000001</td><td class=\"Current2\">' + "blah" + '</td><td class=\"BoughtAt\">'+'<input type="text" id="PPCInit" />'+'</td><td class=\"Submit\">'+'<input type="button" id="a" value="Go" onClick="submit();">'+'</td></tr>'
-                          + '<tr><td>TRC</td><td class=\"TRCBalance\">4,975.00000000</td><td class=\"Current3\">' + "AvgTRC" + '</td><td class=\"BoughtAt3\">'+'<input type="text" id="TRCInit" />'+'</td><td class=\"Submit\">'+'<input type="button" id="b" value="Go" onclick="submit();"/>'+'</td></tr>'
+                          + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                          + '<tr class=\"alt\"><td>'
+                            + '<select id="currencyList">'
+                              + '<option>Currency:</option>'
+                              + '<option>BTC</option>'
+                              + '<option>LTC</option>'  
+                              + '<option>PPC</option>'
+                              + '<option>TRC</option>'
+                              + '<option>DVC</option>'
+                              + '<option>NMC</option>'
+                            + '</select>'
+                            + '<td class=\"PPCBalance\">'+'<input type="text" id="BalanceInput" />'+'<input type="button" id="a" value="?" onClick="submit();">'+'</td><td class=\"Current2\">' + "blah" + '</td><td class=\"BoughtAt\">'+'<input type="text" id="CoinInit" />'+'</td><td class=\"Submit\">'+'<input type="button" id="a" value="Go" onClick="submit();">'+'</td></tr>'
                           + '</table></br>');
-$(document).ready(function(){
- $("#a").click(function(){
-    alert("blah1");
- });
-  $("#b").click(function(){
-    alert("blah2");
- });
-});
 
+//Following 2 things break it.. gotta enclose em or something..
+ $("#a").click(function(){
+      InitCoinVal = document.getElementById("");
+      balancebox.profit(InitCoinVal,);
+   });
+
+ $("#b").click(function(){
+      InitCoinVal = document.getElementById("");
+   });
+
+Profit: function(AvgCal, InitCoinVal){
+  var currencyList=document.getElementById("currencyList");
+  //cant...brain...
+  //grab currency they want to calculate from currencylist (list in table inserted above)
+  //Calculate profit for that type of currency
+  //requires the user to input initcoinval then hit GO to call this!
+  //Need to call balance and avgval to grab the currency type's balance and avgval.
+  //If the user tries to calculate without having a balance in that, it'll be a problem, it'll break the balance script!
+  //Balance script will return nothing if balance = 0.
+  //Make balance an inputable textbox with a button beside it to grab the user's ACTUAL value of balance?
+    Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
+},
 
 //Calling below function
 Balancebox.balancecolour(TRCProfit, ".Profit3"); //trcprofit
@@ -110,10 +138,6 @@ CleanUp: function(Value){
   Value = Value.replace(/,/g, '');
   parseFloat(Value);
   return Value;
-},
-
-Profit: function(Balance, AvgCal, InitCoinVal){
-  Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
 },
 
 //The above function will replace the following two lines.
@@ -184,6 +208,9 @@ if(a > 0) {
 
     var CurrencyType = ['PPC', 'TRC', 'LTC', 'DVC', 'BTC', 'NMC', 'IXC', 'USD', 'EUR'];
 
+    //How do you compare one array with another array?
+    //If one array doesnt have some of the values in the second array,
+    //We could assume they dont have that type of currency.
     function containsType(Alltypes, CurrencyType, x) {
         if(Alltypes[x] !Contains CurrencyType[x]){
           //offer stuff for CurrencyType[x]
