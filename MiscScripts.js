@@ -50,11 +50,12 @@ PPCBalance = Balancebox.balance(9);
 
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
+//Change top row naming
 $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" style="font-size: 80%">'
                           + '<tr><td colspan=6></td></tr>'
                           + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
                           + '<tr class=\"alt\"><td>'
-                            + '<select id="currencyList" style="min-height:25px">'
+                            + '<select id="currencyList" style="width:100px; min-height:25px">'
                               + '<option>Currency:</option>'
                               + '<option>BTC</option>'
                               + '<option>LTC</option>'  
@@ -63,7 +64,7 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                               + '<option>DVC</option>'
                               + '<option>NMC</option>'
                             + '</select>'
-                            + '<td class=\"PPCBalance\"><input style="width:100px; float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<td class=\"PPCBalance\"><input style="width:100px;  float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
                             + '<tr><td></td></tr>' 
                          + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
                             + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
