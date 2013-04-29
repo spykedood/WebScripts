@@ -4,7 +4,7 @@ THIS ENTIRE SCRIPT IS A COMBINATION OF NON-WORKING/BETA VERSIONS OF SCRIPTS FOR 
 THEY MAY NOT WORK RIGHT OFF THE BAT, THIS IS MORE OF A TESTING ZONE.
 */
 
-//Script for profit
+//Script for price manipulation & profit from doing so!!
 var balance = //Grab input from user
 var PreProfit = (LowestSell-HighestBuy) * Balance;
 var Cost = 0;
@@ -34,32 +34,15 @@ function reportError(xObj){
 
 <img src="URL" alt="URL" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
 
-//**********************//
-//
-//
-//BEGINNING OF BALANCE SCRIPT
-//WARNING MASSIVE!!
-//
-//
-//*********************//
-
-//variables
-var AvgPPC = 0;
-var AvgTRC = 0;
-var PPCHigh = 0;
-var PPCLow = 0;
-var TRCHigh = 0;
-var TRCLow = 0;
-//InitPPC = the price you bought in @
-//Configure yourself. Multiple purchases not supported.
-var InitPPC = 0.0002;
-var PPCProfit = 0;
-var PPCBalance = 0;
-//InitTRC = the price you bought in @
-//Configure yourself. Multiple purchases not supported.
-var InitTRC = 0.00105;
-var TRCProfit = 0;
-var TRCBalance = 0;
+//******************************************//
+//                                          //
+//                                          //
+//BEGINNING OF BALANCE SCRIPTS              //
+//WARNING MASSIVE!!                         //
+//MAKE HASTE BEFORE THINE SOUL IS DESTROYED!//
+//                                          //
+//                                          //
+//******************************************//
 
 AvgPPC = Balancebox.AvgVal(9);
 
@@ -67,25 +50,11 @@ PPCBalance = Balancebox.balance(9);
 
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
-// ==UserScript==
-// @name        Isolated buy & sell price function (Working)
-// @namespace   Ricky
-// @match       https://vircurex.com/orders*
-// @match       https://vircurex.com/welcome/index?alt=*
-// @include     https://vircurex.com/welcome/index?alt=*
-// @include     https://vircurex.com/orders?alt=*
-// @version     0.165
-// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
-// @grant none
-// ==/UserScript==
-
-//Quantity/Current Price/Price bought in at = +- profit infoboxes
-$('.disclaimer').prepend('</br><table class=\"mylists\" style="font-size: 80%">'
-                          + '<tr><td colspan=10></td></tr>'
-                          + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+$('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" style="font-size: 80%">'
+                          + '<tr><td colspan=6></td></tr>'
+                          + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
                           + '<tr class=\"alt\"><td>'
-                            + '<select id="currencyList">'
+                            + '<select id="currencyList" style="min-height:25px">'
                               + '<option>Currency:</option>'
                               + '<option>BTC</option>'
                               + '<option>LTC</option>'  
@@ -94,19 +63,20 @@ $('.disclaimer').prepend('</br><table class=\"mylists\" style="font-size: 80%">'
                               + '<option>DVC</option>'
                               + '<option>NMC</option>'
                             + '</select>'
-                            + '<td class=\"PPCBalance\"><input type="text" id="BalanceInput" /><input type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"Current2\">' + "blah" + '</td><td class=\"BoughtAt\"><input type="text" id="CoinInit" /></td><td class=\"Submit\"><input type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<td class=\"PPCBalance\"><input style="width:100px; float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
                             + '<tr><td></td></tr>' 
-                         + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                            + '<tr><td class=\"Balance\"><input type="text" id="Diff" /></td><td class=\"2\"><input type="text" id="CoinInit" value="btc"/></td><td class=\"3\"></td><td><input type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                         + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                            + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
                             + '<tr><td></td></tr>' 
-                         + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                            + '<tr><td class=\"Balance\"><input type="text" id="Diff" /></td><td class=\"2\"><input type="text" id="CoinInit" value="btc"/></td><td class=\"3\"></td><td><input type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                         + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                            + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
                           + '</table></br>'
                         //
                         +'<table class=\"mylists\" style="font-size: 80%">'
                         +'<tr><td colspan=3></td></tr>'
                         +'<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                        +'</table>');
+                        +'</table>'
+                        +'</div>');
 
 //Following 2 things break it.. gotta enclose em or something..
 function submit2()
@@ -114,6 +84,8 @@ function submit2()
  $("#a").click(function(){
       var InitCoinVal = document.getElementById("CoinInit");
       var Currency = document.getElementById("currencylist");
+      var CurrencyBalance = BalanceBox.BalanceVal(Currency);
+
       balancebox.profit(InitCoinVal, Currency);
    });
 }
@@ -135,74 +107,78 @@ profit: function(InitCoinVal){
   //Balance script will return nothing if balance = 0.
   //Make balance an inputable textbox with a button beside it to grab the user's ACTUAL value of balance?
     Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
+    BalanceBox.balancecolour(Profit, ".Profit2"); //ppcprofit
+
 },
 
 //Calling below function
-Balancebox.balancecolour(TRCProfit, ".Profit3"); //trcprofit
-Balancebox.balancecolour(PPCProfit, ".Profit2"); //ppcprofit
+//Now that TRCProfit is gone, we need to collapse the two following lines to the one!
+BalanceBox.balancecolour(TRCProfit, ".Profit3"); //trcprofit
+BalanceBox.balancecolour(PPCProfit, ".Profit2"); //ppcprofit
 
 //Beginning of modular function container
 var BalanceBox = {
 
-balance: function(tr) {
-  var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
-  return Balance;
-},
+    balance: function(tr) {
+      var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
+      return Balance;
+    },
 
-//Issue with this is we need to grab the type which the following will do
-//But we also need to know which tr within the balance this type is located.
-//not all used will have the same balance types in the same places.
-balanceType: function(tr) {
-  var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").text();
-  return balanceType;
-},
+    //Issue with this is we need to grab the type which the following will do
+    //But we also need to know which tr within the balance this type is located.
+    //not all used will have the same balance types in the same places.
+    balanceType: function(tr) {
+      var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").text();
+      return balanceType;
+    },
 
-AvgVal: function(tr) {
-High = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
-High = Cleanup(High);
-//alert(TRCHigh);
-Low = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(3)").text();
-Low = Cleanup(Low);
-//alert(TRCLow);
-AvgVal = (((High) + (Low)) / 2).toFixed(6);
-return AvgVal;
-},
+    AvgVal: function(tr) {
+      High = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
+      High = BalanceBox.Cleanup(High);
+      //alert(TRCHigh);
+      Low = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(3)").text();
+      Low = BalanceBox.Cleanup(Low);
+      //alert(TRCLow);
+      AvgVal = (((High) + (Low)) / 2).toFixed(6);
+      return AvgVal;
+    },
 
-CleanUp: function(Value){
-  Value = Value.replace(/,/g, '');
-  parseFloat(Value);
-  return Value;
-},
+    CleanUp: function(Value){
+      Value = Value.replace(/,/g, '');
+      parseFloat(Value);
+      return Value;
+    },
 
-BalanceValDerp: function() {
-  for (var z = 2; z < 10; z++) 
-  {
-    if((BalanceBox.balanceType(z))!="") {
-          //Avg = Balancebox.AvgVal(11);
-          var ((BalanceBox.balanceType(z)+Balance) = Balancebox.balance(z);        
-    } else {
-      break;
+    BalanceVal: function(Currency) {
+      for (var z = 2; z < 10; z++) 
+      {
+        if((BalanceBox.balanceType(z))!="") {
+            If(BalanceBox.balanceType(z)===Currency) {
+                var Balance = BalanceBox.balance(z);
+                return Balance;
+            }
+        } else {
+            break;
+        }
+      }
+    },
+
+    //Could even probably merge the following with the colouring of recent buy/sell orders!.
+    //Both use green/orange/red.
+    balancecolour: function(a,b) {
+    if(a > 0) {
+      $(b).css({"background-color": "green"});
+      } else if (a === 0){
+      $(b).css({"background-color": "orange"});
+      } else {
+      $(b).css({"background-color": "red"});
+      }
     }
-  }
-},
-
-//The above function will replace the following two lines.
-//TRCProfit = ((TRCBalance * AvgTRC)-(TRCBalance * InitTRC)).toFixed(6);
-//PPCProfit = ((PPCBalance * AvgPPC)-(PPCBalance * InitPPC)).toFixed(6);
-
-//Above made into a function
-//Could even probably merge this with the colouring of recent buy/sell.
-//Both use green/orange/red.
-balancecolour: function(a,b) {
-if(a > 0) {
-  $(b).css({"background-color": "green"});
-  } else if (a === 0){
-  $(b).css({"background-color": "orange"});
-  } else {
-  $b).css({"background-color": "red"});
-  }
-}
 };
+
+
+
+//Below this line lies code of the damned. Nary a man returns from such depths of depravity.
 
 
 //Detecting what type of coin you have in balance
@@ -251,7 +227,8 @@ if(a > 0) {
       //ETC... for all types of currency
     }
 
-    var CurrencyType = ['PPC', 'TRC', 'LTC', 'DVC', 'BTC', 'NMC', 'IXC', 'USD', 'EUR'];
+    //Below line is an idea - maybe not a good one, duno..
+    //var CurrencyType = ['PPC', 'TRC', 'LTC', 'DVC', 'BTC', 'NMC', 'IXC', 'USD', 'EUR'];
 
     //How do you compare one array with another array?
     //If one array doesnt have some of the values in the second array,
