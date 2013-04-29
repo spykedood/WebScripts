@@ -67,6 +67,20 @@ PPCBalance = Balancebox.balance(9);
 
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
+// ==UserScript==
+// @name        Isolated buy & sell price function (Working)
+// @namespace   Ricky
+// @match       https://vircurex.com/orders*
+// @match       https://vircurex.com/welcome/index?alt=*
+// @include     https://vircurex.com/welcome/index?alt=*
+// @include     https://vircurex.com/orders?alt=*
+// @version     0.165
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
+// @grant none
+// ==/UserScript==
+
+//Quantity/Current Price/Price bought in at = +- profit infoboxes
 $('.disclaimer').prepend('</br><table class=\"mylists\" style="font-size: 80%">'
                           + '<tr><td colspan=10></td></tr>'
                           + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
@@ -80,21 +94,38 @@ $('.disclaimer').prepend('</br><table class=\"mylists\" style="font-size: 80%">'
                               + '<option>DVC</option>'
                               + '<option>NMC</option>'
                             + '</select>'
-                            + '<td class=\"PPCBalance\">'+'<input type="text" id="BalanceInput" />'+'<input type="button" id="a" value="?" onClick="submit();">'+'</td><td class=\"Current2\">' + "blah" + '</td><td class=\"BoughtAt\">'+'<input type="text" id="CoinInit" />'+'</td><td class=\"Submit\">'+'<input type="button" id="a" value="Go" onClick="submit();">'+'</td></tr>'
-                          + '</table></br>');
+                            + '<td class=\"PPCBalance\"><input type="text" id="BalanceInput" /><input type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"Current2\">' + "blah" + '</td><td class=\"BoughtAt\"><input type="text" id="CoinInit" /></td><td class=\"Submit\"><input type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<tr><td></td></tr>' 
+                         + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                            + '<tr><td class=\"Balance\"><input type="text" id="Diff" /></td><td class=\"2\"><input type="text" id="CoinInit" value="btc"/></td><td class=\"3\"></td><td><input type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<tr><td></td></tr>' 
+                         + '<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                            + '<tr><td class=\"Balance\"><input type="text" id="Diff" /></td><td class=\"2\"><input type="text" id="CoinInit" value="btc"/></td><td class=\"3\"></td><td><input type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                          + '</table></br>'
+                        //
+                        +'<table class=\"mylists\" style="font-size: 80%">'
+                        +'<tr><td colspan=3></td></tr>'
+                        +'<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                        +'</table>');
 
 //Following 2 things break it.. gotta enclose em or something..
+function submit2()
+{
  $("#a").click(function(){
-      InitCoinVal = document.getElementById("");
-      balancebox.profit(InitCoinVal,);
+      var InitCoinVal = document.getElementById("CoinInit");
+      var Currency = document.getElementById("currencylist");
+      balancebox.profit(InitCoinVal, Currency);
    });
+}
 
+function submit1()
+{
  $("#b").click(function(){
-      InitCoinVal = document.getElementById("");
+      UsrBalInput = document.getElementById("BalanceInput");
    });
+}
 
-Profit: function(AvgCal, InitCoinVal){
-  var currencyList=document.getElementById("currencyList");
+profit: function(InitCoinVal){
   //cant...brain...
   //grab currency they want to calculate from currencylist (list in table inserted above)
   //Calculate profit for that type of currency
@@ -138,6 +169,18 @@ CleanUp: function(Value){
   Value = Value.replace(/,/g, '');
   parseFloat(Value);
   return Value;
+},
+
+BalanceValDerp: function() {
+  for (var z = 2; z < 10; z++) 
+  {
+    if((BalanceBox.balanceType(z))!="") {
+          //Avg = Balancebox.AvgVal(11);
+          var ((BalanceBox.balanceType(z)+Balance) = Balancebox.balance(z);        
+    } else {
+      break;
+    }
+  }
 },
 
 //The above function will replace the following two lines.
@@ -215,16 +258,4 @@ if(a > 0) {
         if(Alltypes[x] !Contains CurrencyType[x]){
           //offer stuff for CurrencyType[x]
         }
-    }
-
-    function BalanceValDerp() {
-      for (var z = 2; z < 10; z++) 
-      {
-        if((BalanceBox.balanceType(z))!="") {
-              //Avg = Balancebox.AvgVal(11);
-              ((BalanceBox.balanceType(z)+Balance) = Balancebox.balance(z);        
-        } else {
-          break;
-        }
-      }
     }
