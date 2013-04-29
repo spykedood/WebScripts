@@ -149,9 +149,12 @@ balance: function(tr) {
   return Balance;
 },
 
+//Issue with this is we need to grab the type which the following will do
+//But we also need to know which tr within the balance this type is located.
+//not all used will have the same balance types in the same places.
 balanceType: function(tr) {
-  var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
-  return Balance;
+  var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").text();
+  return balanceType;
 },
 
 AvgVal: function(tr) {
@@ -186,7 +189,6 @@ BalanceValDerp: function() {
 //The above function will replace the following two lines.
 //TRCProfit = ((TRCBalance * AvgTRC)-(TRCBalance * InitTRC)).toFixed(6);
 //PPCProfit = ((PPCBalance * AvgPPC)-(PPCBalance * InitPPC)).toFixed(6);
-
 
 //Above made into a function
 //Could even probably merge this with the colouring of recent buy/sell.
