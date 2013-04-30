@@ -27,12 +27,15 @@ If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
 
 //Website status Script
 //Instead of an alert, we could have red/green lights if it doesnt load/ doesloads.
-function reportError(xObj){  
-  locationName = xObj.alt;  
-  alert("Links on this page may not work since the server at " + locationName + " appears to be down!");  
-}  
+reportError: function(xObJ){
+  $('.SiteStatus'+alt).replace('Down!') 
+}
 
-<img src="URL" alt="URL" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
+<img src="mtgox image url" alt="1" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
+<img src="bittalk image url" alt="2" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
+<img src="btc-e image url" alt="3" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
+//Follwoing image will have to grab teh url from the dropdown menu! (change dynamicurl to what the pulldown menu is)
+<img src=DynamicUrl alt="4" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
 
 //******************************************//
 //                                          //
@@ -44,16 +47,12 @@ function reportError(xObj){
 //                                          //
 //******************************************//
 
-AvgPPC = Balancebox.AvgVal(9);
-
-PPCBalance = Balancebox.balance(9);
-
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
 //Change top row naming
 $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" style="font-size: 80%">'
                           + '<tr><td colspan=6></td></tr>'
-                          + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                          + '<tr><th>Currency</th><th>Current Value</th><th>Balance</th><th>Initial price</th></tr>'
                           + '<tr class=\"alt\"><td>'
                             + '<select id="currencyList" style="width:100px; min-height:25px">'
                               + '<option>Currency:</option>'
@@ -74,8 +73,22 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                           + '</table></br>'
                         //
                         +'<table class=\"mylists\" style="font-size: 80%">'
-                        +'<tr><td colspan=3></td></tr>'
-                        +'<tr><th></th><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                          +'<tr><td colspan=6></td></tr>'
+                          +'<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th><td></td><th>Site Status</th></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>MTgox:<td id="Sitestatus1">Up</td></td></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>Bittalk:<td id="Sitestatus2">Up</td></td></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">Up</td></td></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>'
+                            + '<select id="SiteList" style="width:100px; min-height:25px">'
+                              + '<option>Site:</option>'
+                              + '<option>1</option>'
+                              + '<option>2</option>'
+                              + '<option>3</option>'
+                              + '<option>4</option>'
+                              + '<option>5</option>'
+                            + '</select>'
+                            + '<td id="Sitestatus4">Up</td>'
+                          +'</td></tr>'
                         +'</table>'
                         +'</div>');
 
