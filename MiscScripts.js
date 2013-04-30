@@ -88,9 +88,19 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                               + '<option>5</option>'
                             + '</select>'
                             + '<td id="Sitestatus4">Up</td>'
+                            //1px images for site statuses
+                            + '<img src="mtgox image url" alt="1" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="test.reportError(this);">'  
+                            + '<img src="bittalk image url" alt="2" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="test.reportError(this);">'  
+                            + '<img src="btc-e image url" alt="3" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="test.reportError(this);">'  
                           +'</td></tr>'
                         +'</table>'
                         +'</div>');
+var test = {
+reportError: function(xObJ) {
+    var cell = document.getElementById("#Sitestatus" + xObJ.alt); 
+    cell.innerHTML = "Down!";
+}
+};
 
 //Following 2 things break it.. gotta enclose em or something..
 function submit2()
@@ -124,11 +134,6 @@ profit: function(InitCoinVal){
     BalanceBox.balancecolour(Profit, ".Profit2"); //ppcprofit
 
 },
-
-//Calling below function
-//Now that TRCProfit is gone, we need to collapse the two following lines to the one!
-BalanceBox.balancecolour(TRCProfit, ".Profit3"); //trcprofit
-BalanceBox.balancecolour(PPCProfit, ".Profit2"); //ppcprofit
 
 //Beginning of modular function container
 var BalanceBox = {
