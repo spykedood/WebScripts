@@ -47,6 +47,11 @@ reportError: function(xObJ){
 //                                          //
 //******************************************//
 
+                            //1px images for site statuses
+                            + '<img src="" alt="1" style="width:0;height:0;visiblity:hidden;position:absolute;">'  
+                            + '<img src="" alt="2" style="width:0;height:0;visiblity:hidden;position:absolute;">'  
+                            + '<img src="" alt="3" style="width:0;height:0;visiblity:hidden;position:absolute;">' 
+
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
 //Change top row naming
@@ -75,9 +80,9 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                         +'<table class=\"mylists\" style="font-size: 80%">'
                           +'<tr><td colspan=6></td></tr>'
                           +'<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th><td></td><th>Site Status</th></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>MTgox:<td id="Sitestatus1">Up</td></td></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>Bittalk:<td id="Sitestatus2">Up</td></td></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">Up</td></td></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>MTgox:<td id="Sitestatus1">?</td></td></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>bitcointalk:<td id="Sitestatus2">?</td></td></tr>'
+                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">?</td></td></tr>'
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>'
                             + '<select id="SiteList" style="width:100px; min-height:25px">'
                               + '<option>Site:</option>'
@@ -87,20 +92,51 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                               + '<option>4</option>'
                               + '<option>5</option>'
                             + '</select>'
-                            + '<td id="Sitestatus4">Up</td>'
-                            //1px images for site statuses
-                            + '<img src="mtgox image url" alt="1" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="test.reportError(this);">'  
-                            + '<img src="bittalk image url" alt="2" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="test.reportError(this);">'  
-                            + '<img src="btc-e image url" alt="3" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="test.reportError(this);">'  
+                            + '<td id="Sitestatus4">?</td>'
                           +'</td></tr>'
                         +'</table>'
                         +'</div>');
-var test = {
-reportError: function(xObJ) {
-    var cell = document.getElementById("#Sitestatus" + xObJ.alt); 
-    cell.innerHTML = "Down!";
-}
-};
+
+var SiteStatus = {
+
+    testImage: function(url, siteNum, timeout) {
+        timeout = timeout || 1000;
+        var timedOut = false, timer;
+        var img = new Image();
+        
+        img.onerror = function() {
+          if (!timedOut) {
+            clearTimeout(timer);
+            SiteStatus.record("Down!", siteNum);
+              alert("error");
+          }
+        };
+
+        img.onload = function() {
+          if (!timedOut) {
+            clearTimeout(timer);
+            SiteStatus.record("Up", siteNum);
+              alert("Up");
+          }
+        };
+
+        img.src = url;
+        timer = setTimeout(function() {
+            timedOut = true;
+            SiteStatus.record("Timeout", siteNum);
+        }, timeout); 
+    }, 
+
+    record: function(result, siteNum) {
+        //This line works
+        (document.getElementById("Sitestatus" + siteNum)).innerHTML = result;
+    }
+};  
+
+SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
+SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
+SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
+
 
 //Following 2 things break it.. gotta enclose em or something..
 function submit2()
