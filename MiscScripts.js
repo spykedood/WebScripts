@@ -24,19 +24,6 @@ If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
   alert("Not worth it.")
 }
 
-
-//Website status Script
-//Instead of an alert, we could have red/green lights if it doesnt load/ doesloads.
-reportError: function(xObJ){
-  $('.SiteStatus'+alt).replace('Down!') 
-}
-
-<img src="mtgox image url" alt="1" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
-<img src="bittalk image url" alt="2" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
-<img src="btc-e image url" alt="3" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
-//Follwoing image will have to grab teh url from the dropdown menu! (change dynamicurl to what the pulldown menu is)
-<img src=DynamicUrl alt="4" style="width:0;height:0;visiblity:hidden;position:absolute;" onerror="reportError(this)">  
-
 //******************************************//
 //                                          //
 //                                          //
@@ -46,11 +33,6 @@ reportError: function(xObJ){
 //                                          //
 //                                          //
 //******************************************//
-
-                            //1px images for site statuses
-                            + '<img src="" alt="1" style="width:0;height:0;visiblity:hidden;position:absolute;">'  
-                            + '<img src="" alt="2" style="width:0;height:0;visiblity:hidden;position:absolute;">'  
-                            + '<img src="" alt="3" style="width:0;height:0;visiblity:hidden;position:absolute;">' 
 
 //Ammending HTML to the balance box section - will be a profitability calculator.
 //Quantity/Current Price/Price bought in at = +- profit infoboxes
@@ -84,13 +66,13 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>bitcointalk:<td id="Sitestatus2">?</td></td></tr>'
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">?</td></td></tr>'
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>'
-                            + '<select id="SiteList" style="width:100px; min-height:25px">'
-                              + '<option>Site:</option>'
-                              + '<option>1</option>'
-                              + '<option>2</option>'
-                              + '<option>3</option>'
-                              + '<option>4</option>'
-                              + '<option>5</option>'
+                            + '<select id="SiteList" onchange="SiteStatus.multipleSites()" style="width:100px; min-height:25px">'
+                              + '<option></option>'
+                              + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
+                              + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
+                              + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
+                              + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
+                              + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
                             + '</select>'
                             + '<td id="Sitestatus4">?</td>'
                           +'</td></tr>'
@@ -108,7 +90,7 @@ var SiteStatus = {
           if (!timedOut) {
             clearTimeout(timer);
             SiteStatus.record("Down!", siteNum);
-              alert("error");
+              //alert("error");
           }
         };
 
@@ -116,7 +98,7 @@ var SiteStatus = {
           if (!timedOut) {
             clearTimeout(timer);
             SiteStatus.record("Up", siteNum);
-              alert("Up");
+              //alert("Up");
           }
         };
 
@@ -130,6 +112,12 @@ var SiteStatus = {
     record: function(result, siteNum) {
         //This line works
         (document.getElementById("Sitestatus" + siteNum)).innerHTML = result;
+    },
+
+    multipleSites: function() {
+        var SiteList = document.getElementById("SiteList");
+        var y = SiteList.options[SiteList.selectedIndex].value;
+        SiteStatus.testImage(y, 4);
     }
 };  
 
@@ -138,14 +126,13 @@ SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2)
 SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
 
 
-//Following 2 things break it.. gotta enclose em or something..
+//not tested the below.. WIP!
 function submit2()
 {
  $("#a").click(function(){
       var InitCoinVal = document.getElementById("CoinInit");
       var Currency = document.getElementById("currencylist");
       var CurrencyBalance = BalanceBox.BalanceVal(Currency);
-
       balancebox.profit(InitCoinVal, Currency);
    });
 }
