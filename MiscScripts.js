@@ -4,102 +4,111 @@ THIS ENTIRE SCRIPT IS A COMBINATION OF NON-WORKING/BETA VERSIONS OF SCRIPTS FOR 
 THEY MAY NOT WORK RIGHT OFF THE BAT, THIS IS MORE OF A TESTING ZONE.
 */
 
+//******************************************//
+//                                          //
+//                                          //
+//BEGINNING OF BALANCE SCRIPTS              //
+//WARNING MASSIVE!!                         //
+//MAKE HASTE BEFORE THINE SOUL IS DESTROYED!//
+//                                          //
+//                                          //
+//******************************************//
+
+//Ammending HTML to the balance box section - will be a profitability calculator.
+//Quantity/Current Price/Price bought in at = +- profit infoboxes
+//Change top row naming
+
 //GRAB BELOW THIS FOR WORKING-ISH TEST!
+$(document).ready(function () 
+{
+  $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" style="font-size: 80%">'
+                            + '<tr><td colspan=6></td></tr>'
+                            + '<tr><th>Currency</th><th>Current Value</th><th>Balance</th><th>Initial price</th></tr>'
+                            + '<tr class=\"alt\"><td>'
+                              + '<select id="currencyList" style="width:100px; min-height:25px">'
+                                + '<option>Currency:</option>'
+                                + '<option>BTC</option>'
+                                + '<option>LTC</option>'  
+                                + '<option>PPC</option>'
+                                + '<option>TRC</option>'
+                                + '<option>DVC</option>'
+                                + '<option>NMC</option>'
+                              + '</select>'
+                              + '<td class=\"PPCBalance\"><input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
+                              + '<tr><td></td></tr>' 
+                           + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                              + '<tr><td class=\"Balance\"><input style="width:100px; min-height:25px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
+                              + '<tr><td></td></tr>' 
+                           + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
+                              + '<tr><td class=\"Balance\"><input style="width:100px; min-height:25px; min-height:25px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
+                            + '</table></br>'
+                          //
+                          +'<table class=\"mylists\" style="font-size: 80%">'
+                            +'<tr><td colspan=6></td></tr>'
+                            +'<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th><td></td><th>Site Status</th></tr>'
+                            +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>MTgox:<td id="Sitestatus1">?</td></td></tr>'
+                            +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>bitcointalk:<td id="Sitestatus2">?</td></td></tr>'
+                            +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">?</td></td></tr>'
+                            +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>'
+                              + '<select id="SiteSelect" style="width:100px; min-height:25px">'
+                                + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
+                                + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
+                                + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
+                                + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
+                                + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
+                              + '</select>'
+                              + '<td id="Sitestatus4">?</td>'
+                            +'</td></tr>'
+                          +'</table>'
+                          +'</div>');
 
-$('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" style="font-size: 80%">'
-                          + '<tr><td colspan=6></td></tr>'
-                          + '<tr><th>Currency</th><th>Current Value</th><th>Balance</th><th>Initial price</th></tr>'
-                          + '<tr class=\"alt\"><td>'
-                            + '<select id="currencyList" style="width:100px; min-height:25px">'
-                              + '<option>Currency:</option>'
-                              + '<option>BTC</option>'
-                              + '<option>LTC</option>'  
-                              + '<option>PPC</option>'
-                              + '<option>TRC</option>'
-                              + '<option>DVC</option>'
-                              + '<option>NMC</option>'
-                            + '</select>'
-                            + '<td class=\"PPCBalance\"><input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
-                            + '<tr><td></td></tr>' 
-                         + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                            + '<tr><td class=\"Balance\"><input style="width:100px; min-height:25px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
-                            + '<tr><td></td></tr>' 
-                         + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                            + '<tr><td class=\"Balance\"><input style="width:100px; min-height:25px; min-height:25px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
-                          + '</table></br>'
-                        //
-                        +'<table class=\"mylists\" style="font-size: 80%">'
-                          +'<tr><td colspan=6></td></tr>'
-                          +'<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th><td></td><th>Site Status</th></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>MTgox:<td id="Sitestatus1">?</td></td></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>bitcointalk:<td id="Sitestatus2">?</td></td></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">?</td></td></tr>'
-                          +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>'
-                            + '<select id="SiteList" style="width:100px; min-height:25px" onchange="javascript: SiteStatus.run()">'
-                              + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
-                              + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
-                              + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
-                              + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
-                              + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
-                            + '</select>'
-                            + '<td id="Sitestatus4">?</td>'
-                          +'</td></tr>'
-                        +'</table>'
-                        +'</div>');
+  SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
+  SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
+  SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
 
-var SiteStatus = {
+    $("#SiteSelect").change(function() 
+    {
+      var changedVal = $("#SiteSelect").val();
+      SiteStatus.testImage(changedVal,4);
+    });
+});
 
-    testImage: function(url, siteNum, timeout) {
-        timeout = timeout || 1000;
-        var timedOut = false, timer;
-        var img = new Image();
-        
-        img.onerror = function() {
-          if (!timedOut) {
-            clearTimeout(timer);
-            SiteStatus.record("Down!", siteNum);
-          }
-        };
 
-        img.onload = function() {
-          if (!timedOut) {
-            clearTimeout(timer);
-            SiteStatus.record("Up", siteNum);
-          }
-        };
+  var SiteStatus = {
 
-        img.src = url;
-        timer = setTimeout(function() {
-            timedOut = true;
-            SiteStatus.record("Timeout", siteNum);
-        }, timeout); 
-    }, 
+      testImage: function(url, siteNum, timeout) {
+          timeout = timeout || 1000;
+          var timedOut = false, timer;
+          var img = new Image();
+          
+          img.onerror = function() {
+            if (!timedOut) {
+              clearTimeout(timer);
+              SiteStatus.record("Down!", siteNum);
+            }
+          };
 
-    record: function(result, siteNum) {
-        //This line works
-        (document.getElementById("Sitestatus" + siteNum)).innerHTML = result;
-    },
+          img.onload = function() {
+            if (!timedOut) {
+              clearTimeout(timer);
+              SiteStatus.record("Up", siteNum);
+            }
+          };
 
-    run: function() {
-      var derpderp = document.getElementById("#SiteList").value;
-      alert(derpderp);
-      //SiteStatus.testImage(derpderp, 4);
-    }
-};  
+          img.src = url;
+          timer = setTimeout(function() {
+              timedOut = true;
+              SiteStatus.record("Timeout", siteNum);
+          }, timeout); 
+      }, 
 
-SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
-SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
-SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
+      record: function(result, siteNum) {
+          //This line works
+          (document.getElementById("Sitestatus" + siteNum)).innerHTML = result;
+      }
+  };  
 
 //GRAB ABOVE THIS FOR WORKING-ISH TEST!
-
-//Ok, it's either line 94's function or this!
-$('#SiteList').change(function() 
-{
-  var changedVal = $('SiteList').attr('value');
-  alert(changedVal);
-  //SiteStatus.testImage($('#SiteList').attr('value'),4);
-});
 
 
 //Beginning of modular function container
