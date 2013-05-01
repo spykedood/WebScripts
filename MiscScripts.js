@@ -4,26 +4,6 @@ THIS ENTIRE SCRIPT IS A COMBINATION OF NON-WORKING/BETA VERSIONS OF SCRIPTS FOR 
 THEY MAY NOT WORK RIGHT OFF THE BAT, THIS IS MORE OF A TESTING ZONE.
 */
 
-//Script for price manipulation & profit from doing so!!
-var balance = //Grab input from user
-var PreProfit = (LowestSell-HighestBuy) * Balance;
-var Cost = 0;
-    for (var i = 3; i < 23; i++) {
-      If (SellQuantity < 0.x) { //sellquantity being the quantity of btc being exchanged
-        Cost += Sellquantity
-      } else {
-        var lowPostPrice = //This row's price
-        i = 23; //break out of loop
-      }
-
-    } //end of loop
-var PostProfit = (((LowestSell-HighestBuy)*Balance) - PreProfit)-Cost;
-If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
-  Alert("Worth spending" Cost "btc to raise price to" lowPostPrice "You'll earn" PostProfit);
-} else {
-  alert("Not worth it.")
-}
-
 //******************************************//
 //                                          //
 //                                          //
@@ -50,13 +30,13 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                               + '<option>DVC</option>'
                               + '<option>NMC</option>'
                             + '</select>'
-                            + '<td class=\"PPCBalance\"><input style="width:100px;  float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<td class=\"PPCBalance\"><input style="width:100px;  float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
                             + '<tr><td></td></tr>' 
                          + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                            + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
                             + '<tr><td></td></tr>' 
                          + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
-                            + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="submit2();"></td></tr>'
+                            + '<tr><td class=\"Balance\"><input style="width:100px" type="text" id="Diff" /></td><td class=\"2\"><input style="width:100px" type="text" id="CoinInit" value="btc"/></td><td><input style="width:100px" type="text" id="CoinInit" value="Profit"/></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
                           + '</table></br>'
                         //
                         +'<table class=\"mylists\" style="font-size: 80%">'
@@ -90,7 +70,6 @@ var SiteStatus = {
           if (!timedOut) {
             clearTimeout(timer);
             SiteStatus.record("Down!", siteNum);
-              //alert("error");
           }
         };
 
@@ -98,7 +77,6 @@ var SiteStatus = {
           if (!timedOut) {
             clearTimeout(timer);
             SiteStatus.record("Up", siteNum);
-              //alert("Up");
           }
         };
 
@@ -126,40 +104,26 @@ SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2)
 SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
 
 
-//not tested the below.. WIP!
-function submit2()
-{
- $("#a").click(function(){
-      var InitCoinVal = document.getElementById("CoinInit");
-      var Currency = document.getElementById("currencylist");
-      var CurrencyBalance = BalanceBox.BalanceVal(Currency);
-      balancebox.profit(InitCoinVal, Currency);
-   });
-}
-
-function submit1()
-{
- $("#b").click(function(){
-      UsrBalInput = document.getElementById("BalanceInput");
-   });
-}
-
-profit: function(InitCoinVal){
-  //cant...brain...
-  //grab currency they want to calculate from currencylist (list in table inserted above)
-  //Calculate profit for that type of currency
-  //requires the user to input initcoinval then hit GO to call this!
-  //Need to call balance and avgval to grab the currency type's balance and avgval.
-  //If the user tries to calculate without having a balance in that, it'll be a problem, it'll break the balance script!
-  //Balance script will return nothing if balance = 0.
-  //Make balance an inputable textbox with a button beside it to grab the user's ACTUAL value of balance?
-    Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
-    BalanceBox.balancecolour(Profit, ".Profit2"); //ppcprofit
-
-},
-
 //Beginning of modular function container
 var BalanceBox = {
+
+    //not tested the below.. WIP!
+    submit2: function()
+    {
+     $("#a").click(function(){
+          var InitCoinVal = document.getElementById("CoinInit");
+          var Currency = document.getElementById("currencylist");
+          var CurrencyBalance = BalanceBox.BalanceVal(Currency);
+          balancebox.profit(InitCoinVal, Currency);
+       });
+    },
+
+    submit1: function()
+    {
+     $("#b").click(function(){
+          UsrBalInput = document.getElementById("BalanceInput");
+       });
+    },
 
     balance: function(tr) {
       var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
@@ -189,6 +153,19 @@ var BalanceBox = {
       Value = Value.replace(/,/g, '');
       parseFloat(Value);
       return Value;
+    },
+
+    profit: function(InitCoinVal){
+      //cant...brain...
+      //grab currency they want to calculate from currencylist (list in table inserted above)
+      //Calculate profit for that type of currency
+      //requires the user to input initcoinval then hit GO to call this!
+      //Need to call balance and avgval to grab the currency type's balance and avgval.
+      //If the user tries to calculate without having a balance in that, it'll be a problem, it'll break the balance script!
+      //Balance script will return nothing if balance = 0.
+      //Make balance an inputable textbox with a button beside it to grab the user's ACTUAL value of balance?
+      Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
+      BalanceBox.balancecolour(Profit, ".Profit2"); //ppcprofit
     },
 
     BalanceVal: function(Currency) {
@@ -280,3 +257,23 @@ var BalanceBox = {
           //offer stuff for CurrencyType[x]
         }
     }
+
+//Script for price manipulation & profit from doing so!!
+var balance = //Grab input from user
+var PreProfit = (LowestSell-HighestBuy) * Balance;
+var Cost = 0;
+    for (var i = 3; i < 23; i++) {
+      If (SellQuantity < 0.x) { //sellquantity being the quantity of btc being exchanged
+        Cost += Sellquantity
+      } else {
+        var lowPostPrice = //This row's price
+        i = 23; //break out of loop
+      }
+
+    } //end of loop
+var PostProfit = (((LowestSell-HighestBuy)*Balance) - PreProfit)-Cost;
+If ((PostProfit > 0) && (RecentBuys > RecentSells)) {
+  Alert("Worth spending" Cost "btc to raise price to" lowPostPrice "You'll earn" PostProfit);
+} else {
+  alert("Not worth it.")
+}
