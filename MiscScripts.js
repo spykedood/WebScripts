@@ -46,13 +46,13 @@ $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" 
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>bitcointalk:<td id="Sitestatus2">?</td></td></tr>'
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>BTC-e:<td id="Sitestatus3">?</td></td></tr>'
                           +'<tr><td>1</td><td>2</td><td>3</td><td>4</td><td></td><td>'
-                            + '<select id="SiteList" onchange="SiteStatus.multipleSites()" style="width:100px; min-height:25px">'
-                              + '<option></option>'
+                            + '<select id="SiteList"  style="width:100px; min-height:25px">'
+                              + '<option value=""></option>'
                               + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
-                              + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
+                              + '<option value="https://www.aurumxchange.com/images/logo.png>Aurumxchange</option>'
                               + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
-                              + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
-                              + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
+                              + '<option value="https://www.btcguild.com/images/top-bg.png>BTCGuild</option>'
+                              + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png>bitstamp</option>'
                             + '</select>'
                             + '<td id="Sitestatus4">?</td>'
                           +'</td></tr>'
@@ -93,15 +93,23 @@ var SiteStatus = {
     },
 
     multipleSites: function() {
+      //Doesn't get called
+      //Dont think this would work either :/
         var SiteList = document.getElementById("SiteList");
         var y = SiteList.options[SiteList.selectedIndex].value;
-        SiteStatus.testImage(y, 4);
+        return y;
     }
 };  
 
 SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
 SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
 SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
+$(function(){
+    $('select.SiteList').on('change', function(){
+        var blah = $(this).val();
+        SiteStatus.testImage(blah, 3);
+    });        
+});
 
 
 //Beginning of modular function container
