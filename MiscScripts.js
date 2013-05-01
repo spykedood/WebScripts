@@ -10,16 +10,8 @@ $(document).ready(function ()
   $('.mainwindow').append('<div style="float:left;"></br><table class=\"mylists\" style="font-size: 80%">'
                             + '<tr><td colspan=6></td></tr>'
                             + '<tr><th>Currency</th><th>Current Value</th><th>Balance</th><th>Initial price</th></tr>'
-                            + '<tr class=\"alt\"><td>'
-                              + '<select id="currencyList" style="width:100px; min-height:25px">'
-                                + '<option>Currency:</option>'
-                                + '<option>BTC</option>'
-                                + '<option>LTC</option>'  
-                                + '<option>PPC</option>'
-                                + '<option>TRC</option>'
-                                + '<option>DVC</option>'
-                                + '<option>NMC</option>'
-                              + '</select>'
+                            + '<tr class=\"alt\"><td class="coinType">'
+                              + 'test'
                               + '<td class=\"PPCBalance\"><input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" /><input style="width:100px; float:right; min-height:25px" type="button" id="a" value="Auto" onClick="submit1();"></td><td class=\"BoughtAt\"><input style="width:100px" type="text" id="CoinInit" /></td><td class=\"Submit\"><input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
                               + '<tr><td></td></tr>' 
                            + '<tr><th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th></tr>'
@@ -51,6 +43,7 @@ $(document).ready(function ()
   SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
   SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
   SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
+  $('.coinType').prepend(BalanceBox.getURLParameter("alt"));
 
     $("#SiteSelect").change(function() 
     {
@@ -105,10 +98,22 @@ var BalanceBox = {
     {
      $("#a").click(function(){
           var InitCoinVal = document.getElementById("CoinInit");
-          var Currency = document.getElementById("currencylist");
+          var Currency = BalanceBox.getURLParameter("alt");
           var CurrencyBalance = BalanceBox.BalanceVal(Currency);
           balancebox.profit(InitCoinVal, Currency);
        });
+    },
+
+    getURLParameter: function(param) 
+    {
+      var pageURL = window.location.search.substring(1);
+      var URLVariables = pageURL.split('&');
+      for (var i = 0; i < URLVariables.length; i++) {
+          var parameterName = URLVariables[i].split('=');
+          if (parameterName[0] == param) {
+              return parameterName[1];
+            }
+      }
     },
 
     submit1: function()
@@ -164,7 +169,7 @@ var BalanceBox = {
     BalanceVal: function(Currency) {
       for (var z = 2; z < 10; z++) 
       {
-        if((BalanceBox.balanceType(z))!="") {
+        if((BalanceBox.balanceType(z))!=="") {
             If(BalanceBox.balanceType(z)===Currency) {
                 var Balance = BalanceBox.balance(z);
                 return Balance;
