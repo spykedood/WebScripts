@@ -4,20 +4,6 @@ THIS ENTIRE SCRIPT IS A COMBINATION OF NON-WORKING/BETA VERSIONS OF SCRIPTS FOR 
 THEY MAY NOT WORK RIGHT OFF THE BAT, THIS IS MORE OF A TESTING ZONE.
 */
 
-//******************************************//
-//                                          //
-//                                          //
-//BEGINNING OF BALANCE SCRIPTS              //
-//WARNING MASSIVE!!                         //
-//MAKE HASTE BEFORE THINE SOUL IS DESTROYED!//
-//                                          //
-//                                          //
-//******************************************//
-
-//Ammending HTML to the balance box section - will be a profitability calculator.
-//Quantity/Current Price/Price bought in at = +- profit infoboxes
-//Change top row naming
-
 //GRAB BELOW THIS FOR WORKING-ISH TEST!
 $(document).ready(function () 
 {
