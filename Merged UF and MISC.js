@@ -21,27 +21,14 @@ var highestbuy = 0, lowestsell = 0, avg = 0, buysell = 0;
 
 var init = {
     avg: function() {
-        // All initialization goes here.
         highestbuy = $('a', 'tr:nth-child(3) td.coinformat:nth-child(2)').text();
-        highestbuy = highestbuy.replace(',', '');
-            //alert(highestbuy);
         lowestsell = $('a', 'tr:nth-child(3) td.coinformat:nth-child(6)').text();
-        lowestsell = lowestsell.replace(',', '');
-            //alert(lowestsell);
-        avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
-            //alert(avg);
+        avg = ((BalanceBox.CleanUp(highestbuy) + BalanceBox.CleanUp(lowestsell)) / 2).toFixed(6);
     },
 
     colourloop: function() {
         for (var i = 3; i < 23; i++) 
-        {
-                //Alert for debugging, checking that the loop's actually working!
-                //alert('Loop start');
-                
-                //a=Location mainwindow or right (hand side of page).
-                //b=Value text type (hyperlink or plaintext).
-                //c=Either '.coinformat' or ''.
-                //d=td nth child number.
+        {              
                 var buy = Vircurex.derp('link', i, 2);
                 var sell = Vircurex.derp('link', i, 6);
                 var recent = Vircurex.derp('text', i, 11);
@@ -72,12 +59,6 @@ var init = {
                 var recentcolour = Vircurex.getCell('mainwindow', i, 11);
                 var recTime = Vircurex.getCell('mainwindow', i, 9);
 
-                    //Grabbing the 3 top cells
-                    //var buytop = Vircurex.getCell('maintop', 1, 1);
-                    //var selltop = Vircurex.getCell('maintop', 1, 2);
-                    //rectop doesn't work ;_;
-                    //var rectop = Vircurex.getCell('maintop', 1, 3);
-
                 //Recent value ('buy/sell') & recent cell
                 var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
                 var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)')[0];
@@ -93,9 +74,7 @@ var init = {
 
                 //Working PERCENT difference!
                 var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
-                //alert(pctDiffbuy);
                 var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
-                //alert(pctDiffsell);
 
                 //Calling function to colour the buy/sell/recent prices
                 Vircurex.Colours(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
@@ -110,7 +89,7 @@ var init = {
                 Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
                 //Colouring in recent "buy/sell"
-                //init.recBuySell(recentOrdVal, recentOrdCell);
+                init.recBuySell(recentOrdVal, recentOrdCell);
 
                 //Muh-Fuggan strike throughs!
                 Vircurex.Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
@@ -136,7 +115,7 @@ var init = {
                               + '<td class="coinType"></td>'
                               + '<td class=\"Balance\">'
                                 + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
-                                + '<input style="width:100px; float:right; min-height:25px;" type="button" id="a" value="Auto" onClick="submit1();">'
+                                + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto" onClick="BalanceBox.BalanceGrab()">'
                               + '</td>'
                               + '<td class=\"CoinInitBuy\">'
                                 + '<input style="width:100px" type="text" id="CoinInit" />'
@@ -146,7 +125,7 @@ var init = {
                               + '</td>'
                               + '<td class="ProfitTD">Test</td>'
                               + '<td class=\"Submit\">'
-                                + '<input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();">'
+                                + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go" onClick="BalanceBox.ProfitCalcSubmit()">'
                               + '</td>'
                             + '</tr>'
                                 //Blank row between tables!
@@ -200,7 +179,7 @@ var init = {
                             + '<tr class=\"alt\">'
                                 + '<td id="RecBS">RecB>RecS</td>'
                                 + '<td>∴</td>'
-                                + '<td id="RecBS2">Value' + BSQuanArrow + '</td>'
+                                + '<td id="RecBS2">Value' + RecBSArrow + '</td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -271,7 +250,8 @@ var init = {
         });
     },
 
-    BSquantitytotal: function(){
+    BSquantitytotal: function()
+    {
         var trcbuy;
         var trcbuytotal;
         var trcsell;
@@ -284,13 +264,13 @@ var init = {
             //Sell volume addition loop
             trcsell = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(5)").text();
             trcselltotal += BalanceBox.CleanUp(trcsell);
-        };
+        }
 
         if(trcbuytotal > trcselltotal) {
-            BSQuanArrow = "&#9650;"
+            BSQuanArrow = "&#9650;";
           } else {
-            BSQuanArrow = "&#9660;"
-          };
+            BSQuanArrow = "&#9660;";
+          }
     },
 
     recBuySell: function() 
@@ -305,13 +285,13 @@ var init = {
                 $(recentOrdCell).css({ 'background-color': '#B80000' });
                 buysell--;
             } 
-        };
+        }
 
         if (buysell > 0) {
-          BSQuanArrow = "&#9650;"  
+          RecBSArrow = "&#9650;";
         } else {
-          BSQuanArrow = "&#9660;"  
-        };
+          RecBSArrow = "&#9660;";  
+        }
     }
 
 //End of var
@@ -347,7 +327,6 @@ var Vircurex = {
 
         cellvalue = cellvalue.replace(',', '');
         cellvalue = (parseFloat(cellvalue)).toFixed(6);
-        //alert(cellvalue);
         return cellvalue;
     },
 
@@ -363,47 +342,34 @@ var Vircurex = {
 
     //a=Location ie (.mainwindow .mylists) or ('a').
     //b=Row number (just pass through variable 'a' from loop!).
-    //c=Either '.coinformat' or ''.
-    //d=td nth child number.
+    //c=td nth child number.
     getCell: function(a, b, c) {
         var cell = 'test';
-        //var cell = 0;
-        //var cell;
         if (a === 'mainwindow') {
                 cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
-                //alert(cell);
         } else if (a === 'right') {
                 cell = $('.mainwindow .mylists tr:nth-child(' + b + ') td.coinformat:nth-child(' + c + ')')[0];
-                //alert(cell);
         } else if (a === 'maintop') {
                 cell = $('.mainwindow .mylists tr:nth-child(' + b + ') th:nth-child(' + c + ')')[0];
-                //alert(cell);
         } else {
             alert("Value location derp!");
         }
-        //alert(cell);
         return cell;
     },
 
     Colours: function(a, b, c, d) {
         if ((b >= c[0]) && (b < c[1])) {
             $(a).css({ 'background-color': d[0] });
-                //alert(b + ' '+ c[0] + ' '+ c[1]);
         } else if ((b >= c[1]) && (b < c[2])) {
             $(a).css({ 'background-color': d[1] });
-                //alert(b + ' '+ c[1] + ' '+ c[2]);
         } else if ((b >= c[2]) && (b < c[3])) {
             $(a).css({ 'background-color': d[2] });
-                //alert(b + ' '+ c[2] + ' '+ c[3]);
         } else if ((b >= c[3]) && (b < c[4])) {
             $(a).css({ 'background-color': d[3] });
-                //alert(b + ' '+ c[3] + ' '+ c[4]);
         } else if ((b >= c[4]) && (b < c[5])) {
             $(a).css({ 'background-color': d[4] });
-                //alert(b + ' '+ c[4] + ' '+ c[5]);
         } else if (b >= c[5]) {
             $(a).css({ 'background-color': d[5] });
-                //alert(b + ' '+ c[5]);
         }
     }
 };
@@ -458,12 +424,12 @@ var BalanceBox = {
               return parameterName[1];
             }
       }
-    }
+    },
 
         //not tested the below.. WIP!
-    submit2: function()
+    ProfitCalcSubmit: function()
     {
-     $("#a").click(function(){
+     $("#Auto").click(function(){
           var InitCoinVal = document.getElementById("CoinInit");
           var Currency = document.getElementById("currencylist");
           var CurrencyBalance = BalanceBox.BalanceVal(Currency);
@@ -471,10 +437,15 @@ var BalanceBox = {
        });
     },
 
-    submit1: function()
+    BalanceGrab: function()
     {
-     $("#b").click(function(){
+     $("#Calculate").click(function(){
           UsrBalInput = document.getElementById("BalanceInput");
+          if (UsrBalInput !== ""){
+            //uh..
+          } else {
+            UsrBalInput = BalanceBox.BalanceVal(getURLParameter("alt"));
+          }
        });
     },
 
@@ -483,48 +454,20 @@ var BalanceBox = {
       return Balance;
     },
 
-    //Issue with this is we need to grab the type which the following will do
-    //But we also need to know which tr within the balance this type is located.
-    //not all used will have the same balance types in the same places.
-    balanceType: function(tr) {
-      var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").text();
-      return balanceType;
-    },
-
-    AvgVal: function(tr) {
-      High = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
-      High = BalanceBox.Cleanup(High);
-      //alert(TRCHigh);
-      Low = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(3)").text();
-      Low = BalanceBox.Cleanup(Low);
-      //alert(TRCLow);
-      AvgVal = (((High) + (Low)) / 2).toFixed(6);
-      return AvgVal;
-    },
-
     CleanUp: function(Value){
       Value = Value.replace(/,/g, '');
       parseFloat(Value);
       return Value;
     },
 
-    profit: function(InitCoinVal, Balance){
-      //cant...brain...
-      //grab currency they want to calculate from currencylist (list in table inserted above)
-      //Calculate profit for that type of currency
-      //requires the user to input initcoinval then hit GO to call this!
-      //Need to call balance and avgval to grab the currency type's balance and avgval.
-      //If the user tries to calculate without having a balance in that, it'll be a problem, it'll break the balance script!
-      //Balance script will return nothing if balance = 0.
-      //Make balance an inputable textbox with a button beside it to grab the user's ACTUAL value of balance?
+    profit: function(InitCoinVal, Balance, AvgVal){
       Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
-      BalanceBox.balancecolour(Profit, ".Profit2"); //ppcprofit
     },
 
     BalanceVal: function(Currency) {
       for (var z = 2; z < 10; z++) 
       {
-        if((BalanceBox.balanceType(z))!="") {
+        if((BalanceBox.balanceType(z))!=="") {
             If(BalanceBox.balanceType(z)===Currency) {
                 var Balance = BalanceBox.balance(z);
                 return Balance;
