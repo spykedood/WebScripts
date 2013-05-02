@@ -110,7 +110,7 @@ var init = {
                 Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
                 //Colouring in recent "buy/sell"
-                Vircurex.recBuySell(recentOrdVal, recentOrdCell);
+                //init.recBuySell(recentOrdVal, recentOrdCell);
 
                 //Muh-Fuggan strike throughs!
                 Vircurex.Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
@@ -200,7 +200,7 @@ var init = {
                             + '<tr class=\"alt\">'
                                 + '<td id="RecBS">RecB>RecS</td>'
                                 + '<td>∴</td>'
-                                + '<td id="RecBS2">Val &#9650;&#9660;</td>'
+                                + '<td id="RecBS2">Value' + BSQuanArrow + '</td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -213,7 +213,7 @@ var init = {
                             + '<tr>'
                                 + '<td id="BSquan">1</td>'
                                 + '<td>∴</td>'
-                                + '<td id="BSquan2">Val &#9650;&#9660;</td>'
+                                + '<td id="BSquan2">Value' + BSQuanArrow + '</td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -226,7 +226,7 @@ var init = {
                             + '<tr class=\"alt\">'
                                 + '<td>1</td>'
                                 + '<td>∴</td>'
-                                + '<td>Val &#9650;&#9660;</td>'
+                                + '<td>Value' + BSQuanArrow + '</td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -239,7 +239,7 @@ var init = {
                             + '<tr>'
                                 + '<td>1</td>'
                                 + '<td>∴</td>'
-                                + '<td>Val &#9650;&#9660;</td>'
+                                + '<td>Value &#9650;&#9660;</td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -269,6 +269,49 @@ var init = {
           var changedVal = $("#SiteSelect").val();
           SiteStatus.testImage(changedVal,4);
         });
+    },
+
+    BSquantitytotal: function(){
+        var trcbuy;
+        var trcbuytotal;
+        var trcsell;
+        var trcselltotal;
+
+        for (var i = 3; i < 23; i++) { 
+            //Buy volume addition loop
+            trcbuy = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(1)").text();
+            trcbuytotal += BalanceBox.CleanUp(trcbuy);
+            //Sell volume addition loop
+            trcsell = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(5)").text();
+            trcselltotal += BalanceBox.CleanUp(trcsell);
+        };
+
+        if(trcbuytotal > trcselltotal) {
+            BSQuanArrow = "&#9650;"
+          } else {
+            BSQuanArrow = "&#9660;"
+          };
+    },
+
+    recBuySell: function() 
+        {
+        buysell = 0;
+        
+        for (var i = 3; i < 23; i++) { 
+            if (recentOrdVal === 'Buy') {
+                $(recentOrdCell).css({ 'background-color': '#006600' });
+                buysell++;
+            } else if (recentOrdVal === 'Sell') {
+                $(recentOrdCell).css({ 'background-color': '#B80000' });
+                buysell--;
+            } 
+        };
+
+        if (buysell > 0) {
+          BSQuanArrow = "&#9650;"  
+        } else {
+          BSQuanArrow = "&#9660;"  
+        };
     }
 
 //End of var
@@ -284,6 +327,8 @@ $(document).ready(function ()
     init.avg();
     init.colourloop();
     init.calculationInsert();
+    init.BSquantitytotal();
+    init.recBuySell();
 
 });
 
@@ -360,17 +405,6 @@ var Vircurex = {
             $(a).css({ 'background-color': d[5] });
                 //alert(b + ' '+ c[5]);
         }
-    },
-
-    recBuySell: function(a, b) 
-        {
-            if (a === 'Buy') {
-                $(b).css({ 'background-color': '#006600' });
-                buysell++;
-            } else if (a === 'Sell') {
-                $(b).css({ 'background-color': '#B80000' });
-                buysell -= 1;
-            } 
     }
 };
 
@@ -423,6 +457,93 @@ var BalanceBox = {
           if (parameterName[0] == param) {
               return parameterName[1];
             }
+      }
+    }
+
+        //not tested the below.. WIP!
+    submit2: function()
+    {
+     $("#a").click(function(){
+          var InitCoinVal = document.getElementById("CoinInit");
+          var Currency = document.getElementById("currencylist");
+          var CurrencyBalance = BalanceBox.BalanceVal(Currency);
+          balancebox.profit(InitCoinVal);
+       });
+    },
+
+    submit1: function()
+    {
+     $("#b").click(function(){
+          UsrBalInput = document.getElementById("BalanceInput");
+       });
+    },
+
+    balance: function(tr) {
+      var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
+      return Balance;
+    },
+
+    //Issue with this is we need to grab the type which the following will do
+    //But we also need to know which tr within the balance this type is located.
+    //not all used will have the same balance types in the same places.
+    balanceType: function(tr) {
+      var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").text();
+      return balanceType;
+    },
+
+    AvgVal: function(tr) {
+      High = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
+      High = BalanceBox.Cleanup(High);
+      //alert(TRCHigh);
+      Low = $("#exinfobox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(3)").text();
+      Low = BalanceBox.Cleanup(Low);
+      //alert(TRCLow);
+      AvgVal = (((High) + (Low)) / 2).toFixed(6);
+      return AvgVal;
+    },
+
+    CleanUp: function(Value){
+      Value = Value.replace(/,/g, '');
+      parseFloat(Value);
+      return Value;
+    },
+
+    profit: function(InitCoinVal, Balance){
+      //cant...brain...
+      //grab currency they want to calculate from currencylist (list in table inserted above)
+      //Calculate profit for that type of currency
+      //requires the user to input initcoinval then hit GO to call this!
+      //Need to call balance and avgval to grab the currency type's balance and avgval.
+      //If the user tries to calculate without having a balance in that, it'll be a problem, it'll break the balance script!
+      //Balance script will return nothing if balance = 0.
+      //Make balance an inputable textbox with a button beside it to grab the user's ACTUAL value of balance?
+      Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
+      BalanceBox.balancecolour(Profit, ".Profit2"); //ppcprofit
+    },
+
+    BalanceVal: function(Currency) {
+      for (var z = 2; z < 10; z++) 
+      {
+        if((BalanceBox.balanceType(z))!="") {
+            If(BalanceBox.balanceType(z)===Currency) {
+                var Balance = BalanceBox.balance(z);
+                return Balance;
+            }
+        } else {
+            break;
+        }
+      }
+    },
+
+    //Could even probably merge the following with the colouring of recent buy/sell orders!.
+    //Both use green/orange/red.
+    balancecolour: function(a,b) {
+    if(a > 0) {
+      $(b).css({"background-color": "green"});
+      } else if (a === 0){
+      $(b).css({"background-color": "orange"});
+      } else {
+      $(b).css({"background-color": "red"});
       }
     }
 };
