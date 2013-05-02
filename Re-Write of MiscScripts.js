@@ -11,17 +11,26 @@ $(document).ready(function ()
     				+ '<table class=\"mylists\" style="font-size: 80%">'
                             + '<tr><td colspan=5></td></tr>'
                             + '<tr>'
-	                            + '<th>Currency</th><th>Current Value</th><th>Balance</th><th>Initial price</th><th>Profit</th>'
+                              + '<th>Profit Calculator</th>'
+                              + '<th>Balance</th>'
+                              + '<th>Initial Price</th>'
+                              + '<th>Current Value</th>'
+                              + '<th>Profit</th>'
+                              + '<th></th>'
                             + '</tr>'
                             + '<tr class=\"alt\">'
                               + '<td class="coinType"></td>'
-                              + '<td class=\"PPCBalance\">'
+                              + '<td class=\"Balance\">'
                               	+ '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
                               	+ '<input style="width:100px; float:right; min-height:25px;" type="button" id="a" value="Auto" onClick="submit1();">'
                               + '</td>'
-                              + '<td class=\"BoughtAt\">'
-                              	+ '<input style="width:100px" type="text" id="CoinInit" />'
+                              + '<td class=\"CoinInitBuy\">'
+                                + '<input style="width:100px" type="text" id="CoinInit" />'
                               + '</td>'
+                              + '<td class=\"CurrentValue\">'
+                                + '<input style="width:100px" type="text" id="CurrentVal" />'
+                              + '</td>'
+                              + '<td class="ProfitTD">Test</td>'
                               + '<td class=\"Submit\">'
                               	+ '<input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();">'
                               + '</td>'
@@ -29,25 +38,42 @@ $(document).ready(function ()
                             	//Blank row between tables!
                               + '<tr><td></td></tr>'
                               	//Start of next table! 
-                           + '<tr>'
-                           		+ '<th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th>'
-                           + '</tr>'
-                              + '<tr><td class=\"Balance\"><input style="width:100px; min-height:25px" type="text" id="Diff" /></td>'
-                              + '<td class=\"2\">'
-                              	+ '<input style="width:100px" type="text" id="CoinInit" value="btc"/>'
+                            + '<tr>'
+                           		+ '<th>Price.Diff Calculator</th>'
+                              + '<th>Difference</th>'
+                              + '<th>BTC</th>'
+                              + '<th>Profit</th>'
+                              + '<th></th>'
+                              + '<th></th>'
+                            + '</tr>'
+                            + '<tr class=\"alt\">'
+                              + '<td class="coinType"></td>'
+                              + '<td class=\"Difference\">'
+                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
                               + '</td>'
-                              + '<td>'
-                              	+ '<input style="width:100px;" type="text" id="CoinInit" value="Profit"/>'
+                              + '<td class=\"BTCInput\">'
+                                + '<input style="width:100px" type="text" id="CoinInit" />'
                               + '</td>'
+                              + '<td class=\"Profitbox\">'
+                                + '<input style="width:100px" type="text" id="CurrentVal" />'
+                              + '</td>'
+                              + '<td class="ProfitButton"></td>'
                               + '<td class=\"Submit\">'
-                              	+ '<input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();"></td></tr>'
+                                + '<input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();">'
+                              + '</td>'
+                            + '</tr>'
                               	//Blank row between tables!
-                              + '<tr><td></td></tr>'
+                              + '<tr>'
+                              + '<td></td></tr>'
                               	//Start of next table!
                            + '<tr>'
-                     		  + '<th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th>'
+                     		     + '<th>Value Manipulator</th>'
+                             + '<th>Current Value</th>'
+                             + '<th>Bought @</th>'
+                             + '<th>Profit</th>'
+                             + '<th>Profit2</th>'
                            + '</tr>'
-                           + '<tr>'
+                           + '<tr class=\"alt\">'
                            	  + '<td class=\"Balance\">'
                            	  	+ '<input style="width:100px;" type="text" id="Diff" />'
                            	  + '</td>'
@@ -68,40 +94,49 @@ $(document).ready(function ()
                             	+ '<td colspan=6></td>'
                             + '</tr>'
                             + '<tr>'
-                            	+ '<th>Balance</th><th>Current Value</th><th>Bought @</th><th>Profit</th><th></th><th>Site Status</th>'
-                            	+ '</tr>'
+                            	+ '<th>Readouts:</th>'
+                              + '<th></th>'
+                              + '<th></th>'
+                              + '<th></th>'
+                              + '<th></th>'
+                              + '<th></th>'
+                              + '<th></th>'
+                            + '</tr>'
                            	//1st row
-                            + '<tr>'
-                            	+ '<td>1</td>'
-                            	+ '<td>2</td>'
-                            	+ '<td>3</td>'
+                            + '<tr class=\"alt\">'
+                            	+ '<td id="RecBS">RecB>RecS</td>'
+                            	+ '<td>∴</td>'
+                            	+ '<td id="RecBS2">Val &#9650;&#9660;</td>'
                             	+ '<td>4</td>'
                                	//gap between left and right
                             	+ '<td></td>'
+                              //SiteStatus section
                             	+ '<td>MTgox:'
                             		+ '<td id="Sitestatus1">?</td>'
                             	+ '</td>'
                             + '</tr>'
                             //2nd row
                             + '<tr>'
-                            	+ '<td>1</td>'
-                            	+ '<td>2</td>'
-                            	+ '<td>3</td>'
+                            	+ '<td id="BSquan">1</td>'
+                            	+ '<td>∴</td>'
+                            	+ '<td id="BSquan2">Val &#9650;&#9660;</td>'
                             	+ '<td>4</td>'
                             	//gap between left and right
                             	+ '<td></td>'
+                              //SiteStatus section
                             	+ '<td>bitcointalk:'
                             		+ '<td id="Sitestatus2">?</td>'
                             	+ '</td>'
                             + '</tr>'
                             //3rd row
-                            + '<tr>'
+                            + '<tr class=\"alt\">'
                             	+ '<td>1</td>'
-                            	+ '<td>2</td>'
-                            	+ '<td>3</td>'
+                            	+ '<td>∴</td>'
+                            	+ '<td>Val &#9650;&#9660;</td>'
                             	+ '<td>4</td>'
                             	//gap between left and right
                             	+ '<td></td>'
+                              //SiteStatus section
                             	+ '<td>BTC-e:'
                             		+ '<td id="Sitestatus3">?</td>'
                             	+ '</td>'
@@ -109,21 +144,22 @@ $(document).ready(function ()
                             //4th row
                             + '<tr>'
 	                            + '<td>1</td>'
-	                            + '<td>2</td>'
-	                            + '<td>3</td>'
+	                            + '<td>∴</td>'
+	                            + '<td>Val &#9650;&#9660;</td>'
 	                            + '<td>4</td>'
 	                            //gap between left and right
 	                            + '<td></td>'
+                              //SiteStatus section
                             	+ '<td>'
-	                              	+ '<select id="SiteSelect" style="width:100px; min-height:25px">'
+	                              + '<select id="SiteSelect" style="width:100px; min-height:25px">'
 		                                + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
 		                                + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
 		                                + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
 		                                + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
 		                                + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
 		                            + '</select>'
-		                            + '<td id="Sitestatus4">?</td>'
-                            		+ '</td>'
+		                          + '<td id="Sitestatus4">?</td>'
+                            	+ '</td>'
                             + '</tr>'
                     +'</table>'
                 +'</div>');
@@ -133,11 +169,14 @@ $(document).ready(function ()
   SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
   $('.coinType').prepend((BalanceBox.getURLParameter("alt")).toUpperCase());
 
+    //On change of #SiteSelect it calls the sitestatus script for the picked option
     $("#SiteSelect").change(function() 
     {
       var changedVal = $("#SiteSelect").val();
       SiteStatus.testImage(changedVal,4);
     });
+
+//Closing the doc ready code section!
 });
 
 
@@ -180,7 +219,6 @@ $(document).ready(function ()
 
 //Beginning of modular function container
 var BalanceBox = {
-
 
     getURLParameter: function(param) 
     {
