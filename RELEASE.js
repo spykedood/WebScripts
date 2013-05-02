@@ -3,7 +3,7 @@
 // @namespace   Ricky & Mark
 // @match       https://vircurex.com/*
 // @include     https://vircurex.com/*
-// @version     0.1
+// @version     0.15
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
 // @grant none
@@ -18,7 +18,7 @@ $(document).ready(function () {
     var VA = (function () {
         // Settings variables TODO: Put in JSON array object
         var bColorOrderPriceCells, iRefreshRate;
-
+        var originalPageState;
 
         // Initialise
         var init = function () {
@@ -51,11 +51,11 @@ $(document).ready(function () {
                 minWidth: 800,
                 show: {
                     effect: "blind",
-                    duration: 1000
+                    duration: 500
                 },
                 hide: {
                     effect: "explode",
-                    duration: 1000
+                    duration: 500
                 },
                 buttons: [
                     {
@@ -78,6 +78,7 @@ $(document).ready(function () {
                 $("#dialog").dialog("open");
             });
 
+            SavePageState();
             InitSettings();
             SaveSettings();
         },
@@ -100,8 +101,21 @@ $(document).ready(function () {
             iRefreshRate = GetIntSetting("iRefreshRate");
         },
 
+        // Saves the page state to memory
+        SavePageState = function () {
+            originalPageState = $('body').html();
+        },
+
+        // Restores the page to it's original format
+        RestorePageState = function () {
+            $('body').html(originalPageState);
+        },
+
         // Updates all UI elements
         UpdateUI = function () {
+            // Restores the page to it's original format
+            RestorePageState();
+
             // (re)load options before setting UI elements
             LoadSettings();
 
