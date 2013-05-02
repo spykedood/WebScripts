@@ -111,7 +111,7 @@ $(document).ready(function () {
             $('body').html(originalPageState);
         },
 
-        // Updates all UI elements
+        // Updates all UI elements (this is essentially the main loop)
         UpdateUI = function () {
             // Restores the page to it's original format
             RestorePageState();
@@ -173,7 +173,7 @@ $(document).ready(function () {
         
         // TODO 
         ColorOrderPriceCells = function () {
-            alert("coloring cells");
+            $('div').css("background-color", "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")")
         }
 
         //return true;
