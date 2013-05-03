@@ -163,7 +163,7 @@ var init = {
                             + '<tr class=\"alt\">'
                               + '<td class="coinType"></td>'
                               + '<td class=\"Difference\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" class="BalanceInput" />'
+                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
                               + '</td>'
                               + '<td class=\"BTCInput\">'
                                 + '<input style="width:100px" type="text" class="CoinInit" />'
@@ -173,7 +173,7 @@ var init = {
                               + '</td>'
                               + '<td class="ProfitButton"></td>'
                               + '<td class=\"Submit\">'
-                                + '<input style="width:100px; min-height:25px" type="button" class="a" value="Go" onClick="BalanceBox.BalanceGrab()">'
+                                + '<input style="width:100px; min-height:25px" type="button" value="Go">'
                               + '</td>'
                             + '</tr>'
                                 //Blank row between tables!
@@ -433,7 +433,7 @@ var BalanceBox = {
     //not tested the below.. WIP!
     ProfitCalcSubmit: function()
     {
-     $(".Calculate").click(function() {
+     $("#Calculate").click(function() {
           var InitCoinVal = document.getElementById("CoinInit");
           var UserBalance = BalanceBox.BalanceVal(init.getURLParameter("alt"));
           $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));
@@ -442,12 +442,13 @@ var BalanceBox = {
 
     BalanceGrab: function()
     {
-     $(".Auto").click(function() {
+     $("#Auto").click(function() {
           var UsrBalInput = document.getElementById("BalanceInput");
+          alert(UsrBalInput);
           if (UsrBalInput !== "") {
             alert("This grabs user Balance, remove user input or dont click this.");
           } else {
-            $('.BalanceInput').append(BalanceBox.BalanceVal(currency));
+            alert("test");  
           }
        });
     },
