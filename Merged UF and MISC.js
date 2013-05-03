@@ -38,54 +38,64 @@ var init = {
 
     colourloop: function() {
         for (var i = 3; i < 23; i++) 
-        {              
+        {       
+                //alert("1");
                 var buy = Vircurex.derp('link', i, 2);
                 var sell = Vircurex.derp('link', i, 6);
                 var recent = Vircurex.derp('text', i, 11);
 
+                //alert("2");
                 //Grabbing buy/sell/recent quantity values
                 var buyqty = Vircurex.derp('link', i, 1);
                 var sellqty = Vircurex.derp('link', i, 5);
                 var recentqty = Vircurex.derp('text', i, 10);
 
+                //alert("3");
                 //Grabbing btc values
                 var btcbuyqty = Vircurex.derp('text', i, 3);
                 var btcsellqty = Vircurex.derp('text', i, 7);
                 var btcrecqty = Vircurex.derp('text', i, 12);
                 
+                //alert("4");
                 //Grabbing btc cells
                 var btcBuyQtyCell = Vircurex.getCell('mainwindow', i, 3);
                 var btcSellQtyCell = Vircurex.getCell('mainwindow', i, 7);
                 var btcRecQtyCell = Vircurex.getCell('mainwindow', i, 12);
 
+                //alert("5");
                 //Grabbing the buy/sell/recent quantity cells
                 var buyqtycell = Vircurex.getCell('mainwindow', i, 1);
                 var sellqtycell = Vircurex.getCell('mainwindow', i, 5);
                 var recentqtycell = Vircurex.getCell('mainwindow', i, 10);
 
+                //alert("6");
                 //Grabbing the cell locations of buy/sell/recent to colour
                 var buycolour = Vircurex.getCell('mainwindow', i, 2);
                 var sellcolour = Vircurex.getCell('mainwindow', i, 6);
                 var recentcolour = Vircurex.getCell('mainwindow', i, 11);
                 var recTime = Vircurex.getCell('mainwindow', i, 9);
 
+                //alert("7");
                 //Recent value ('buy/sell') & recent cell
-                var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)').text();
-                var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + i + ') td:nth-child(13)')[0];
+                //var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)').text();
+                //var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)')[0];
 
                 var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
                 var btcQtyArr = [0.000000, 0.0010000, 0.010000, 0.100000, 1.000000, 5.000000];
 
+                //alert("8");
                 //Partially finished buy colour ranking system
                 var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
                 var SellGradient = ['#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033'];
                 var GorGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
                 var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
 
+                //alert("9");
                 //Working PERCENT difference!
                 var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
                 var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
 
+                //alert("10");
                 //Calling function to colour the buy/sell/recent prices
                 Vircurex.Colours(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
                 Vircurex.Colours(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
@@ -98,13 +108,16 @@ var init = {
                 Vircurex.Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
                 Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
+                //alert("11");
                 //Colouring in recent "buy/sell"
-                init.recBuySell(recentOrdVal, recentOrdCell);
+                init.recBuySell();
 
+                //alert("12");
                 //Muh-Fuggan strike throughs!
                 Vircurex.Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
                 Vircurex.Strike(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour);
                 Vircurex.Strike(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour);
+                //alert("13");
         }
     },
 
@@ -187,9 +200,9 @@ var init = {
                             + '</tr>'
                             //1st row
                             + '<tr class=\"alt\">'
-                                + '<td id="RecBS">RecB>RecS</td>'
+                                + '<td class="RecBS"></td>'
                                 + '<td>∴</td>'
-                                + '<td id="RecBS2">Value' + RecBSArrow + '</td>'
+                                + '<td class="RecBS2">Value: </td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -200,9 +213,9 @@ var init = {
                             + '</tr>'
                             //2nd row
                             + '<tr>'
-                                + '<td id="BSquan">1</td>'
+                                + '<td class="BSquan"></td>'
                                 + '<td>∴</td>'
-                                + '<td id="BSquan2">Value' + BSQuanArrow + '</td>'
+                                + '<td class="BSquan2">Value: </td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -213,9 +226,9 @@ var init = {
                             + '</tr>'
                             //3rd row
                             + '<tr class=\"alt\">'
-                                + '<td>1</td>'
+                                + '<td class="BSquan"></td>'
                                 + '<td>∴</td>'
-                                + '<td>Value' + BSQuanArrow + '</td>'
+                                + '<td class="BSquan2">Value: </td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -226,9 +239,9 @@ var init = {
                             + '</tr>'
                             //4th row
                             + '<tr>'
-                                + '<td>1</td>'
+                                + '<td class="BSquan"></td>'
                                 + '<td>∴</td>'
-                                + '<td>Value &#9650;&#9660;</td>'
+                                + '<td id="BSquan2">Value: </td>'
                                 + '<td>4</td>'
                                 //gap between left and right
                                 + '<td></td>'
@@ -263,33 +276,38 @@ var init = {
 
     BSquantitytotal: function()
     {
-        var trcbuy;
-        var trcbuytotal;
-        var trcsell;
-        var trcselltotal;
+        var buyqty = 0;
+        var buyqtytotal  = 0;
+        var sellqty  = 0;
+        var sellqtytotal  = 0;
 
         for (var i = 3; i < 23; i++) { 
             //Buy volume addition loop
-            trcbuy = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(1)").text();
-            trcbuytotal += BalanceBox.CleanUp(trcbuy);
+            buyqty = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(1)").text();
+            buyqtytotal += BalanceBox.CleanUp(buyqty);
             //Sell volume addition loop
-            trcsell = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(5)").text();
-            trcselltotal += BalanceBox.CleanUp(trcsell);
+            sellqty = $("a", "tr:nth-child(" + i + ") td.coinformat:nth-child(5)").text();
+            sellqtytotal += BalanceBox.CleanUp(sellqty);
         }
 
-        if(trcbuytotal > trcselltotal) {
-            BSQuanArrow = "&#9650;";
+        if (buyqtytotal > sellqtytotal) {
+            $('.BSquan').append("buyqty > sellqty");
+            $('.BSquan2').append("▲");
+          } else if (trcbuytotal === trcselltotal) {
+            $('.BSquan').append("buyqty = sellqty");
+            $('.BSquan2').append("---");
           } else {
-            BSQuanArrow = "&#9660;";
+            $('.BSquan').append("buyqty < sellqty");
+            $('.BSquan2').append("▼");
           }
     },
 
-    recBuySell: function() 
-        {
-        buysell = 0;
-        
-        for (var i = 3; i < 23; i++) { 
-            if (recentOrdVal === 'Buy') {
+    recBuySell: function(recentOrdVal, recentOrdCell, buysell) 
+        {      
+        for (var q = 3; q < 23; q++) { 
+          var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)').text();
+          var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)')[0];
+            if ((recentOrdVal) === 'Buy') {
                 $(recentOrdCell).css({ 'background-color': '#006600' });
                 buysell++;
             } else if (recentOrdVal === 'Sell') {
@@ -299,10 +317,15 @@ var init = {
         }
 
         if (buysell > 0) {
-          RecBSArrow = "&#9650;";
-        } else {
-          RecBSArrow = "&#9660;";  
-        }
+            $('.RecBS').prepend("RecBuy > RecSell");
+            $('.RecBS2').append("▲");
+          } else if (buysell === 0) {
+            $('.RecBS').prepend("RecBuy = RecSell");
+            $('.RecBS2').append("---");
+          } else {
+            $('.RecBS').prepend("RecBuy < RecSell");
+            $('.RecBS2').append("▼");
+          }
     }
 
 //End of var
@@ -353,6 +376,7 @@ var Vircurex = {
     },
 
     Colours: function(a, b, c, d) {
+        alert("colours start");
         if ((b >= c[0]) && (b < c[1])) {
             $(a).css({ 'background-color': d[0] });
         } else if ((b >= c[1]) && (b < c[2])) {
@@ -466,10 +490,16 @@ $(document).ready(function ()
     setTimeout('location.reload();', 90000);
 
     // Initialization
+     //alert("avg");
     init.avg();
+      alert("colourloop");
     init.colourloop();
+      alert("postcolourloop")
+      //alert("calculationInsert");
     init.calculationInsert();
+      //alert("BSquantitytotal");
     init.BSquantitytotal();
+     //alert("recBuySell");
     init.recBuySell();
 
 });
