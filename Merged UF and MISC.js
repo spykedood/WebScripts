@@ -15,13 +15,15 @@ In no respect shall DerpCORP incur any liability for any damages, including, but
 */
 
 // GLOBAL VARS
-var highestbuy = 0, lowestsell = 0, avg = 0, buysell = 0;
+var highestbuy = 0, lowestsell = 0, avg = 0;
 
 var init = {
     avg: function() {
         highestbuy = $('a', 'tr:nth-child(3) td.coinformat:nth-child(2)').text();
+        highestbuy = highestbuy.replace(',', '');
         lowestsell = $('a', 'tr:nth-child(3) td.coinformat:nth-child(6)').text();
-        avg = ((BalanceBox.CleanUp(highestbuy) + BalanceBox.CleanUp(lowestsell)) / 2).toFixed(6);
+        lowestsell = lowestsell.replace(',', '');
+        avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
     },
 
     getURLParameter: function(param) 
@@ -108,10 +110,6 @@ var init = {
                 Vircurex.Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
                 Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
-                //alert("11");
-                //Colouring in recent "buy/sell"
-                init.recBuySell();
-
                 //alert("12");
                 //Muh-Fuggan strike throughs!
                 Vircurex.Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
@@ -137,7 +135,7 @@ var init = {
                             + '<tr class=\"alt\">'
                               + '<td class="coinType"></td>'
                               + '<td class=\"Balance\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
+                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput"/>'
                                 + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto" onClick="BalanceBox.BalanceGrab()">'
                               + '</td>'
                               + '<td class=\"CoinInitBuy\">'
@@ -165,17 +163,17 @@ var init = {
                             + '<tr class=\"alt\">'
                               + '<td class="coinType"></td>'
                               + '<td class=\"Difference\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
+                                + '<input style="width:100px; min-height:25px;  float:left" type="text" class="BalanceInput" />'
                               + '</td>'
                               + '<td class=\"BTCInput\">'
-                                + '<input style="width:100px" type="text" id="CoinInit" />'
+                                + '<input style="width:100px" type="text" class="CoinInit" />'
                               + '</td>'
                               + '<td class=\"Profitbox\">'
-                                + '<input style="width:100px" type="text" id="CurrentVal" />'
+                                + '<input style="width:100px" type="text" class="CurrentVal" />'
                               + '</td>'
                               + '<td class="ProfitButton"></td>'
                               + '<td class=\"Submit\">'
-                                + '<input style="width:100px; min-height:25px" type="button" id="a" value="Go" onClick="BalanceBox.submit2();">'
+                                + '<input style="width:100px; min-height:25px" type="button" class="a" value="Go" onClick="BalanceBox.BalanceGrab()">'
                               + '</td>'
                             + '</tr>'
                                 //Blank row between tables!
@@ -195,15 +193,15 @@ var init = {
                               + '<th></th>'
                               + '<th></th>'
                               + '<th></th>'
-                              + '<th></th>'
-                              + '<th></th>'
+                              + '<th>Website</th>'
+                              + '<th>Status</th>'
                             + '</tr>'
                             //1st row
                             + '<tr class=\"alt\">'
                                 + '<td class="RecBS"></td>'
                                 + '<td>∴</td>'
                                 + '<td class="RecBS2">Value: </td>'
-                                + '<td>4</td>'
+                                + '<td></td>'
                                 //gap between left and right
                                 + '<td></td>'
                               //SiteStatus section
@@ -216,7 +214,7 @@ var init = {
                                 + '<td class="BSquan"></td>'
                                 + '<td>∴</td>'
                                 + '<td class="BSquan2">Value: </td>'
-                                + '<td>4</td>'
+                                + '<td> </td>'
                                 //gap between left and right
                                 + '<td></td>'
                               //SiteStatus section
@@ -226,10 +224,10 @@ var init = {
                             + '</tr>'
                             //3rd row
                             + '<tr class=\"alt\">'
-                                + '<td class="BSquan"></td>'
+                                + '<td class=""></td>'
                                 + '<td>∴</td>'
-                                + '<td class="BSquan2">Value: </td>'
-                                + '<td>4</td>'
+                                + '<td class="">Value: </td>'
+                                + '<td> </td>'
                                 //gap between left and right
                                 + '<td></td>'
                               //SiteStatus section
@@ -239,10 +237,10 @@ var init = {
                             + '</tr>'
                             //4th row
                             + '<tr>'
-                                + '<td class="BSquan"></td>'
+                                + '<td class=""></td>'
                                 + '<td>∴</td>'
-                                + '<td id="BSquan2">Value: </td>'
-                                + '<td>4</td>'
+                                + '<td id="">Value: </td>'
+                                + '<td> </td>'
                                 //gap between left and right
                                 + '<td></td>'
                               //SiteStatus section
@@ -276,10 +274,7 @@ var init = {
 
     BSquantitytotal: function()
     {
-        var buyqty = 0;
-        var buyqtytotal  = 0;
-        var sellqty  = 0;
-        var sellqtytotal  = 0;
+        var buyqty = 0, buyqtytotal  = 0, sellqty  = 0, sellqtytotal  = 0;
 
         for (var i = 3; i < 23; i++) { 
             //Buy volume addition loop
@@ -291,40 +286,42 @@ var init = {
         }
 
         if (buyqtytotal > sellqtytotal) {
-            $('.BSquan').append("buyqty > sellqty");
+            $('.BSquan').append("Buy.Qty > Sell.Qty");
             $('.BSquan2').append("▲");
           } else if (trcbuytotal === trcselltotal) {
-            $('.BSquan').append("buyqty = sellqty");
+            $('.BSquan').append("Buy.Qty = Sell.Qty");
             $('.BSquan2').append("---");
           } else {
-            $('.BSquan').append("buyqty < sellqty");
+            $('.BSquan').append("Buy.Qty < Sell.Qty");
             $('.BSquan2').append("▼");
           }
     },
 
     recBuySell: function(recentOrdVal, recentOrdCell, buysell) 
-        {      
+        {
+        var recbuy = 0, recsell = 0;
+
         for (var q = 3; q < 23; q++) { 
           var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)').text();
           var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)')[0];
-            if ((recentOrdVal) === 'Buy') {
+            if (recentOrdVal === 'Buy') {
                 $(recentOrdCell).css({ 'background-color': '#006600' });
-                buysell++;
+                recbuy++;
             } else if (recentOrdVal === 'Sell') {
                 $(recentOrdCell).css({ 'background-color': '#B80000' });
-                buysell--;
+                recsell++;
             } 
         }
 
-        if (buysell > 0) {
-            $('.RecBS').prepend("RecBuy > RecSell");
-            $('.RecBS2').append("▲");
-          } else if (buysell === 0) {
-            $('.RecBS').prepend("RecBuy = RecSell");
-            $('.RecBS2').append("---");
-          } else {
-            $('.RecBS').prepend("RecBuy < RecSell");
-            $('.RecBS2').append("▼");
+        if (recbuy > recsell) {
+              $('.RecBS').append("Rec.Buy > Rec.Sell");
+              $('.RecBS2').append("▲");
+          } else if (recbuy === recsell) {
+              $('.RecBS').append("Rec.Buy = Rec.Sell");
+              $('.RecBS2').append("---");
+          } else if (recbuy < recsell) {
+              $('.RecBS').append("Rec.Buy < Rec.Sell");
+              $('.RecBS2').append("▼");
           }
     }
 
@@ -376,7 +373,6 @@ var Vircurex = {
     },
 
     Colours: function(a, b, c, d) {
-        alert("colours start");
         if ((b >= c[0]) && (b < c[1])) {
             $(a).css({ 'background-color': d[0] });
         } else if ((b >= c[1]) && (b < c[2])) {
@@ -437,21 +433,21 @@ var BalanceBox = {
     //not tested the below.. WIP!
     ProfitCalcSubmit: function()
     {
-     $("#Calculate").click(function() {
+     $(".Calculate").click(function() {
           var InitCoinVal = document.getElementById("CoinInit");
           var UserBalance = BalanceBox.BalanceVal(init.getURLParameter("alt"));
-          $('.ProfitTD').prepend(BalanceBox.profit(InitCoinVal, UserBalance));
+          $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));
        });
     },
 
     BalanceGrab: function()
     {
-     $("#Auto").click(function() {
-          UsrBalInput = document.getElementById("BalanceInput");
+     $(".Auto").click(function() {
+          var UsrBalInput = document.getElementById("BalanceInput");
           if (UsrBalInput !== "") {
             alert("This grabs user Balance, remove user input or dont click this.");
           } else {
-            $('.BalanceInput').replace(BalanceBox.BalanceVal(currency));
+            $('.BalanceInput').append(BalanceBox.BalanceVal(currency));
           }
        });
     },
@@ -462,12 +458,13 @@ var BalanceBox = {
       return Value;
     },
 
-    profit: function(InitCoinVal, Balance, avg) {
+    profit: function(InitCoinVal, Balance) {
       Profit = ((Balance * avg)-(Balance * InitCoinVal)).toFixed(6);
       return Profit;
     },
 
     BalanceVal: function(Currency) {
+      alert("BalanceVar Called!");
       for (var z = 2; z < 10; z++) 
       {
         if ((BalanceBox.balanceType(z))!=="") {
@@ -480,6 +477,7 @@ var BalanceBox = {
             break;
         }
       }
+      alert("BalanceVar Finished!");
     }
 };
 
@@ -492,9 +490,9 @@ $(document).ready(function ()
     // Initialization
      //alert("avg");
     init.avg();
-      alert("colourloop");
+      //alert("colourloop");
     init.colourloop();
-      alert("postcolourloop")
+      //alert("postcolourloop")
       //alert("calculationInsert");
     init.calculationInsert();
       //alert("BSquantitytotal");
