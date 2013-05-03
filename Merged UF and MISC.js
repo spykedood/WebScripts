@@ -1,11 +1,9 @@
 // ==UserScript==
-// @name        Isolated buy & sell price function (Working)
+// @name        Combined Re-worked Misc & universal function scripts
 // @namespace   Ricky
-// @match       https://vircurex.com/orders*
-// @match       https://vircurex.com/welcome/index?alt=*
-// @include     https://vircurex.com/welcome/index?alt=*
-// @include     https://vircurex.com/orders?alt=*
-// @version     0.165
+// @match       https://vircurex.com/*
+// @include     https://vircurex.com/*
+// @version     0.1
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
 // @grant none
@@ -24,6 +22,18 @@ var init = {
         highestbuy = $('a', 'tr:nth-child(3) td.coinformat:nth-child(2)').text();
         lowestsell = $('a', 'tr:nth-child(3) td.coinformat:nth-child(6)').text();
         avg = ((BalanceBox.CleanUp(highestbuy) + BalanceBox.CleanUp(lowestsell)) / 2).toFixed(6);
+    },
+
+    getURLParameter: function(param) 
+    {
+      var pageURL = window.location.search.substring(1);
+      var URLVariables = pageURL.split('&');
+      for (var i = 0; i < URLVariables.length; i++) {
+          var parameterName = URLVariables[i].split('=');
+          if (parameterName[0] == param) {
+              return parameterName[1];
+            }
+      }
     },
 
     colourloop: function() {
@@ -240,7 +250,8 @@ var init = {
         SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
         SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
         SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
-        $('.coinType').prepend((BalanceBox.getURLParameter("alt")).toUpperCase());
+        $('.coinType').prepend((init.getURLParameter("alt")).toUpperCase());
+
 
         //On change of #SiteSelect it calls the sitestatus script for the picked option
         $("#SiteSelect").change(function() 
@@ -297,21 +308,6 @@ var init = {
 //End of var
 };
 
-// When document is ready run thru our code.
-$(document).ready(function () 
-{
-    //Refresh page every  90 secs
-    setTimeout('location.reload();', 90000);
-
-    // Initialization
-    init.avg();
-    init.colourloop();
-    init.calculationInsert();
-    init.BSquantitytotal();
-    init.recBuySell();
-
-});
-
 var Vircurex = {
 
     derp: function(a, b, c) {
@@ -325,8 +321,7 @@ var Vircurex = {
                 alert("Value text type derp! text or hyperlink!");
             }
 
-        cellvalue = cellvalue.replace(',', '');
-        cellvalue = (parseFloat(cellvalue)).toFixed(6);
+        cellvalue = BalanceBox.CleanUp(cellvalue);
         return cellvalue;
     },
 
@@ -396,6 +391,7 @@ var SiteStatus = {
         };
 
         img.src = url;
+
         timer = setTimeout(function() {
             timedOut = true;
             SiteStatus.record("Timeout", siteNum);
@@ -414,79 +410,66 @@ var SiteStatus = {
 //Beginning of modular function container
 var BalanceBox = {
 
-    getURLParameter: function(param) 
-    {
-      var pageURL = window.location.search.substring(1);
-      var URLVariables = pageURL.split('&');
-      for (var i = 0; i < URLVariables.length; i++) {
-          var parameterName = URLVariables[i].split('=');
-          if (parameterName[0] == param) {
-              return parameterName[1];
-            }
-      }
-    },
-
-        //not tested the below.. WIP!
+    //not tested the below.. WIP!
     ProfitCalcSubmit: function()
     {
-     $("#Auto").click(function(){
+     $("#Calculate").click(function() {
           var InitCoinVal = document.getElementById("CoinInit");
-          var Currency = document.getElementById("currencylist");
-          var CurrencyBalance = BalanceBox.BalanceVal(Currency);
-          balancebox.profit(InitCoinVal);
+          var UserBalance = BalanceBox.BalanceVal(init.getURLParameter("alt"));
+          $('.ProfitTD').prepend(BalanceBox.profit(InitCoinVal, UserBalance));
        });
     },
 
     BalanceGrab: function()
     {
-     $("#Calculate").click(function(){
+     $("#Auto").click(function() {
           UsrBalInput = document.getElementById("BalanceInput");
-          if (UsrBalInput !== ""){
-            //uh..
+          if (UsrBalInput !== "") {
+            alert("This grabs user Balance, remove user input or dont click this.");
           } else {
-            UsrBalInput = BalanceBox.BalanceVal(getURLParameter("alt"));
+            $('.BalanceInput').replace(BalanceBox.BalanceVal(currency));
           }
        });
     },
 
-    balance: function(tr) {
-      var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").text();
-      return Balance;
-    },
-
-    CleanUp: function(Value){
+    CleanUp: function(Value) {
       Value = Value.replace(/,/g, '');
       parseFloat(Value);
       return Value;
     },
 
-    profit: function(InitCoinVal, Balance, AvgVal){
-      Profit = ((Balance * AvgVal)-(Balance * InitCoinVal)).toFixed(6);
+    profit: function(InitCoinVal, Balance, avg) {
+      Profit = ((Balance * avg)-(Balance * InitCoinVal)).toFixed(6);
+      return Profit;
     },
 
     BalanceVal: function(Currency) {
       for (var z = 2; z < 10; z++) 
       {
-        if((BalanceBox.balanceType(z))!=="") {
-            If(BalanceBox.balanceType(z)===Currency) {
+        if ((BalanceBox.balanceType(z))!=="") {
+            if (BalanceBox.balanceType(z)===Currency) {
                 var Balance = BalanceBox.balance(z);
+                Balance = BalanceBox.CleanUp(Balance);
                 return Balance;
             }
         } else {
             break;
         }
       }
-    },
-
-    //Could even probably merge the following with the colouring of recent buy/sell orders!.
-    //Both use green/orange/red.
-    balancecolour: function(a,b) {
-    if(a > 0) {
-      $(b).css({"background-color": "green"});
-      } else if (a === 0){
-      $(b).css({"background-color": "orange"});
-      } else {
-      $(b).css({"background-color": "red"});
-      }
     }
 };
+
+// When document is ready run thru our code.
+$(document).ready(function () 
+{
+    //Refresh page every  90 secs
+    setTimeout('location.reload();', 90000);
+
+    // Initialization
+    init.avg();
+    init.colourloop();
+    init.calculationInsert();
+    init.BSquantitytotal();
+    init.recBuySell();
+
+});
