@@ -136,17 +136,16 @@ var init = {
                               + '<td class="coinType"></td>'
                               + '<td class=\"Balance\">'
                                 + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput"/>'
-                                + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto" onClick="BalanceBox.BalanceGrab()">'
+                                + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
                               + '</td>'
                               + '<td class=\"CoinInitBuy\">'
                                 + '<input style="width:100px" type="text" id="CoinInit" />'
                               + '</td>'
                               + '<td class=\"CurrentValue\">'
-                                + '<input style="width:100px" type="text" id="CurrentVal" />'
                               + '</td>'
-                              + '<td class="ProfitTD">Test</td>'
+                              + '<td class="ProfitTD"></td>'
                               + '<td class=\"Submit\">'
-                                + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go" onClick="BalanceBox.ProfitCalcSubmit()">'
+                                + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go">'
                               + '</td>'
                             + '</tr>'
                                 //Blank row between tables!
@@ -257,19 +256,6 @@ var init = {
                             + '</tr>'
                     +'</table>'
                 +'</div>');
-
-        SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
-        SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
-        SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
-        $('.coinType').prepend((init.getURLParameter("alt")).toUpperCase());
-
-
-        //On change of #SiteSelect it calls the sitestatus script for the picked option
-        $("#SiteSelect").change(function() 
-        {
-          var changedVal = $("#SiteSelect").val();
-          SiteStatus.testImage(changedVal,4);
-        });
     },
 
     BSquantitytotal: function()
@@ -288,7 +274,7 @@ var init = {
         if (buyqtytotal > sellqtytotal) {
             $('.BSquan').append("Buy.Qty > Sell.Qty");
             $('.BSquan2').append("▲");
-          } else if (trcbuytotal === trcselltotal) {
+          } else if (buyqtytotal === sellqtytotal) {
             $('.BSquan').append("Buy.Qty = Sell.Qty");
             $('.BSquan2').append("---");
           } else {
@@ -421,6 +407,21 @@ var SiteStatus = {
     record: function(result, siteNum) {
         //This line works
         (document.getElementById("Sitestatus" + siteNum)).innerHTML = result;
+    },
+
+    init: function() {
+      SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
+      SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
+      SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
+      $('.coinType').prepend((init.getURLParameter("alt")).toUpperCase());
+      $('.CurrentValue').prepend(avg);
+
+      //On change of #SiteSelect it calls the sitestatus script for the picked option
+      $("#SiteSelect").change(function() 
+      {
+        var changedVal = $("#SiteSelect").val();
+        SiteStatus.testImage(changedVal,4);
+      });
     }
 };  
 
@@ -433,24 +434,25 @@ var BalanceBox = {
     //not tested the below.. WIP!
     ProfitCalcSubmit: function()
     {
-     $("#Calculate").click(function() {
-          var InitCoinVal = document.getElementById("CoinInit");
-          var UserBalance = BalanceBox.BalanceVal(init.getURLParameter("alt"));
-          $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));
-       });
+          var InitCoinVal = document.getElementById("CoinInit").value;
+          var UserBalance = document.getElementById("BalanceInput").value;
+          if (InitCoinVal === "" || UserBalance === "") {
+            alert("Dont leave Initial coin value/Balance fields empty!");
+          } else {
+            $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));          
+          }
     },
 
     BalanceGrab: function()
     {
-     $("#Auto").click(function() {
-          var UsrBalInput = document.getElementById("BalanceInput");
-          alert(UsrBalInput);
-          if (UsrBalInput !== "") {
-            alert("This grabs user Balance, remove user input or dont click this.");
-          } else {
-            alert("test");  
-          }
-       });
+      var UsrBalInput = document.getElementById("BalanceInput").value;
+      if (UsrBalInput !== "") {
+        alert("This grabs balance, empty input if you want your full balance inputed for you.");
+      } else {
+        if (((BalanceBox.BalanceVal(init.getURLParameter("alt"))).length) !== 0) {
+          document.getElementById("BalanceInput").value = BalanceBox.BalanceVal(init.getURLParameter("alt"));
+        }
+      }
     },
 
     CleanUp: function(Value) {
@@ -459,26 +461,43 @@ var BalanceBox = {
       return Value;
     },
 
-    profit: function(InitCoinVal, Balance) {
-      Profit = ((Balance * avg)-(Balance * InitCoinVal)).toFixed(6);
+    profit: function(InitCoinVal, Balance, avg) {
+      var Profit = ((Balance * avg)-(Balance * InitCoinVal)).toFixed(6);
       return Profit;
     },
 
+    //Two following functions could be squished into the one function.
+    //However, one is a wordy string, and the other is a numbery string.
+    balanceType: function(tr) {
+        var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(1)").html();
+        return balanceType;
+    },
+
+    balance: function(tr) {
+        var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").html();
+        Balance = BalanceBox.CleanUp(Balance);
+        return Balance;
+    },
+
     BalanceVal: function(Currency) {
-      alert("BalanceVar Called!");
-      for (var z = 2; z < 10; z++) 
+      //alert("BalanceVar Called!");
+      for (var z = 5; z < 12; z++) 
       {
-        if ((BalanceBox.balanceType(z))!=="") {
-            if (BalanceBox.balanceType(z)===Currency) {
-                var Balance = BalanceBox.balance(z);
-                Balance = BalanceBox.CleanUp(Balance);
-                return Balance;
+        if ((BalanceBox.balanceType(z)) !== "") {
+            if (BalanceBox.balanceType(z) === Currency) {
+                var BalanceVal = BalanceBox.balance(z);
+                BalanceVal = BalanceBox.CleanUp(BalanceVal);
+                return BalanceVal;
+                break;
+            } else {
+                continue;
             }
         } else {
+            alert("You dont own this type of currency.");
             break;
         }
       }
-      alert("BalanceVar Finished!");
+      //alert("BalanceVar Finished!");
     }
 };
 
@@ -489,16 +508,28 @@ $(document).ready(function ()
     setTimeout('location.reload();', 90000);
 
     // Initialization
-     //alert("avg");
     init.avg();
-      //alert("colourloop");
     init.colourloop();
-      //alert("postcolourloop")
-      //alert("calculationInsert");
-    init.calculationInsert();
-      //alert("BSquantitytotal");
     init.BSquantitytotal();
-     //alert("recBuySell");
     init.recBuySell();
+    init.calculationInsert();
+    SiteStatus.init();
 
+    //button click stuff
+    //The following finally works!!
+    $("#Auto").click(function () {
+      if ($('.nothing').length === 0) {
+        alert("Log in!");
+      } else if ($('.nothing').length !== 0) {
+        BalanceBox.BalanceGrab();
+      }
+    });
+
+    $("#Calculate").click(function () {
+      if ($('.nothing').length === 0) {
+        alert("Log in!");
+      } else if ($('.nothing').length !== 0) {
+        BalanceBox.ProfitCalcSubmit();
+      }
+    });
 });
