@@ -437,21 +437,33 @@ var BalanceBox = {
           var InitCoinVal = document.getElementById("CoinInit").value;
           var UserBalance = document.getElementById("BalanceInput").value;
           if (InitCoinVal === "" || UserBalance === "") {
-            alert("Dont leave Initial coin value/Balance fields empty!");
+            alert("Dont leave the initial coin value/balance fields empty!");
           } else {
             $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));          
           }
     },
 
+    //BalanceGrab: function()
+    //{
+      //var UsrBalInput = document.getElementById("BalanceInput").value;
+      //if (UsrBalInput !== "") {
+       //alert("This grabs balance, empty input if you want your full balance inputed for you.");
+      //} else {
+        //if (((BalanceBox.BalanceVal(init.getURLParameter("alt"))).length) !== 0) {
+          //document.getElementById("BalanceInput").value = BalanceBox.BalanceVal(init.getURLParameter("alt"));
+        //}
+      //}
+    //},
+
+
     BalanceGrab: function()
     {
-      var UsrBalInput = document.getElementById("BalanceInput").value;
-      if (UsrBalInput !== "") {
-        alert("This grabs balance, empty input if you want your full balance inputed for you.");
+    var question=confirm("This grabs your " + ((init.getURLParameter("alt")).toUpperCase()) + " balance value, continue?");
+
+    if (question==true) {
+        document.getElementById("BalanceInput").value = BalanceBox.BalanceVal(init.getURLParameter("alt"));
       } else {
-        if (((BalanceBox.BalanceVal(init.getURLParameter("alt"))).length) !== 0) {
-          document.getElementById("BalanceInput").value = BalanceBox.BalanceVal(init.getURLParameter("alt"));
-        }
+        //dont continue
       }
     },
 
@@ -462,7 +474,7 @@ var BalanceBox = {
     },
 
     profit: function(InitCoinVal, Balance, avg) {
-      var Profit = ((Balance * avg)-(Balance * InitCoinVal)).toFixed(6);
+      var profit = BalanceBox.CleanUp(((Balance * avg)-(Balance * InitCoinVal)).toFixed(6));
       return Profit;
     },
 
