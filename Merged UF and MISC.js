@@ -258,6 +258,11 @@ var init = {
                 +'</div>');
     },
 
+//End of var
+};
+
+var InitResults = {
+
     BSquantitytotal: function()
     {
         var buyqty = 0, buyqtytotal  = 0, sellqty  = 0, sellqtytotal  = 0;
@@ -311,8 +316,7 @@ var init = {
           }
     }
 
-//End of var
-};
+}
 
 var Vircurex = {
 
@@ -524,10 +528,10 @@ $(document).ready(function ()
     // Initialization
     init.avg();
     init.colourloop();
-    init.BSquantitytotal();
-    init.recBuySell();
     init.calculationInsert();
     SiteStatus.init();
+    InitResults.recBuySell();
+    InitResults.BSquantitytotal();
 
     //button click stuff
     //The following finally works!!
