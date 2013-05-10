@@ -434,9 +434,11 @@ var BalanceBox = {
     //not tested the below.. WIP!
     ProfitCalcSubmit: function()
     {
-          var InitCoinVal = document.getElementById("CoinInit").value;
-          var UserBalance = document.getElementById("BalanceInput").value;
-          if (InitCoinVal === "" || UserBalance === "") {
+          var InitCoinVal = BalanceBox.CleanUp(document.getElementById("CoinInit").value);
+          var UserBalance = BalanceBox.CleanUp(document.getElementById("BalanceInput").value);
+          alert(InitCoinVal);
+          alert(UserBalance);
+          if (InitCoinVal.length === 0 || UserBalance.length === 0) {
             alert("Dont leave the initial coin value/balance fields empty!");
           } else {
             $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));          
@@ -459,9 +461,8 @@ var BalanceBox = {
     BalanceGrab: function()
     {
     var question=confirm("This grabs your " + ((init.getURLParameter("alt")).toUpperCase()) + " balance value, continue?");
-
     if (question==true) {
-        document.getElementById("BalanceInput").value = BalanceBox.BalanceVal(init.getURLParameter("alt"));
+        document.getElementById("BalanceInput").value = BalanceBox.BalanceVal((init.getURLParameter("alt")).toUpperCase());
       } else {
         //dont continue
       }
@@ -482,12 +483,13 @@ var BalanceBox = {
     //However, one is a wordy string, and the other is a numbery string.
     balanceType: function(tr) {
         var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(1)").html();
+        balanceType = balanceType.replace(" ", '');
+        alert(balanceType);
         return balanceType;
     },
 
     balance: function(tr) {
-        var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(2)").html();
-        Balance = BalanceBox.CleanUp(Balance);
+        var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").html();
         return Balance;
     },
 
@@ -495,21 +497,21 @@ var BalanceBox = {
       //alert("BalanceVar Called!");
       for (var z = 5; z < 12; z++) 
       {
-        if ((BalanceBox.balanceType(z)) !== "") {
+        if ((BalanceBox.balanceType(z).length !== 0)) {
             if (BalanceBox.balanceType(z) === Currency) {
                 var BalanceVal = BalanceBox.balance(z);
-                BalanceVal = BalanceBox.CleanUp(BalanceVal);
+                BalanceVal = (BalanceBox.CleanUp(BalanceVal)).toFixed(6);
                 return BalanceVal;
                 break;
             } else {
                 continue;
             }
-        } else {
+        } else if ((BalanceBox.balanceType(z)).length === 0) {
             alert("You dont own this type of currency.");
             break;
         }
       }
-      //alert("BalanceVar Finished!");
+      alert("BalanceVar Finished!");
     }
 };
 
@@ -541,6 +543,7 @@ $(document).ready(function ()
       if ($('.nothing').length === 0) {
         alert("Log in!");
       } else if ($('.nothing').length !== 0) {
+        alert("Calculate button clicked!")
         BalanceBox.ProfitCalcSubmit();
       }
     });
