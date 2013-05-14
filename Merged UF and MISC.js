@@ -431,14 +431,13 @@ var BalanceBox = {
 
     //not tested the below.. WIP!
     ProfitCalcSubmit: function () {
-        var InitCoinVal = BalanceBox.CleanUp(document.getElementById("CoinInit").value);
         var UserBalance = BalanceBox.CleanUp(document.getElementById("BalanceInput").value);
-        //alert(InitCoinVal);
-        //alert(UserBalance);
+        var InitCoinVal = BalanceBox.CleanUp(document.getElementById("CoinInit").value);
+
         if (InitCoinVal.length === 0 || UserBalance.length === 0) {
             alert("Dont leave the initial coin value/balance fields empty!");
         } else {
-            $('.ProfitTD').append(BalanceBox.profit(InitCoinVal, UserBalance));
+            document.getElementById('ProfitTD').innerHTML = BalanceBox.profit(InitCoinVal, UserBalance);
         }
     },
 
@@ -448,8 +447,6 @@ var BalanceBox = {
         
         if (question === true) {
             $('#BalanceInput')[0].value = BalanceBox.BalanceVal(site);
-            //$('#BalanceInput')[0].value = ("Test");
-            //.prepend
         }
     },
 
@@ -479,25 +476,18 @@ var BalanceBox = {
 
     BalanceVal: function (Currency) {
         //Gets called
-            alert("BalanceVar Called!");
 
                 for (var z = 5; z < 12; z++) {
                 //Declaring vars before If's
                 var LineType = BalanceBox.balanceType(z);
-                alert(LineType);
-
                 var LineValue = BalanceBox.balance(z);
-                alert(LineValue);
 
                      if ( ( LineType.length > 0 ) && (LineType === Currency) ) {
                           //
-                          alert("Present!");
-                          alert(LineValue);
                           return LineValue;
                           //
                       } else if ( ( LineType.length > 0 ) && (LineType !== Currency) ) {                  
                           //
-                          alert("continue");
                           continue;
                           //
                       } else if (LineType.length === 0) {
@@ -507,8 +497,6 @@ var BalanceBox = {
                           //
                       }
               }
-
-            alert("BalanceVar Finished!");
         }
     };
 
