@@ -467,13 +467,13 @@ var BalanceBox = {
     //However, one is a wordy string, and the other is a numbery string.
     balanceType: function (tr) {
         var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(1)").html();
-        balanceType = balanceType.replace(/\s+/g, ' ');
+        balanceType = balanceType.trim();
         return balanceType;
     },
 
     balance: function (tr) {
         var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(2)").html();
-        Balance = Balancebox.Cleanup(Balance);
+        Balance = parseFloat(Balance)
         return Balance;
     },
 
