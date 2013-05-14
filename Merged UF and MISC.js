@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Combined Re-worked Misc & universal function scripts
 // @namespace   Ricky
-// @match       https://vircurex.com/*
-// @include     https://vircurex.com/*
+// @match       https://vircurex.com/orders?*
+// @include     https://vircurex.com/orders?*
 // @version     0.1
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
@@ -132,7 +132,7 @@ var init = {
                             + '<tr class=\"alt\">'
                               + '<td class="coinType"></td>'
                               + '<td class=\"Balance\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput"/>'
+                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" value="?"/>'
                                 + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
                               + '</td>'
                               + '<td class=\"CoinInitBuy\">'
@@ -159,7 +159,7 @@ var init = {
                             + '<tr class=\"alt\">'
                               + '<td class="coinType"></td>'
                               + '<td class=\"Difference\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" />'
+                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput2" />'
                               + '</td>'
                               + '<td class=\"BTCInput\">'
                                 + '<input style="width:100px" type="text" class="CoinInit" />'
@@ -253,7 +253,7 @@ var init = {
                             + '</tr>'
                     + '</table>'
                 + '</div>');
-    },
+    }
 
     //End of var
 };
@@ -284,7 +284,7 @@ var InitResults = {
         }
     },
 
-    recBuySell: function (recentOrdVal, recentOrdCell, buysell) {
+    recBuySell: function () {
         var recbuy = 0, recsell = 0;
 
         for (var q = 3; q < 23; q++) {
@@ -311,7 +311,7 @@ var InitResults = {
         }
     }
 
-}
+};
 
 var Vircurex = {
 
@@ -433,8 +433,8 @@ var BalanceBox = {
     ProfitCalcSubmit: function () {
         var InitCoinVal = BalanceBox.CleanUp(document.getElementById("CoinInit").value);
         var UserBalance = BalanceBox.CleanUp(document.getElementById("BalanceInput").value);
-        alert(InitCoinVal);
-        alert(UserBalance);
+        //alert(InitCoinVal);
+        //alert(UserBalance);
         if (InitCoinVal.length === 0 || UserBalance.length === 0) {
             alert("Dont leave the initial coin value/balance fields empty!");
         } else {
@@ -442,35 +442,23 @@ var BalanceBox = {
         }
     },
 
-    //BalanceGrab: function()
-    //{
-    //var UsrBalInput = document.getElementById("BalanceInput").value;
-    //if (UsrBalInput !== "") {
-    //alert("This grabs balance, empty input if you want your full balance inputed for you.");
-    //} else {
-    //if (((BalanceBox.BalanceVal(init.getURLParameter("alt"))).length) !== 0) {
-    //document.getElementById("BalanceInput").value = BalanceBox.BalanceVal(init.getURLParameter("alt"));
-    //}
-    //}
-    //},
-
-
     BalanceGrab: function () {
-        var question = confirm("This grabs your " + ((init.getURLParameter("alt")).toUpperCase()) + " balance value, continue?");
-        if (question == true) {
-            document.getElementById("BalanceInput").value = BalanceBox.BalanceVal((init.getURLParameter("alt")).toUpperCase());
-        } else {
-            //dont continue
+        var site = ((init.getURLParameter("alt")).toUpperCase());
+        var question = confirm("This grabs your " + site + " balance value, continue?");
+        
+        if (question === true) {
+            $('#BalanceInput')[0].value = BalanceBox.BalanceVal(site);
+            //$('#BalanceInput')[0].value = ("Test");
+            //.prepend
         }
     },
 
     CleanUp: function (Value) {
         Value = Value.replace(/,/g, '');
-        parseFloat(Value);
         return Value;
     },
 
-    profit: function (InitCoinVal, Balance, avg) {
+    profit: function (InitCoinVal, Balance) {
         var profit = BalanceBox.CleanUp(((Balance * avg) - (Balance * InitCoinVal)).toFixed(6));
         return Profit;
     },
@@ -479,36 +467,54 @@ var BalanceBox = {
     //However, one is a wordy string, and the other is a numbery string.
     balanceType: function (tr) {
         var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(1)").html();
-        balanceType = balanceType.replace(" ", '');
-        alert(balanceType);
+        balanceType = balanceType.replace(/\s+/g, ' ');
+        //balanceType = balanceType.trim();
         return balanceType;
     },
 
     balance: function (tr) {
-        var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td.coinformat:nth-child(1)").html();
+        var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(2)").html();
+        Balance = Balancebox.Cleanup(Balance);
+        
+        //below line doesnt work..
+        //Balance = Balance.trim();
         return Balance;
     },
 
     BalanceVal: function (Currency) {
-        //alert("BalanceVar Called!");
-        for (var z = 5; z < 12; z++) {
-            if ((BalanceBox.balanceType(z).length !== 0)) {
-                if (BalanceBox.balanceType(z) === Currency) {
-                    var BalanceVal = BalanceBox.balance(z);
-                    BalanceVal = (BalanceBox.CleanUp(BalanceVal)).toFixed(6);
-                    return BalanceVal;
-                    break;
-                } else {
-                    continue;
-                }
-            } else if ((BalanceBox.balanceType(z)).length === 0) {
-                alert("You dont own this type of currency.");
-                break;
-            }
+        //Gets called
+            alert("BalanceVar Called!");
+
+                for (var z = 5; z < 12; z++) {
+                //Declaring vars before If's
+                var LineType = BalanceBox.balanceType(z);
+                alert(LineType);
+
+                var LineValue = BalanceBox.balance(z);
+                alert(LineValue);
+
+                     if ( ( LineType.length > 0 ) && (LineType === Currency) ) {
+                          //
+                          alert("Present!");
+                          alert(LineValue);
+                          return LineValue;
+                          //
+                      } else if ( ( LineType.length > 0 ) && (LineType !== Currency) ) {                  
+                          //
+                          alert("continue");
+                          continue;
+                          //
+                      } else if (LineType.length === 0) {
+                          //
+                          alert("You dont own this type of currency.");
+                          break;
+                          //
+                      }
+              }
+
+            alert("BalanceVar Finished!");
         }
-        alert("BalanceVar Finished!");
-    }
-};
+    };
 
 // When document is ready run thru our code.
 $(document).ready(function () {
@@ -537,7 +543,7 @@ $(document).ready(function () {
         if ($('.nothing').length === 0) {
             alert("Log in!");
         } else if ($('.nothing').length !== 0) {
-            alert("Calculate button clicked!")
+            alert("Calculate button clicked!");
             BalanceBox.ProfitCalcSubmit();
         }
     });
