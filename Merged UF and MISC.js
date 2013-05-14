@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Combined Re-worked Misc & universal function scripts
 // @namespace   Ricky
-// @match       https://vircurex.com/orders?*
-// @include     https://vircurex.com/orders?*
+// @match       https://vircurex.com/*
+// @include     https://vircurex.com/*
 // @version     0.1
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     http://code.jquery.com/ui/1.10.2/jquery-ui.js
@@ -468,16 +468,12 @@ var BalanceBox = {
     balanceType: function (tr) {
         var balanceType = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(1)").html();
         balanceType = balanceType.replace(/\s+/g, ' ');
-        //balanceType = balanceType.trim();
         return balanceType;
     },
 
     balance: function (tr) {
         var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(2)").html();
         Balance = Balancebox.Cleanup(Balance);
-        
-        //below line doesnt work..
-        //Balance = Balance.trim();
         return Balance;
     },
 
