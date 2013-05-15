@@ -16,7 +16,7 @@ In no respect shall DerpCORP incur any liability for any damages, including, but
 
 // GLOBAL VARS
 'use strict';
-var highestbuy = 0, lowestsell = 0, avg = 0;
+var highestbuy = 0, lowestsell = 0, avg = 0, giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
 
 var init = {
     avg: function () {
@@ -177,65 +177,63 @@ var init = {
             + '</div>');
     },
 
+    loop: function() {
+        for (var i = 3; i < 23; i++) {
+            TODO: redo colour loop into seperate modular chunks!
+                  pass each modular chunk into this loop, as this is now THE LOOP!!!!
+        }
+    }
+
+
     colourloop: function () {
         for (var i = 3; i < 23; i++) {
-            //alert("1");
+            //---//
             var buy = Vircurex.derp('link', i, 2);
             var sell = Vircurex.derp('link', i, 6);
             var recent = Vircurex.derp('text', i, 11);
+            //Grabbing the cell locations of buy/sell/recent to colour
+            var buycolour = Vircurex.getCell('mainwindow', i, 2);
+            var sellcolour = Vircurex.getCell('mainwindow', i, 6);
+            var recentcolour = Vircurex.getCell('mainwindow', i, 11);
 
-            //alert("2");
             //Grabbing buy/sell/recent quantity values
             var buyqty = Vircurex.derp('link', i, 1);
             var sellqty = Vircurex.derp('link', i, 5);
             var recentqty = Vircurex.derp('text', i, 10);
-
-            //alert("3");
-            //Grabbing btc values
-            var btcbuyqty = Vircurex.derp('text', i, 3);
-            var btcsellqty = Vircurex.derp('text', i, 7);
-            var btcrecqty = Vircurex.derp('text', i, 12);
-
-            //alert("4");
-            //Grabbing btc cells
-            var btcBuyQtyCell = Vircurex.getCell('mainwindow', i, 3);
-            var btcSellQtyCell = Vircurex.getCell('mainwindow', i, 7);
-            var btcRecQtyCell = Vircurex.getCell('mainwindow', i, 12);
-
-            //alert("5");
             //Grabbing the buy/sell/recent quantity cells
             var buyqtycell = Vircurex.getCell('mainwindow', i, 1);
             var sellqtycell = Vircurex.getCell('mainwindow', i, 5);
             var recentqtycell = Vircurex.getCell('mainwindow', i, 10);
 
-            //alert("6");
-            //Grabbing the cell locations of buy/sell/recent to colour
-            var buycolour = Vircurex.getCell('mainwindow', i, 2);
-            var sellcolour = Vircurex.getCell('mainwindow', i, 6);
-            var recentcolour = Vircurex.getCell('mainwindow', i, 11);
-            var recTime = Vircurex.getCell('mainwindow', i, 9);
+            //Grabbing btc values
+            var btcbuyqty = Vircurex.derp('text', i, 3);
+            var btcsellqty = Vircurex.derp('text', i, 7);
+            var btcrecqty = Vircurex.derp('text', i, 12);
+            //Grabbing btc cells
+            var btcBuyQtyCell = Vircurex.getCell('mainwindow', i, 3);
+            var btcSellQtyCell = Vircurex.getCell('mainwindow', i, 7);
+            var btcRecQtyCell = Vircurex.getCell('mainwindow', i, 12);
 
-            //alert("7");
-            //Recent value ('buy/sell') & recent cell
-            //var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)').text();
-            //var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(13)')[0];
+
+
+
+            
+            //Grab recent time to maybe show difference in time between recent executions..
+            //var recTime = Vircurex.getCell('mainwindow', i, 9);
 
             var pctDiffArr = [0.00, 5.00, 10.00, 25.00, 50.00, 75.00];
             var btcQtyArr = [0.000000, 0.0010000, 0.010000, 0.100000, 1.000000, 5.000000];
 
-            //alert("8");
             //Partially finished buy colour ranking system
             var BuyGradient = ['#00FF33', '#00CC33', '#009933', '#006633', '#003333', '#000033'];
             var SellGradient = ['#FFFF33', '#FFCC33', '#FF9933', '#FF6633', '#FF3333', '#FF0033'];
             var GorGradient = ['#006600', '#B80000', '#FF9900'];  //Green/Orange/Red
             var QtyGradient = ['#FFFFFF', '#E0E0E0', '#C8C8C8', '#A8A8A8', '#808080', '#505050'];
 
-            //alert("9");
             //Working PERCENT difference!
             var pctDiffbuy = (Math.abs(((buy / avg) * 100) - 100)).toFixed(2);
             var pctDiffsell = (Math.abs(((sell / avg) * 100) - 100)).toFixed(2);
 
-            //alert("10");
             //Calling function to colour the buy/sell/recent prices
             Vircurex.Colours(buycolour, pctDiffbuy, pctDiffArr, BuyGradient);
             Vircurex.Colours(sellcolour, pctDiffsell, pctDiffArr, SellGradient);
@@ -248,12 +246,10 @@ var init = {
             Vircurex.Colours(btcBuyQtyCell, btcbuyqty, btcQtyArr, QtyGradient);
             Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
-            //alert("12");
             //Muh-Fuggan strike throughs!
-            InitResults.StrikeInit(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, "1");
-            InitResults.StrikeInit(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, "2");
-            InitResults.StrikeInit(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, "3");
-            //alert("13");
+            strikeThrough.StrikeInit(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, "1");
+            strikeThrough.StrikeInit(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, "2");
+            strikeThrough.StrikeInit(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, "3");
         }
     }
     //End of var
@@ -311,48 +307,49 @@ var InitResults = {
             $('.RecBS2').append("▼");
         }
     },
+};
 
-//New strike throughs nor tested!
+var strikeThrough = {
+    //New strike throughs nor tested!
+//giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
     StrikeInit: function (a, b, c, d, e) {
-        //Strike through Script
-        var Strike = 0;
+        if (e === 1) {
+            strikeThrough.striking(a, b, c, d, "giBuyStrikeCount");
+        } else if (e == 2) {
+            strikeThrough.striking(a, b, c, d, "giSellStrikeCount");
+        } else if (e === 3) {
+            strikeThrough.striking(a, b, c, d, "giRecentStrikeCount");
+        }
+    },
 
-        for (var q = 3; q < 23; q++) {
-            var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(' + x + ')').text();
-            var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(' + x + ')')[0];
-
-            if (a < 0.015000) {
+    Striking: function(a,b,c,d,e) {
+            if (a < 0.010000) {
                 //Strikes through the recent orders that are too small
                 $(b).css('textDecoration', 'line-through');
                 $(c).css('textDecoration', 'line-through');
                 $(d).css('textDecoration', 'line-through');
-                Strike++;              
+                e++              
             }
-        }
-
-        if (e = 1) {
-            InitResults.StrikeResult(Strike, '1', '2', 'Buy');
-        } else if (e = 2) {
-            InitResults.StrikeResult(Strike, '2', '3', 'Sell');
-        } else if (e = 3) {
-            InitResults.StrikeResult(Strike, '4', '5', 'Recent');
-        }
-    },
-
-    StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
-        if (Strike > 10) {
-            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike > 10");
-            $('.shenanegans' + tdloc2).append("Shenanegans? ✓");
-        } else if (buysrike = 10) {
-            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike = 10");
-            $('.shenanegans' + tdloc2).append("Shenanegans afoot?");
-        } else if (buysrike < 10) {
-            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike < 10");
-            $('.shenanegans' + tdloc2).append("Shenanegans? ✘");
-        }
     }
 
-};
+    StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
+        //alert("Strike Result start");
+        if (Strike > 10) {
+            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike > 10");
+            $('.shenanegans' + tdloc2).append("Shenanegans?! ✓");
+            alert("1");
+        } else if (Strike === 10) {
+            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike = 10");
+            $('.shenanegans' + tdloc2).append("Shenanegans afoot?");
+            alert("2");
+        } else if (Strike < 10) {
+            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike < 10");
+            $('.shenanegans' + tdloc2).append("Shenanegans? ✘");
+            alert("3");
+        }
+        //alert("Strike result end");
+    }
+}
 
 var Vircurex = {
 
@@ -553,6 +550,10 @@ $(document).ready(function () {
     SiteStatus.init();
     InitResults.recBuySell();
     InitResults.BSquantitytotal();
+    //giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
+    strikeThrough.StrikeResult(giBuyStrikeCount, '1', '2', 'Buy');
+    strikeThrough.StrikeResult(giSellStrikeCount, '2', '3', 'Sell');
+    strikeThrough.StrikeResult(giRecentStrikeCount, '4', '5', 'Recent');
 
     //button click stuff
     //The following finally works!!
