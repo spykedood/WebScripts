@@ -15,6 +15,7 @@ In no respect shall DerpCORP incur any liability for any damages, including, but
 */
 
 // GLOBAL VARS
+'use strict';
 var highestbuy = 0, lowestsell = 0, avg = 0;
 
 var init = {
@@ -35,6 +36,145 @@ var init = {
                 return parameterName[1];
             }
         }
+    },
+
+    calculationInsert: function () {
+    $('.mainwindow').append('<div style="float:top;"></br>'
+                            + '<table class=\"mylists\" style="font-size: 80%">'
+                        + '<tr><td colspan=5></td></tr>'
+                        + '<tr>'
+                          + '<th>Profit Calculator</th>'
+                          + '<th>Balance</th>'
+                          + '<th>Initial Price</th>'
+                          + '<th>Current Value</th>'
+                          + '<th>Profit</th>'
+                          + '<th></th>'
+                        + '</tr>'
+                        + '<tr class=\"alt\">'
+                          + '<td class="coinType"></td>'
+                          + '<td class=\"Balance\">'
+                            + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" value="?"/>'
+                            + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
+                          + '</td>'
+                          + '<td class=\"CoinInitBuy\">'
+                            + '<input style="width:100px" type="text" id="CoinInit" />'
+                          + '</td>'
+                          + '<td class=\"CurrentValue\">'
+                          + '</td>'
+                          + '<td class=\"ProfitTD\">'
+                          + '</td>'
+                          + '<td class=\"Submit\">'
+                            + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go">'
+                          + '</td>'
+                        + '</tr>'
+                            //Blank row between tables!
+                          + '<tr><td></td></tr>'
+                            //Start of next table! 
+                        + '<tr>'
+                          + '<th>Profit Calculator</th>'
+                          + '<th>Balance</th>'
+                          + '<th>Initial Price</th>'
+                          + '<th>Current Value</th>'
+                          + '<th>Profit</th>'
+                          + '<th></th>'
+                        + '</tr>'
+                        + '<tr class=\"alt\">'
+                          + '<td class="coinType"></td>'
+                          + '<td class=\"Balance\">'
+                            + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" value="?"/>'
+                            + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
+                          + '</td>'
+                          + '<td class=\"CoinInitBuy\">'
+                            + '<input style="width:100px" type="text" id="CoinInit" />'
+                          + '</td>'
+                          + '<td class=\"CurrentValue\">'
+                          + '</td>'
+                          + '<td class="ProfitTD2"></td>'
+                          + '<td class=\"Submit\">'
+                            + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go">'
+                          + '</td>'
+                        + '</tr>'
+                            //Blank row between tables!
+                          + '<tr>'
+                          + '<td></td></tr>'
+                            //Start of next table!
+                       + '</br>'
+                      //End of table above
+                      //Onto the Results and Website Status Sections.
+                      + '<table class=\"mylists\" style="font-size: 80%">'
+                        + '<tr>'
+                            + '<td colspan=6></td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<th>Readouts:</th>'
+                          + '<th></th>'
+                          + '<th></th>'
+                          + '<th></th>'
+                          + '<th></th>'
+                          + '<th>Website</th>'
+                          + '<th>Status</th>'
+                        + '</tr>'
+                        //1st row
+                        + '<tr class=\"alt\">'
+                            + '<td class="RecBS"></td>'
+                            + '<td>∴</td>'
+                            + '<td class="RecBS2">Value: </td>'
+                            + '<td></td>'
+                            //gap between left and right
+                            + '<td></td>'
+                          //SiteStatus section
+                            + '<td>MTgox:'
+                                + '<td id="Sitestatus1">?</td>'
+                            + '</td>'
+                        + '</tr>'
+                        //2nd row
+                        + '<tr>'
+                            + '<td class="shenanegans1"></td>'
+                            + '<td>∴</td>'
+                            + '<td class="shenanegans2">Value: </td>'
+                            + '<td> </td>'
+                            //gap between left and right
+                            + '<td></td>'
+                          //SiteStatus section
+                            + '<td>bitcointalk:'
+                                + '<td id="Sitestatus2">?</td>'
+                            + '</td>'
+                        + '</tr>'
+                        //3rd row
+                        + '<tr class=\"alt\">'
+                            + '<td class="shenanegans3">?</td>'
+                            + '<td>∴</td>'
+                            + '<td class="shenanegans4">?</td>'
+                            + '<td> </td>'
+                            //gap between left and right
+                            + '<td></td>'
+                          //SiteStatus section
+                            + '<td>BTC-e:'
+                                + '<td id="Sitestatus3">?</td>'
+                            + '</td>'
+                        + '</tr>'
+                        //4th row
+                        + '<tr>'
+                            + '<td class="shenanegans5">?</td>'
+                            + '<td>∴</td>'
+                            + '<td id="shenanegans6">?</td>'
+                            + '<td> </td>'
+                            //gap between left and right
+                            + '<td></td>'
+                          //SiteStatus section
+                            + '<td>'
+                              + '<select id="SiteSelect" style="width:100px; min-height:25px">'
+                                    + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
+                                    + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
+                                    + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
+                                    + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
+                                    + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
+                                + '</select>'
+                              + '<td id="Sitestatus4">?</td>'
+                            + '</td>'
+                        + '</tr>'
+                + '</table>'
+            + '</div>');
     },
 
     colourloop: function () {
@@ -110,151 +250,12 @@ var init = {
 
             //alert("12");
             //Muh-Fuggan strike throughs!
-            Vircurex.Strike(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour);
-            Vircurex.Strike(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour);
-            Vircurex.Strike(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour);
+            InitResults.StrikeInit(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, "1");
+            InitResults.StrikeInit(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, "2");
+            InitResults.StrikeInit(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, "3");
             //alert("13");
         }
-    },
-
-    calculationInsert: function () {
-        $('.mainwindow').append('<div style="float:top;"></br>'
-                                + '<table class=\"mylists\" style="font-size: 80%">'
-                            + '<tr><td colspan=5></td></tr>'
-                            + '<tr>'
-                              + '<th>Profit Calculator</th>'
-                              + '<th>Balance</th>'
-                              + '<th>Initial Price</th>'
-                              + '<th>Current Value</th>'
-                              + '<th>Profit</th>'
-                              + '<th></th>'
-                            + '</tr>'
-                            + '<tr class=\"alt\">'
-                              + '<td class="coinType"></td>'
-                              + '<td class=\"Balance\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" value="?"/>'
-                                + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
-                              + '</td>'
-                              + '<td class=\"CoinInitBuy\">'
-                                + '<input style="width:100px" type="text" id="CoinInit" />'
-                              + '</td>'
-                              + '<td class=\"CurrentValue\">'
-                              + '</td>'
-                              + '<td class="ProfitTD"></td>'
-                              + '<td class=\"Submit\">'
-                                + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go">'
-                              + '</td>'
-                            + '</tr>'
-                                //Blank row between tables!
-                              + '<tr><td></td></tr>'
-                                //Start of next table! 
-                            + '<tr>'
-                                + '<th>Price.Diff Calculator</th>'
-                              + '<th>Difference</th>'
-                              + '<th>BTC</th>'
-                              + '<th>Profit</th>'
-                              + '<th></th>'
-                              + '<th></th>'
-                            + '</tr>'
-                            + '<tr class=\"alt\">'
-                              + '<td class="coinType"></td>'
-                              + '<td class=\"Difference\">'
-                                + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput2" />'
-                              + '</td>'
-                              + '<td class=\"BTCInput\">'
-                                + '<input style="width:100px" type="text" class="CoinInit" />'
-                              + '</td>'
-                              + '<td class=\"Profitbox\">'
-                                + '<input style="width:100px" type="text" class="CurrentVal" />'
-                              + '</td>'
-                              + '<td class="ProfitButton"></td>'
-                              + '<td class=\"Submit\">'
-                                + '<input style="width:100px; min-height:25px" type="button" value="Go">'
-                              + '</td>'
-                            + '</tr>'
-                                //Blank row between tables!
-                              + '<tr>'
-                              + '<td></td></tr>'
-                                //Start of next table!
-                           + '</br>'
-                          //End of table above
-                          //Onto the Results and Website Status Sections.
-                          + '<table class=\"mylists\" style="font-size: 80%">'
-                            + '<tr>'
-                                + '<td colspan=6></td>'
-                            + '</tr>'
-                            + '<tr>'
-                                + '<th>Readouts:</th>'
-                              + '<th></th>'
-                              + '<th></th>'
-                              + '<th></th>'
-                              + '<th></th>'
-                              + '<th>Website</th>'
-                              + '<th>Status</th>'
-                            + '</tr>'
-                            //1st row
-                            + '<tr class=\"alt\">'
-                                + '<td class="RecBS"></td>'
-                                + '<td>∴</td>'
-                                + '<td class="RecBS2">Value: </td>'
-                                + '<td></td>'
-                                //gap between left and right
-                                + '<td></td>'
-                              //SiteStatus section
-                                + '<td>MTgox:'
-                                    + '<td id="Sitestatus1">?</td>'
-                                + '</td>'
-                            + '</tr>'
-                            //2nd row
-                            + '<tr>'
-                                + '<td class="BSquan"></td>'
-                                + '<td>∴</td>'
-                                + '<td class="BSquan2">Value: </td>'
-                                + '<td> </td>'
-                                //gap between left and right
-                                + '<td></td>'
-                              //SiteStatus section
-                                + '<td>bitcointalk:'
-                                    + '<td id="Sitestatus2">?</td>'
-                                + '</td>'
-                            + '</tr>'
-                            //3rd row
-                            + '<tr class=\"alt\">'
-                                + '<td class=""></td>'
-                                + '<td>∴</td>'
-                                + '<td class="">Value: </td>'
-                                + '<td> </td>'
-                                //gap between left and right
-                                + '<td></td>'
-                              //SiteStatus section
-                                + '<td>BTC-e:'
-                                    + '<td id="Sitestatus3">?</td>'
-                                + '</td>'
-                            + '</tr>'
-                            //4th row
-                            + '<tr>'
-                                + '<td class=""></td>'
-                                + '<td>∴</td>'
-                                + '<td id="">Value: </td>'
-                                + '<td> </td>'
-                                //gap between left and right
-                                + '<td></td>'
-                              //SiteStatus section
-                                + '<td>'
-                                  + '<select id="SiteSelect" style="width:100px; min-height:25px">'
-                                        + '<option value="http://www.bitcoincharts.com/static/chartslogo.png">bitcoincharts</option>'
-                                        + '<option value="https://www.aurumxchange.com/images/logo.png">Aurumxchange</option>'
-                                        + '<option value="http://www.pool-x.eu/images/nlogo.jpg">pool-x</option>'
-                                        + '<option value="https://www.btcguild.com/images/top-bg.png">BTCGuild</option>'
-                                        + '<option value="https://www.bitstamp.net/s/images/bitstamp_logo_foot.png">bitstamp</option>'
-                                    + '</select>'
-                                  + '<td id="Sitestatus4">?</td>'
-                                + '</td>'
-                            + '</tr>'
-                    + '</table>'
-                + '</div>');
     }
-
     //End of var
 };
 
@@ -309,6 +310,46 @@ var InitResults = {
             $('.RecBS').append("Rec.Buy < Rec.Sell");
             $('.RecBS2').append("▼");
         }
+    },
+
+//New strike throughs nor tested!
+    StrikeInit: function (a, b, c, d, e) {
+        //Strike through Script
+        var Strike = 0;
+
+        for (var q = 3; q < 23; q++) {
+            var recentOrdVal = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(' + x + ')').text();
+            var recentOrdCell = $('.mainwindow .mylists tr:nth-child(' + q + ') td:nth-child(' + x + ')')[0];
+
+            if (a < 0.015000) {
+                //Strikes through the recent orders that are too small
+                $(b).css('textDecoration', 'line-through');
+                $(c).css('textDecoration', 'line-through');
+                $(d).css('textDecoration', 'line-through');
+                Strike++;              
+            }
+        }
+
+        if (e = 1) {
+            InitResults.StrikeResult(Strike, '1', '2', 'Buy');
+        } else if (e = 2) {
+            InitResults.StrikeResult(Strike, '2', '3', 'Sell');
+        } else if (e = 3) {
+            InitResults.StrikeResult(Strike, '4', '5', 'Recent');
+        }
+    },
+
+    StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
+        if (Strike > 10) {
+            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike > 10");
+            $('.shenanegans' + tdloc2).append("Shenanegans? ✓");
+        } else if (buysrike = 10) {
+            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike = 10");
+            $('.shenanegans' + tdloc2).append("Shenanegans afoot?");
+        } else if (buysrike < 10) {
+            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike < 10");
+            $('.shenanegans' + tdloc2).append("Shenanegans? ✘");
+        }
     }
 
 };
@@ -328,16 +369,6 @@ var Vircurex = {
 
         cellvalue = BalanceBox.CleanUp(cellvalue);
         return cellvalue;
-    },
-
-    Strike: function (a, b, c, d) {
-        //Strike through Script
-        if (a < 0.015000) {
-            //Strikes through the recent orders that are too small
-            $(b).css('textDecoration', 'line-through');
-            $(c).css('textDecoration', 'line-through');
-            $(d).css('textDecoration', 'line-through');
-        }
     },
 
     //a=Location ie (.mainwindow .mylists) or ('a').
@@ -432,12 +463,21 @@ var BalanceBox = {
     //not tested the below.. WIP!
     ProfitCalcSubmit: function () {
         var UserBalance = BalanceBox.CleanUp(document.getElementById("BalanceInput").value);
+        UserBalance = (parseFloat(UserBalance)).toFixed(6);
+        alert(UserBalance);
         var InitCoinVal = BalanceBox.CleanUp(document.getElementById("CoinInit").value);
+        InitCoinVal = (parseFloat(InitCoinVal)).toFixed(6);
+        alert(InitCoinVal);
+
 
         if (InitCoinVal.length === 0 || UserBalance.length === 0) {
             alert("Dont leave the initial coin value/balance fields empty!");
         } else {
-            document.getElementById('ProfitTD').innerHTML = BalanceBox.profit(InitCoinVal, UserBalance);
+            var profitblah = BalanceBox.profit(InitCoinVal, UserBalance);
+            alert(profitblah);
+            //document.getElementById('.ProfitTD').innerHTML = BalanceBox.profit(InitCoinVal, UserBalance);
+            $('.ProfitTD').prepend(profitblah);
+        
         }
     },
 
@@ -456,8 +496,9 @@ var BalanceBox = {
     },
 
     profit: function (InitCoinVal, Balance) {
-        var profit = BalanceBox.CleanUp(((Balance * avg) - (Balance * InitCoinVal)).toFixed(6));
-        return Profit;
+        var profit = ((Balance * avg) - (Balance * InitCoinVal)).toFixed(6);
+        profit = parseFloat(profit);
+        return profit;
     },
 
     //Two following functions could be squished into the one function.
@@ -470,7 +511,7 @@ var BalanceBox = {
 
     balance: function (tr) {
         var Balance = $("#balancebox .mylists tr:nth-child(" + tr + ") td:nth-child(2)").html();
-        Balance = parseFloat(Balance)
+        Balance = parseFloat(Balance);
         return Balance;
     },
 
