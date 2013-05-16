@@ -334,21 +334,16 @@ var strikeThrough = {
     },
 
     StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
-        //alert("Strike Result start");
         if (Strike > 10) {
             $('.shenanegans' + tdloc1).prepend(Typeofstrike + "strike > 10");
             $('.shenanegans' + tdloc2).prepend("Shenanegans?! ✓");
-            //alert("1");
         } else if (Strike === 10) {
             $('.shenanegans' + tdloc1).prepend(Typeofstrike + "strike = 10");
             $('.shenanegans' + tdloc2).prepend("Shenanegans afoot?");
-            //alert("2");
         } else if (Strike < 10) {
             $('.shenanegans' + tdloc1).prepend(Typeofstrike + "strike < 10");
             $('.shenanegans' + tdloc2).prepend("Shenanegans? ✘");
-            //alert("3");
         }
-        //alert("Strike result end");
     }
 };
 
@@ -469,7 +464,6 @@ var BalanceBox = {
         } else {
             var profitblah = BalanceBox.profit(InitCoinVal, UserBalance);
             $('.ProfitTD').empty().prepend(profitblah);
-        
         }
     },
 
@@ -482,7 +476,6 @@ var BalanceBox = {
         } else {
             var differenceProfit = (altDifference * BtcToUse).toFixed(6);
             $('.ProfitTD2').empty().prepend(differenceProfit);
-        
         }      
     },
 
@@ -521,8 +514,6 @@ var BalanceBox = {
     },
 
     BalanceVal: function (Currency) {
-        //Gets called
-
                 for (var z = 5; z < 12; z++) {
                 //Declaring vars before If's
                 var LineType = BalanceBox.balanceType(z);
@@ -536,7 +527,7 @@ var BalanceBox = {
                           //
                           continue;
                           //
-                      } else if (LineType.length === 0) {
+                      } else if (LineType.length < 1) {
                           //
                           alert("You dont own this type of currency.");
                           break;
@@ -549,6 +540,7 @@ var BalanceBox = {
 // When document is ready run thru our code.
 $(document).ready(function () {
     //Refresh page every  90 secs
+    //Can make this a user variable instead of fixed @ 90seconds.
     setTimeout('location.reload();', 90000);
 
     // Initialization
@@ -558,13 +550,11 @@ $(document).ready(function () {
     SiteStatus.init();
     InitResults.recBuySell();
     InitResults.BSquantitytotal();
-    //giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
     strikeThrough.StrikeResult(giBuyStrikeCount, '1', '2', 'Buy');
     strikeThrough.StrikeResult(giSellStrikeCount, '3', '4', 'Sell');
     strikeThrough.StrikeResult(giRecentStrikeCount, '5', '6', 'Recent');
 
     //button click stuff
-    //The following finally works!!
     $("#Auto").click(function () {
         if ($('.nothing').length === 0) {
             alert("Log in!");
