@@ -17,6 +17,7 @@ In no respect shall DerpCORP incur any liability for any damages, including, but
 // GLOBAL VARS
 'use strict';
 var highestbuy = 0, lowestsell = 0, avg = 0, altDifference = 0, giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
+var AltCurrency = "a", BaseCurrency = "b";
 
 var init = {
     avg: function () {
@@ -26,17 +27,19 @@ var init = {
         lowestsell = lowestsell.replace(',', '');
         avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
         altDifference = (parseFloat(lowestsell) - parseFloat(highestbuy)).toFixed(6);
+        AltCurrency = init.getURLParameter("alt");
+        BaseCurrency = init.getURLParameter("base");
     },
 
     getURLParameter: function (param) {
-        var pageURL = window.location.search.substring(1);
-        var URLVariables = pageURL.split('&');
-        for (var i = 0; i < URLVariables.length; i++) {
-            var parameterName = URLVariables[i].split('=');
-            if (parameterName[0] == param) {
-                return parameterName[1];
-            }
+        if (param === "alt") {
+            CurrencyType = $('.mainwindow .mylists tr:nth-child(2) th:nth-child(1)').text();
+            CurrencyType = ((CurrencyType.replace(" ", "")).replace("Quantity", "")).replace(/\[|\]/g,"");
+        } else if (param === "base") {
+            CurrencyType = $('.mainwindow .mylists tr:nth-child(2) th:nth-child(3)').text();
+            CurrencyType = ((CurrencyType.replace(" ", "")).replace("Volume", "")).replace(/\[|\]/g,"");
         }
+        return CurrencyType;
     },
 
     calculationInsert: function () {
@@ -85,7 +88,7 @@ var init = {
                             + '<input style="width:100px; min-height:25px;  float:left" type="text" id="altDifference"/>'
                           + '</td>'
                           + '<td class=\"CoinInitBuy\">'
-                            + '<input style="width:100px" type="text" id="BtcToUse" />'
+                            + '<input style="width:100px" type="text" id="BaseToUse" />'
                           + '</td>'
                           + '<td class="ProfitTD2"></td>'
                           + '<td>'
@@ -248,9 +251,9 @@ var init = {
             Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
             //Muh-Fuggan strike throughs!
-            strikeThrough.StrikeInit(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, "1");
-            strikeThrough.StrikeInit(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, "2");
-            strikeThrough.StrikeInit(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, "3");
+            strikeThrough.Striking(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, "1");
+            strikeThrough.Striking(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, "2");
+            strikeThrough.Striking(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, "3");
         }
     }
     //End of var
@@ -313,24 +316,21 @@ var InitResults = {
 var strikeThrough = {
     //New strike throughs nor tested!
 //giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
-    StrikeInit: function (a, b, c, d, e) {
-        if (e === 1) {
-            strikeThrough.striking(a, b, c, d, giBuyStrikeCount);
-        } else if (e === 2) {
-            strikeThrough.striking(a, b, c, d, giSellStrikeCount);
-        } else if (e === 3) {
-            strikeThrough.striking(a, b, c, d, giRecentStrikeCount);
-        }
-    },
-
-    Striking: function(a,b,c,d,e) {
-            if (a < 0.010000) {
+    Striking: function(a, b, c, d, e) {
+            if (a < 0.015000) {
                 //Strikes through the recent orders that are too small
                 $(b).css('textDecoration', 'line-through');
                 $(c).css('textDecoration', 'line-through');
-                $(d).css('textDecoration', 'line-through');
-                e++;              
+                $(d).css('textDecoration', 'line-through');            
             }
+
+            if (e === "1") {
+                giBuyStrikeCount++;
+            } else if (e === "2") {
+                giSellStrikeCount++;
+            } else if (e === "3") {
+                giRecentStrikeCount++;
+            } 
     },
 
     StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
@@ -436,7 +436,7 @@ var SiteStatus = {
         SiteStatus.testImage("https://mtgox.com/img/hp_merchant.jpg", 1);
         SiteStatus.testImage("https://bitcointalk.org/Themes/custom1/images/off.gif", 2);
         SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
-        $('.coinType').prepend((init.getURLParameter("alt")).toUpperCase());
+        $('.coinType').prepend(AltCurrency);
         $('.CurrentValue').prepend(avg);
         $('#altDifference')[0].value = altDifference;
 
@@ -468,23 +468,22 @@ var BalanceBox = {
     },
 
     CalculateDiffProfit: function () {
-        var BtcToUse = BalanceBox.CleanUp(document.getElementById("BtcToUse").value);
-        BtcToUse = (parseFloat(BtcToUse)).toFixed(6);
+        var BaseToUse = BalanceBox.CleanUp(document.getElementById("BaseToUse").value);
+        BaseToUse = (parseFloat(BaseToUse)).toFixed(6);
 
-        if (BtcToUse.length === 0) {
-            alert("Dont leave the BTC field empty!");
+        if (BaseToUse.length === 0) {
+            alert("Dont leave the" + BaseCurrency + "field empty!");
         } else {
-            var differenceProfit = (altDifference * BtcToUse).toFixed(6);
+            var differenceProfit = (((BaseToUse/highestbuy)*lowestsell)-BaseToUse).toFixed(6);
             $('.ProfitTD2').empty().prepend(differenceProfit);
         }      
     },
 
     BalanceGrab: function () {
-        var site = ((init.getURLParameter("alt")).toUpperCase());
-        var question = confirm("This grabs your " + site + " balance value, continue?");
+        var question = confirm("This grabs your " + BaseCurrency + " balance value, continue?");
         
         if (question === true) {
-            $('#BalanceInput')[0].value = BalanceBox.BalanceVal(site);
+            $('#BalanceInput')[0].value = BalanceBox.BalanceVal(BaseCurrency);
         }
     },
 
