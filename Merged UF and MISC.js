@@ -16,7 +16,7 @@ In no respect shall DerpCORP incur any liability for any damages, including, but
 
 // GLOBAL VARS
 'use strict';
-var highestbuy = 0, lowestsell = 0, avg = 0, giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
+var highestbuy = 0, lowestsell = 0, avg = 0, altDifference = 0, giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
 
 var init = {
     avg: function () {
@@ -25,6 +25,7 @@ var init = {
         lowestsell = $('a', 'tr:nth-child(3) td.coinformat:nth-child(6)').text();
         lowestsell = lowestsell.replace(',', '');
         avg = ((parseFloat(highestbuy) + parseFloat(lowestsell)) / 2).toFixed(6);
+        altDifference = (parseFloat(lowestsell) - parseFloat(highestbuy)).toFixed(6);
     },
 
     getURLParameter: function (param) {
@@ -48,7 +49,7 @@ var init = {
                           + '<th>Initial Price</th>'
                           + '<th>Current Value</th>'
                           + '<th>Profit</th>'
-                          + '<th></th>'
+                          + '<th>Calculate</th>'
                         + '</tr>'
                         + '<tr class=\"alt\">'
                           + '<td class="coinType"></td>'
@@ -71,27 +72,26 @@ var init = {
                           + '<tr><td></td></tr>'
                             //Start of next table! 
                         + '<tr>'
-                          + '<th>Profit Calculator</th>'
-                          + '<th>Balance</th>'
-                          + '<th>Initial Price</th>'
-                          + '<th>Current Value</th>'
+                          + '<th>Price difference profit</th>'
+                          + '<th>Difference</th>'
+                          + '<th>BTC to use</th>'
                           + '<th>Profit</th>'
                           + '<th></th>'
+                          + '<th>Calculate</th>'
                         + '</tr>'
                         + '<tr class=\"alt\">'
                           + '<td class="coinType"></td>'
                           + '<td class=\"Balance\">'
-                            + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" value="?"/>'
-                            + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
+                            + '<input style="width:100px; min-height:25px;  float:left" type="text" id="altDifference"/>'
                           + '</td>'
                           + '<td class=\"CoinInitBuy\">'
-                            + '<input style="width:100px" type="text" id="CoinInit" />'
-                          + '</td>'
-                          + '<td class=\"CurrentValue\">'
+                            + '<input style="width:100px" type="text" id="BtcToUse" />'
                           + '</td>'
                           + '<td class="ProfitTD2"></td>'
+                          + '<td>'
+                          + '</td>'
                           + '<td class=\"Submit\">'
-                            + '<input style="width:100px; min-height:25px" type="button" id="Calculate" value="Go">'
+                            + '<input style="width:100px; min-height:25px" type="button" id="CalculateDiffProfit" value="Go">'
                           + '</td>'
                         + '</tr>'
                             //Blank row between tables!
@@ -114,7 +114,20 @@ var init = {
                           + '<th>Website</th>'
                           + '<th>Status</th>'
                         + '</tr>'
-                        //1st row
+                        //
+                            + '<tr>'
+                                + '<td class="BSquan"></td>'
+                                + '<td>∴</td>'
+                                + '<td class="BSquan2">Value: </td>'
+                                + '<td> </td>'
+                                //gap between left and right
+                                + '<td></td>'
+                              //SiteStatus section
+                                + '<td>MTgox:'
+                                    + '<td id="Sitestatus1">?</td>'
+                                + '</td>'
+                            + '</tr>'
+                        //2nd row
                         + '<tr class=\"alt\">'
                             + '<td class="RecBS"></td>'
                             + '<td>∴</td>'
@@ -123,28 +136,15 @@ var init = {
                             //gap between left and right
                             + '<td></td>'
                           //SiteStatus section
-                            + '<td>MTgox:'
-                                + '<td id="Sitestatus1">?</td>'
+                            + '<td>Bitcointalk:'
+                                + '<td id="Sitestatus2">?</td>'
                             + '</td>'
                         + '</tr>'
                         //2nd row
                         + '<tr>'
                             + '<td class="shenanegans1"></td>'
                             + '<td>∴</td>'
-                            + '<td class="shenanegans2">Value: </td>'
-                            + '<td> </td>'
-                            //gap between left and right
-                            + '<td></td>'
-                          //SiteStatus section
-                            + '<td>bitcointalk:'
-                                + '<td id="Sitestatus2">?</td>'
-                            + '</td>'
-                        + '</tr>'
-                        //3rd row
-                        + '<tr class=\"alt\">'
-                            + '<td class="shenanegans3">?</td>'
-                            + '<td>∴</td>'
-                            + '<td class="shenanegans4">?</td>'
+                            + '<td class="shenanegans2"></td>'
                             + '<td> </td>'
                             //gap between left and right
                             + '<td></td>'
@@ -153,11 +153,11 @@ var init = {
                                 + '<td id="Sitestatus3">?</td>'
                             + '</td>'
                         + '</tr>'
-                        //4th row
-                        + '<tr>'
-                            + '<td class="shenanegans5">?</td>'
+                        //3rd row
+                        + '<tr class=\"alt\">'
+                            + '<td class="shenanegans3"></td>'
                             + '<td>∴</td>'
-                            + '<td id="shenanegans6">?</td>'
+                            + '<td class="shenanegans4"></td>'
                             + '<td> </td>'
                             //gap between left and right
                             + '<td></td>'
@@ -173,17 +173,22 @@ var init = {
                               + '<td id="Sitestatus4">?</td>'
                             + '</td>'
                         + '</tr>'
+                        //4th row
+                        + '<tr>'
+                            + '<td class="shenanegans5"></td>'
+                            + '<td>∴</td>'
+                            + '<td class="shenanegans6"></td>'
+                            + '<td> </td>'
+                            //gap between left and right
+                            + '<td></td>'
+                          //SiteStatus section
+                            + '<td>'
+                            //blank!
+                            + '</td>'
+                        + '</tr>'
                 + '</table>'
             + '</div>');
     },
-
-    loop: function() {
-        for (var i = 3; i < 23; i++) {
-            TODO: redo colour loop into seperate modular chunks!
-                  pass each modular chunk into this loop, as this is now THE LOOP!!!!
-        }
-    }
-
 
     colourloop: function () {
         for (var i = 3; i < 23; i++) {
@@ -214,10 +219,6 @@ var init = {
             var btcSellQtyCell = Vircurex.getCell('mainwindow', i, 7);
             var btcRecQtyCell = Vircurex.getCell('mainwindow', i, 12);
 
-
-
-
-            
             //Grab recent time to maybe show difference in time between recent executions..
             //var recTime = Vircurex.getCell('mainwindow', i, 9);
 
@@ -306,7 +307,7 @@ var InitResults = {
             $('.RecBS').append("Rec.Buy < Rec.Sell");
             $('.RecBS2').append("▼");
         }
-    },
+    }
 };
 
 var strikeThrough = {
@@ -314,11 +315,11 @@ var strikeThrough = {
 //giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
     StrikeInit: function (a, b, c, d, e) {
         if (e === 1) {
-            strikeThrough.striking(a, b, c, d, "giBuyStrikeCount");
-        } else if (e == 2) {
-            strikeThrough.striking(a, b, c, d, "giSellStrikeCount");
+            strikeThrough.striking(a, b, c, d, giBuyStrikeCount);
+        } else if (e === 2) {
+            strikeThrough.striking(a, b, c, d, giSellStrikeCount);
         } else if (e === 3) {
-            strikeThrough.striking(a, b, c, d, "giRecentStrikeCount");
+            strikeThrough.striking(a, b, c, d, giRecentStrikeCount);
         }
     },
 
@@ -328,28 +329,28 @@ var strikeThrough = {
                 $(b).css('textDecoration', 'line-through');
                 $(c).css('textDecoration', 'line-through');
                 $(d).css('textDecoration', 'line-through');
-                e++              
+                e++;              
             }
-    }
+    },
 
     StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
         //alert("Strike Result start");
         if (Strike > 10) {
-            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike > 10");
-            $('.shenanegans' + tdloc2).append("Shenanegans?! ✓");
-            alert("1");
+            $('.shenanegans' + tdloc1).prepend(Typeofstrike + "strike > 10");
+            $('.shenanegans' + tdloc2).prepend("Shenanegans?! ✓");
+            //alert("1");
         } else if (Strike === 10) {
-            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike = 10");
-            $('.shenanegans' + tdloc2).append("Shenanegans afoot?");
-            alert("2");
+            $('.shenanegans' + tdloc1).prepend(Typeofstrike + "strike = 10");
+            $('.shenanegans' + tdloc2).prepend("Shenanegans afoot?");
+            //alert("2");
         } else if (Strike < 10) {
-            $('.shenanegans' + tdloc1).append(Typeofstrike + "strike < 10");
-            $('.shenanegans' + tdloc2).append("Shenanegans? ✘");
-            alert("3");
+            $('.shenanegans' + tdloc1).prepend(Typeofstrike + "strike < 10");
+            $('.shenanegans' + tdloc2).prepend("Shenanegans? ✘");
+            //alert("3");
         }
         //alert("Strike result end");
     }
-}
+};
 
 var Vircurex = {
 
@@ -442,6 +443,7 @@ var SiteStatus = {
         SiteStatus.testImage("https://btc-e.com/images/1px.png", 3);
         $('.coinType').prepend((init.getURLParameter("alt")).toUpperCase());
         $('.CurrentValue').prepend(avg);
+        $('#altDifference')[0].value = altDifference;
 
         //On change of #SiteSelect it calls the sitestatus script for the picked option
         $("#SiteSelect").change(function () {
@@ -451,31 +453,37 @@ var SiteStatus = {
     }
 };
 
-//GRAB ABOVE THIS FOR WORKING-ISH TEST!
-
-
-//Beginning of modular function container
 var BalanceBox = {
 
     //not tested the below.. WIP!
     ProfitCalcSubmit: function () {
         var UserBalance = BalanceBox.CleanUp(document.getElementById("BalanceInput").value);
         UserBalance = (parseFloat(UserBalance)).toFixed(6);
-        alert(UserBalance);
+
         var InitCoinVal = BalanceBox.CleanUp(document.getElementById("CoinInit").value);
         InitCoinVal = (parseFloat(InitCoinVal)).toFixed(6);
-        alert(InitCoinVal);
 
 
         if (InitCoinVal.length === 0 || UserBalance.length === 0) {
             alert("Dont leave the initial coin value/balance fields empty!");
         } else {
             var profitblah = BalanceBox.profit(InitCoinVal, UserBalance);
-            alert(profitblah);
-            //document.getElementById('.ProfitTD').innerHTML = BalanceBox.profit(InitCoinVal, UserBalance);
-            $('.ProfitTD').prepend(profitblah);
+            $('.ProfitTD').empty().prepend(profitblah);
         
         }
+    },
+
+    CalculateDiffProfit: function () {
+        var BtcToUse = BalanceBox.CleanUp(document.getElementById("BtcToUse").value);
+        BtcToUse = (parseFloat(BtcToUse)).toFixed(6);
+
+        if (BtcToUse.length === 0) {
+            alert("Dont leave the BTC field empty!");
+        } else {
+            var differenceProfit = (altDifference * BtcToUse).toFixed(6);
+            $('.ProfitTD2').empty().prepend(differenceProfit);
+        
+        }      
     },
 
     BalanceGrab: function () {
@@ -552,8 +560,8 @@ $(document).ready(function () {
     InitResults.BSquantitytotal();
     //giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
     strikeThrough.StrikeResult(giBuyStrikeCount, '1', '2', 'Buy');
-    strikeThrough.StrikeResult(giSellStrikeCount, '2', '3', 'Sell');
-    strikeThrough.StrikeResult(giRecentStrikeCount, '4', '5', 'Recent');
+    strikeThrough.StrikeResult(giSellStrikeCount, '3', '4', 'Sell');
+    strikeThrough.StrikeResult(giRecentStrikeCount, '5', '6', 'Recent');
 
     //button click stuff
     //The following finally works!!
@@ -569,8 +577,15 @@ $(document).ready(function () {
         if ($('.nothing').length === 0) {
             alert("Log in!");
         } else if ($('.nothing').length !== 0) {
-            alert("Calculate button clicked!");
             BalanceBox.ProfitCalcSubmit();
+        }
+    });
+
+    $("#CalculateDiffProfit").click(function () {
+        if ($('.nothing').length === 0) {
+            alert("Log in!");
+        } else if ($('.nothing').length !== 0) {
+            BalanceBox.CalculateDiffProfit();
         }
     });
 });
