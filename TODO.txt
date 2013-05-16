@@ -1,0 +1,15 @@
+Features for website:
+1.Script host
+2.Site status/DDOS alerts
+3.Twitter scraper for main website twitter accounts
+4.Profitability calculator
+5.Coin rating system
+
+TODO:
+Convert script to a chrome & firefox extension.
+-Add desktop notifications
+-Add email/sms notifications
+
+Script the trade history for visual indication of poor/good trades.
+Script the open trades:
+-difference from current avg value +- x
