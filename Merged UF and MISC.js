@@ -57,8 +57,7 @@ var init = {
                         + '<tr class=\"alt\">'
                           + '<td class="coinType"></td>'
                           + '<td class=\"Balance\">'
-                            + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput" value="?"/>'
-                            + '<input style="width:100px; float:right; min-height:25px;" type="button" id="Auto" value="Auto">'
+                            + '<input style="width:100px; min-height:25px;  float:left" type="text" id="BalanceInput"/>'
                           + '</td>'
                           + '<td class=\"CoinInitBuy\">'
                             + '<input style="width:100px" type="text" id="CoinInit" />'
@@ -251,9 +250,9 @@ var init = {
             Vircurex.Colours(btcRecQtyCell, btcrecqty, btcQtyArr, QtyGradient);
 
             //Muh-Fuggan strike throughs!
-            strikeThrough.Striking(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, "1");
-            strikeThrough.Striking(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, "2");
-            strikeThrough.Striking(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, "3");
+            strikeThrough.Striking(btcbuyqty, buyqtycell, btcBuyQtyCell, buycolour, 1);
+            strikeThrough.Striking(btcsellqty, sellqtycell, btcSellQtyCell, sellcolour, 2);
+            strikeThrough.Striking(btcrecqty, recentqtycell, btcRecQtyCell, recentcolour, 3);
         }
     }
     //End of var
@@ -314,23 +313,21 @@ var InitResults = {
 };
 
 var strikeThrough = {
-    //New strike throughs nor tested!
-//giBuyStrikeCount = 0, giSellStrikeCount = 0, giRecentStrikeCount = 0;
     Striking: function(a, b, c, d, e) {
             if (a < 0.015000) {
                 //Strikes through the recent orders that are too small
                 $(b).css('textDecoration', 'line-through');
                 $(c).css('textDecoration', 'line-through');
-                $(d).css('textDecoration', 'line-through');            
+                $(d).css('textDecoration', 'line-through');
+                //            
+                if (e === 1) {
+                    giBuyStrikeCount++;
+                } else if (e === 2) {
+                    giSellStrikeCount++;
+                } else if (e === 3) {
+                    giRecentStrikeCount++;
+                } 
             }
-
-            if (e === "1") {
-                giBuyStrikeCount++;
-            } else if (e === "2") {
-                giSellStrikeCount++;
-            } else if (e === "3") {
-                giRecentStrikeCount++;
-            } 
     },
 
     StrikeResult: function (Strike, tdloc1, tdloc2, Typeofstrike) {
@@ -479,14 +476,6 @@ var BalanceBox = {
         }      
     },
 
-    BalanceGrab: function () {
-        var question = confirm("This grabs your " + BaseCurrency + " balance value, continue?");
-        
-        if (question === true) {
-            $('#BalanceInput')[0].value = BalanceBox.BalanceVal(BaseCurrency);
-        }
-    },
-
     CleanUp: function (Value) {
         Value = Value.replace(/,/g, '');
         return Value;
@@ -512,29 +501,30 @@ var BalanceBox = {
         return Balance;
     },
 
-    BalanceVal: function (Currency) {
-                for (var z = 5; z < 12; z++) {
-                //Declaring vars before If's
-                var LineType = BalanceBox.balanceType(z);
-                var LineValue = BalanceBox.balance(z);
+    BalanceGrab: function () {
+            for (var z = 5; z < 12; z++) {
+            //Declaring vars before If's
+            var LineType = BalanceBox.balanceType(z);
 
-                     if ( ( LineType.length > 0 ) && (LineType === Currency) ) {
-                          //
-                          return LineValue;
-                          //
-                      } else if ( ( LineType.length > 0 ) && (LineType !== Currency) ) {                  
-                          //
-                          continue;
-                          //
-                      } else if (LineType.length < 1) {
-                          //
-                          alert("You dont own this type of currency.");
-                          break;
-                          //
-                      }
-              }
-        }
-    };
+                 if ( ( LineType.length > 0 ) && (LineType === AltCurrency) ) {
+                      //
+                      var LineValue = BalanceBox.balance(z);
+                      $('#BalanceInput')[0].value = LineValue;
+                      break;
+                      //
+                  } else if ( ( LineType.length > 0 ) && (LineType !== AltCurrency) ) {                  
+                      //
+                      continue;
+                      //
+                  } else if (LineType.length < 1) {
+                      //
+                      alert("You dont own this type of currency.");
+                      break;
+                      //
+                  }
+          }
+    }
+};
 
 // When document is ready run thru our code.
 $(document).ready(function () {
@@ -552,15 +542,7 @@ $(document).ready(function () {
     strikeThrough.StrikeResult(giBuyStrikeCount, '1', '2', 'Buy');
     strikeThrough.StrikeResult(giSellStrikeCount, '3', '4', 'Sell');
     strikeThrough.StrikeResult(giRecentStrikeCount, '5', '6', 'Recent');
-
-    //button click stuff
-    $("#Auto").click(function () {
-        if ($('.nothing').length === 0) {
-            alert("Log in!");
-        } else if ($('.nothing').length !== 0) {
-            BalanceBox.BalanceGrab();
-        }
-    });
+    BalanceBox.BalanceGrab();
 
     $("#Calculate").click(function () {
         if ($('.nothing').length === 0) {
