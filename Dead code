@@ -1,0 +1,22 @@
+    BalanceGrab: function () {
+            for (var z = 5; z < 12; z++) {
+            //Declaring vars before If's
+            var LineType = BalanceBox.balanceType(z);
+
+                 if ( ( LineType.length > 0 ) && (LineType === AltCurrency) ) {
+                      //
+                      var LineValue = BalanceBox.balance(z);
+                      $('#BalanceInput')[0].value = LineValue;
+                      break;
+                      //
+                  } else if ( ( LineType.length > 0 ) && (LineType !== AltCurrency) ) {                  
+                      //
+                      continue;
+                      //
+                  } else if ( ( LineType.length === 0 ) && (LineType !== AltCurrency) ) {
+                      //
+                      break;
+                      //
+                  }
+          }
+    }
